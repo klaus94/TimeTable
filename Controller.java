@@ -21,6 +21,7 @@ public class Controller
 		exercisesModulMap = new HashMap<String, List<Course>>();
 		basicTimeTable = new TimeTable(-1);
 		buildBasicTimeTable();
+		basicTimeTable.showTimeTable();
 	}
 
 	public List<TimeTable> getAllTimeTables()
@@ -54,16 +55,24 @@ public class Controller
 	// and removes all lectures from the possibleCoursesList
 	private void buildBasicTimeTable()
 	{
+		List<Course> coursesToRemove = new ArrayList<Course>();
 		for (Course course: possibleCoursesList)
 		{
 			if (course instanceof Lecture)
 			{
 				basicTimeTable.addCourse(course);
-				possibleCoursesList.remove(course);		// could crash here (deleting items in list, while iterating through list)
+				coursesToRemove.add(course);		
 			}
+		}
+
+		for (Course course: coursesToRemove)
+		{
+			possibleCoursesList.remove(course);
 		}
 	}
 
+
+	//TODO -oTilo: need to change that
 	private void generateNewTimeTable(TimeTable oldTimeTable, Map<String, List<Course>> restCourses)
 	{
 		if (oldTimeTable == null || restCourses == null)

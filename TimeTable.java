@@ -33,6 +33,7 @@ public class TimeTable
 		return timeTable;
 	}
 
+	// it's not allowed to change id
 	public void setId(int id)
 	{
 		if (id < 0)
@@ -52,7 +53,7 @@ public class TimeTable
 
 		Course currentCourse;
 
-		System.out.format("Timetable %d\n", id);
+		System.out.format("\nTimetable %d\n", id);
 
 		for (Time time: timeTable.keySet())
 		{

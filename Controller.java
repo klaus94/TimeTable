@@ -122,9 +122,32 @@ public class Controller
 
 	public void showAllTimeTables()
 	{
+		int i=0;
 		for (TimeTable timeTable: allTimeTables)
 		{
+			i+=1;
 			timeTable.showTimeTable();
 		}
+		System.out.println(i);
+	}
+
+	public void filter(int allgfrueh, int allgspaet)
+	{
+		int i = 0;
+		for (TimeTable timeTable : allTimeTables) {
+			boolean available = true;
+			for (Course course : timeTable.getCourseList()) {
+				if ((course.getTime().getTime() < allgfrueh) || (course.getTime().getTime() > allgspaet))
+				{
+					available = false;
+				} 
+			}
+			if (available) 
+			{
+				i+=1;
+				timeTable.showTimeTable();	
+			}
+		}
+		System.out.println(i);
 	}
 }

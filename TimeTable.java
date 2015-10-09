@@ -20,12 +20,20 @@ public class TimeTable
 		}
 
 		boolean result = true;
+		int i = 0;
 
 		for (Course list : courses) 
 		{
-			if (list.getTime().getDay() == course.getTime().getDay()) 	//Tag gleich
+			i+=1;
+			if (list.getTime().getDay().toInt() > course.getTime().getDay().toInt())
+			{
+				i-=1;
+			} else if (list.getTime().getDay() == course.getTime().getDay()) 	//Tag gleich
 			{	
-				if (list.getTime().getTime() == course.getTime().getTime())  		//Stunde gleich
+				if (list.getTime().getTime() > course.getTime().getTime())
+				{
+					i-=1;
+				} else if (list.getTime().getTime() == course.getTime().getTime())  		//Stunde gleich
 				{
 					result = false;
 					if (((list.getTime().getPeriod() == EPeriod.ODDWEEK) && (course.getTime().getPeriod() == EPeriod.EVENWEEK)) || 
@@ -39,7 +47,7 @@ public class TimeTable
 		
 		if (result == true)
 		{
-			courses.add(course);
+			courses.add(i, course);
 		}
 
 		return result;

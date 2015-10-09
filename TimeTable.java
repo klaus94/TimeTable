@@ -3,11 +3,11 @@ import java.util.*;
 public class TimeTable
 {
 	private int id;
-	private Map<Time, Course> timeTable;
+	private List<Course> courses;
 
 	public TimeTable(int id)
 	{
-		timeTable = new HashMap<Time, Course>();
+		courses = new ArrayList<Course>();
 		this.id = id;
 	}
 
@@ -19,18 +19,35 @@ public class TimeTable
 			throw new NullPointerException();
 		}
 
-		if (timeTable.get(course.getTime()) == null)		
+		boolean result = true;
+
+		for (Course list : courses) 
 		{
-			timeTable.put(course.getTime(), course);
-			return true;
+			if (list.getTime().getDay() == course.getTime().getDay()) 	//Tag gleich
+			{	
+				if (list.getTime().getTime() == course.getTime().getTime())  		//Stunde gleich
+				{
+					result = false;
+					if (((list.getTime().getPeriod() == EPeriod.ODDWEEK) && (course.getTime().getPeriod() == EPeriod.EVENWEEK)) || 
+						((list.getTime().getPeriod() == EPeriod.EVENWEEK) && (course.getTime().getPeriod() == EPeriod.ODDWEEK)))
+					{
+						result = true;
+					}
+				}
+			}
 		}
 		
-		return false;
+		if (result == true)
+		{
+			courses.add(course);
+		}
+
+		return result;
 	}
 
-	public Map<Time, Course> getCourseMap()
+	public List<Course> getCourseList()
 	{
-		return timeTable;
+		return courses;
 	}
 
 	// it's not allowed to change id
@@ -46,7 +63,7 @@ public class TimeTable
 
 	public void showTimeTable()
 	{
-		if (timeTable.isEmpty())
+		if (courses.isEmpty())
 		{
 			return;
 		}
@@ -55,15 +72,14 @@ public class TimeTable
 
 		System.out.format("\nTimetable %d\n", id);
 
-		for (Time time: timeTable.keySet())
+		for (Course course: courses)
 		{
-			currentCourse = timeTable.get(time);
 			System.out.format("%s %d. DS : %s in %s mit %s\n", 
-				time.getDay().toString(), 
-				time.getTime(), 
-				currentCourse.getModuleName(), 
-				currentCourse.getPlace().getRoom(), 
-				currentCourse.getInstructor()
+				course.getTime().getDay().toString(), 
+				course.getTime().getTime(), 
+				course.getModuleName(), 
+				course.getPlace().getRoom(), 
+				course.getInstructor()
 			);
 		}
 	}

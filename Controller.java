@@ -2,7 +2,6 @@ import java.util.*;
 
 public class Controller
 {
-	private int counter = 0;								// counter for timeTable id
 	TimeTable basicTimeTable;								// contains all lectures
 
 	private List<TimeTable> allTimeTables;					// list of all generated timeTables
@@ -19,8 +18,8 @@ public class Controller
 		this.possibleCoursesList = possibleCoursesList;
 		allTimeTables = new ArrayList<TimeTable>();
 		exercisesModulMap = new HashMap<String, List<Course>>();
-		basicTimeTable = new TimeTable(-1);
-		buildBasicTimeTable();
+		basicTimeTable = new TimeTable(0);
+		basicTimeTable = buildBasicTimeTable();
 		basicTimeTable.showTimeTable();
 	}
 
@@ -53,8 +52,9 @@ public class Controller
 
 	// add all lectures to the basic-timetable
 	// and removes all lectures from the possibleCoursesList
-	private void buildBasicTimeTable()
+	private TimeTable buildBasicTimeTable()
 	{
+		TimeTable basicTimeTable = new TimeTable(-1);
 		List<Course> coursesToRemove = new ArrayList<Course>();
 		for (Course course: possibleCoursesList)
 		{
@@ -69,10 +69,12 @@ public class Controller
 		{
 			possibleCoursesList.remove(course);
 		}
+
+		return basicTimeTable;
 	}
 
 
-	//TODO -oTilo: need to change that
+	//TODO -oTilo: need to change that							modulName, list
 	private void generateNewTimeTable(TimeTable oldTimeTable, Map<String, List<Course>> restCourses)
 	{
 		if (oldTimeTable == null || restCourses == null)
@@ -91,16 +93,31 @@ public class Controller
 		List<Course> courseList = restCourses.get(nextModule);		// temporary saves the current courseList
 		restCourses.remove(nextModule);								// remove this module from the restCourse-list
 		
-		TimeTable newTimeTable = new TimeTable(counter);
-		counter += 1;
 
 		for (Course course: courseList )
 		{
+		    TimeTable newTimeTable = copyTimeTable(oldTimeTable);
+			
 			if (newTimeTable.addCourse(course))						// if course could successfully be added to the timetable
 			{
 				generateNewTimeTable(newTimeTable, restCourses);
+			} else 
+			{
+				//free(newTimeTable);
 			}
 		}
+
+		restCourses.put(nextModule, courseList);
+	}
+
+	private TimeTable copyTimeTable(TimeTable toCopy)
+	{
+		TimeTable timeTable = new TimeTable(Id.getInstance().getNext());
+		for (Course course: toCopy.getCourseList()) {
+			timeTable.addCourse(course);
+		}
+
+		return timeTable;
 	}
 
 	public void showAllTimeTables()

@@ -113,17 +113,19 @@ public class Controller
 	private TimeTable copyTimeTable(TimeTable toCopy)
 	{
 		TimeTable timeTable = new TimeTable(Id.getInstance().getNext());
-		for (Course course: toCopy.getCourseList()) {
+		for (Course course: toCopy.getCourseList()) 
+		{
 			timeTable.addCourse(course);
 		}
 
 		return timeTable;
 	}
 
-	public void showAllTimeTables()
+	//used to show the TimeTables
+	public void showTimeTables(List<TimeTable> timeTables)
 	{
 		int i=0;
-		for (TimeTable timeTable: allTimeTables)
+		for (TimeTable timeTable: timeTables)
 		{
 			i+=1;
 			timeTable.showTimeTable();
@@ -131,23 +133,135 @@ public class Controller
 		System.out.println(i);
 	}
 
-	public void filter(int allgfrueh, int allgspaet)
+	//used to filter, when the lessons should start at earliest hour
+	public List<TimeTable> filterByMorningtime(List<TimeTable> timeTables, List<EDay> days, int frueh)
 	{
-		int i = 0;
-		for (TimeTable timeTable : allTimeTables) {
+		List<TimeTable> result = new ArrayList<TimeTable>();
+		
+		for (TimeTable timeTable : timeTables) 
+		{
 			boolean available = true;
-			for (Course course : timeTable.getCourseList()) {
-				if ((course.getTime().getTime() < allgfrueh) || (course.getTime().getTime() > allgspaet))
+			for (Course course : timeTable.getCourseList())
+			{
+				if ((days.contains(course.getTime().getDay())) && (course.getTime().getTime() < frueh))
 				{
 					available = false;
 				} 
 			}
 			if (available) 
 			{
-				i+=1;
-				timeTable.showTimeTable();	
+			
+				result.add(timeTable);	
 			}
 		}
-		System.out.println(i);
+		return result;
 	}
+
+	//used to filter, when the lessons should end latestly
+	public List<TimeTable> filterByAfternoontime(List<TimeTable> timeTables, List<EDay> days, int spaet)
+	{
+		List<TimeTable> result = new ArrayList<TimeTable>();
+
+		
+		for (TimeTable timeTable : timeTables) 
+		{
+			boolean available = true;
+			for (Course course : timeTable.getCourseList()) 
+			{
+				if ((days.contains(course.getTime().getDay())) && (course.getTime().getTime() > spaet))
+				{
+					available = false;
+				} 
+			}
+			if (available) 
+			{
+				result.add(timeTable);	
+			}
+		}
+		return result;
+	}
+
+	//used to filter, how many lessons you want at minimum on a day
+	public List<TimeTable> filterByMinNumber(List<TimeTable> timeTables, int min)
+	{
+		List<TimeTable> result = new ArrayList<TimeTable>();
+		Map<EDay, Integer> filterMap = new HashMap<EDay, Integer>();
+		for (TimeTable timeTable : timeTables) 
+		{
+			EDay current = null;
+			int i = 0;
+			boolean available = true;
+			for (Course course : timeTable.getCourseList()) 
+			{
+				if (current == null)
+				{
+					current = course.getTime().getDay();
+				}
+
+				if (current == course.getTime().getDay())
+				{
+					i += 1;
+				} else {
+					if (i < min)
+					{
+						available = false;
+					}
+					i = 1;
+					current = course.getTime().getDay();
+				}
+			}
+			if (i < min) available = false;
+
+			if (available) {
+				result.add(timeTable);
+			}
+		}
+
+		return result;
+	}
+
+	//used to filter, how many lessons at maximum
+	public List<TimeTable> filterByMaxNumber(List<TimeTable> timeTables, int max)
+	{
+		List<TimeTable> result = new ArrayList<TimeTable>();
+		Map<EDay, Integer> filterMap = new HashMap<EDay, Integer>();
+		for (TimeTable timeTable : timeTables) 
+		{
+			EDay current = null;
+			int i = 0;
+			boolean available = true;
+			for (Course course : timeTable.getCourseList()) 
+			{
+				if (current == null)
+				{
+					current = course.getTime().getDay();
+				}
+
+				if (current == course.getTime().getDay())
+				{
+					i += 1;
+				} else {
+					if (i > max)
+					{
+						available = false;
+					}
+					i = 1;
+					current = course.getTime().getDay();
+				}
+			}
+			if (i > max) available = false;
+
+			if (available) {
+				result.add(timeTable);
+			}
+		}
+
+		return result;
+	}
+
+	//used to filter how many lessons at maxiumum in a row
+	/*public List<TimeTable> filterByMaxInRow(List<TimeTable> timeTables, int maxRow)
+	{
+
+	} */
 }

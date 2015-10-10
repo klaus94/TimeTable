@@ -1,8 +1,130 @@
+
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 
-public class Main
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JEditorPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class Main extends JFrame
 {
+	private static final long serialVersionUID = 1L;
+	
+	private Main()
+	{
+		super("Filter");
+		initUI();
+	}
+	
+	private void initUI()
+	{
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(600, 600);
+        
+        // Button
+        JButton button = new JButton(" Generate ");
+        button.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        button.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e)
+            {
+                //Execute when button is pressed
+            	performAction();
+            }
+        });      
+        
+        // Label
+        JLabel lblIntro = new JLabel("Wähle ein paar Filter aus");
+        lblIntro.setFont(new Font("Ubuntu", Font.BOLD, 20));
+        lblIntro.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        // CheckBoxes
+        JCheckBox cbMorning = new JCheckBox();
+        JCheckBox cbAfternoon = new JCheckBox();
+        JCheckBox cbMinCourses = new JCheckBox();
+        JCheckBox cbMaxCourses = new JCheckBox();
+        JCheckBox cbRow = new JCheckBox();
+        
+        // Editors
+        JEditorPane edtMorning = new JEditorPane();
+        JEditorPane edtAfternoon = new JEditorPane();
+        JEditorPane edtMinCourses = new JEditorPane();
+        JEditorPane edtMaxCourses = new JEditorPane();
+        JEditorPane edtRow = new JEditorPane();
+        
+        // Panels
+        JPanel panelMorning = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelMorning.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panelMorning.add(cbMorning);
+        panelMorning.add(new JLabel("Morgenmuffel - erst ab der: "));
+        panelMorning.add(edtMorning);
+        panelMorning.add(new JLabel("DS"));
+        
+        JPanel panelAfternoon = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelAfternoon.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panelAfternoon.add(cbAfternoon);
+        panelAfternoon.add(new JLabel("Früher Vogel - höchstens bis zur: "));
+        panelAfternoon.add(edtAfternoon);
+        panelAfternoon.add(new JLabel("DS"));
+        
+        JPanel panelMinCourses = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelMinCourses.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panelMinCourses.add(cbMinCourses);
+        panelMinCourses.add(new JLabel("Hardcore - mindestens: "));
+        panelMinCourses.add(edtMinCourses);
+        panelMinCourses.add(new JLabel("DS pro Tag"));
+        
+        JPanel panelMaxCourses = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelMaxCourses.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panelMaxCourses.add(cbMaxCourses);
+        panelMaxCourses.add(new JLabel("Chiller - höchstens: "));
+        panelMaxCourses.add(edtMaxCourses);
+        panelMaxCourses.add(new JLabel("DS pro Tag"));
+        
+        JPanel panelRow = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelRow.setBorder(BorderFactory.createEmptyBorder(10, 10, 30, 10));
+        panelRow.add(cbRow);
+        panelRow.add(new JLabel("Blockhasser - höchstens: "));
+        panelRow.add(edtRow);
+        panelRow.add(new JLabel("DS hintereinander"));
+        
+        JPanel panelAll = new JPanel();
+        panelAll.setLayout(new BoxLayout(panelAll, BoxLayout.Y_AXIS));
+        panelAll.add(lblIntro);
+        panelAll.add(panelMorning);
+        panelAll.add(panelAfternoon);
+        panelAll.add(panelMinCourses);
+        panelAll.add(panelMaxCourses);
+        panelAll.add(panelRow);
+        panelAll.add(button);
+        
+        // Layout
+        //setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        getContentPane().setLayout(new FlowLayout());
+        
+        // add panels to layout:
+        getContentPane().add(panelAll);
+        
+        // pack frame
+        pack();
+        setVisible(true);
+	}
+	
 	public static void main(String[] args) 
+	{
+		new Main().setVisible(true);
+	}
+	
+	private void performAction()
 	{
 		Course courseMath1 = new Lecture("BuS", new Time(EDay.DIENSTAG, 2, EPeriod.ODDWEEK), new Place("HSZ", "0004"), "Härtig");
 		Course courseMath2 = new Lecture("BuS", new Time(EDay.FREITAG, 2, EPeriod.EACHWEEK), new Place("HSZ", "0003"), "Härtig");
@@ -10,7 +132,6 @@ public class Main
 		Course courseMath4 = new Lecture("FS", new Time(EDay.DONNERSTAG, 4, EPeriod.ODDWEEK), new Place("HSZ", "0003"), "Hölldobler");
 		Course courseMath5 = new Lecture("Mathe", new Time(EDay.DIENSTAG, 3, EPeriod.ODDWEEK), new Place("HSZ", "0002"), "Baumann");
 		Course courseMath6 = new Lecture("Mathe", new Time(EDay.DONNERSTAG, 3, EPeriod.EACHWEEK), new Place("HSZ", "0003"), "Baumann");
-
 		Course courseMath10 = new ExerciseCourse("BuS", new Time(EDay.MONTAG, 2, EPeriod.EACHWEEK), new Place("WIL", "C073"), "1");
 		Course courseMath11 = new ExerciseCourse("BuS", new Time(EDay.MONTAG, 3, EPeriod.EACHWEEK), new Place("WIL", "C013"), "2");
 		Course courseMath12 = new ExerciseCourse("BuS", new Time(EDay.MONTAG, 3, EPeriod.EVENWEEK), new Place("WIL", "A923"), "3");
@@ -46,12 +167,6 @@ public class Main
 		Course courseMath42 = new ExerciseCourse("Mathe", new Time(EDay.MITTWOCH, 4, EPeriod.EVENWEEK), new Place("WIL", "A923"), "3");
 		Course courseMath43 = new ExerciseCourse("Mathe", new Time(EDay.DONNERSTAG, 6, EPeriod.EACHWEEK), new Place("WIL", "B234"), "4");
 		Course courseMath44 = new ExerciseCourse("Mathe", new Time(EDay.FREITAG, 5, EPeriod.ODDWEEK), new Place("WIL", "B234"), "5");
-
-
-
-
-
-
 
 		List<Course> courseList = new ArrayList<Course>();
 		courseList.add(courseMath1);
@@ -97,7 +212,6 @@ public class Main
 		courseList.add(courseMath43);
 		courseList.add(courseMath44);
 		
-
 		Controller myController = new Controller(courseList);
 		myController.generateTimeTables();
 		List<TimeTable> allTimeTables = myController.getAllTimeTables();
@@ -116,7 +230,5 @@ public class Main
 		allTimeTables = Filter.filterByMaxInRow(allTimeTables, 2);
 		
 		myController.showTimeTables(allTimeTables);
-
-		//myController.showTimeTables(myController.filterByMinNumber(myController.filterByAfternoontime(myController.filterByMorningtime(allTimeTables, days, 2), days, 5), 2));
 	}
 }

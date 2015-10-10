@@ -82,10 +82,11 @@ public class TimeTable
 
 		for (Course course: courses)
 		{
-			System.out.format("%s %d. DS : %s in %s mit %s\n", 
+			System.out.format("%s %d.DS: %s in %s/%s mit %s\n", 
 				course.getTime().getDay().toString(), 
 				course.getTime().getTime(), 
 				course.getModuleName(), 
+				course.getPlace().getBuilding(),
 				course.getPlace().getRoom(), 
 				course.getInstructor()
 			);

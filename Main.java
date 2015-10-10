@@ -109,6 +109,14 @@ public class Main
 		days.add(EDay.MITTWOCH);
 		days.add(EDay.DONNERSTAG);
 		days.add(EDay.FREITAG);
-		myController.showTimeTables(myController.filterByMinNumber(myController.filterByAfternoontime(myController.filterByMorningtime(allTimeTables, days, 2), days, 5), 2));
+
+		allTimeTables = Filter.filterByMinNumber(allTimeTables, 2);
+		allTimeTables = Filter.filterByMorningtime(allTimeTables, days, 2);
+		allTimeTables = Filter.filterByAfternoontime(allTimeTables, days, 5);
+		allTimeTables = Filter.filterByMaxInRow(allTimeTables, 2);
+		
+		myController.showTimeTables(allTimeTables);
+
+		//myController.showTimeTables(myController.filterByMinNumber(myController.filterByAfternoontime(myController.filterByMorningtime(allTimeTables, days, 2), days, 5), 2));
 	}
 }

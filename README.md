@@ -12,5 +12,6 @@ these things are working:
 
 TODO:
 - filter: maximum courses in a row
+- filter: look for timetables where two courses of the same modulename take place at the same time
 - read-in all courses from xml-file
 - GUI

@@ -102,21 +102,23 @@ public class Main
 		myController.generateTimeTables();
 		List<TimeTable> allTimeTables = myController.getAllTimeTables();
 
+		allTimeTables = Filter.filterByMinNumber(allTimeTables, 2);
+		allTimeTables = Filter.filterByMaxNumber(allTimeTables, 3);
+		
 		//myController.showTimeTables(allTimeTables);
 		List<EDay> days = new ArrayList<EDay>();
-		days.add(EDay.MONTAG);
 		days.add(EDay.DIENSTAG);
-		days.add(EDay.MITTWOCH);
 		days.add(EDay.DONNERSTAG);
+		allTimeTables = Filter.filterByAfternoontime(allTimeTables, days, 4);
+		
+		days.add(EDay.MONTAG);
+		days.add(EDay.MITTWOCH);
 		days.add(EDay.FREITAG);
 
-		allTimeTables = Filter.filterByMinNumber(allTimeTables, 2);
-		allTimeTables = Filter.filterByMorningtime(allTimeTables, days, 2);
 		allTimeTables = Filter.filterByAfternoontime(allTimeTables, days, 5);
-		allTimeTables = Filter.filterByMaxInRow(allTimeTables, 2);
+		allTimeTables = Filter.filterByMorningtime(allTimeTables, days, 2);
+		allTimeTables = Filter.filterByMaxInRow(allTimeTables, 3);
 		
 		myController.showTimeTables(allTimeTables);
-
-		//myController.showTimeTables(myController.filterByMinNumber(myController.filterByAfternoontime(myController.filterByMorningtime(allTimeTables, days, 2), days, 5), 2));
 	}
 }

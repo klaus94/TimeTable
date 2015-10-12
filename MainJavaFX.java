@@ -9,6 +9,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.FXML;
+import javafx.scene.layout.GridPane;
 
 // javaFX - Help:
 // Stage = Window  !!!
@@ -26,7 +28,13 @@ public class MainJavaFX extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception			
 	{
-		GridPane root = (GridPane)FXMLLoader.load(MainJavaFX.class.getResource("FilterPage.fxml"));
+		GridPane root;
+		try {
+			root = (GridPane)FXMLLoader.load(MainJavaFX.class.getResource("FilterPage.fxml"));
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -46,6 +54,12 @@ public class MainJavaFX extends Application
 		// Scene scene = new Scene(layout, 300, 250);
 		// primaryStage.setScene(scene);
 		// primaryStage.show();
+
+		@FXML
+		Button abbrechen;
+		abbrechen.setOnAction(e -> {
+			performAction();
+		});
 	}
 
 

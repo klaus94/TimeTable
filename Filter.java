@@ -1,4 +1,9 @@
+package Logic;
 import java.util.*;
+
+import Enumerations.EDay;
+import Model.Course;
+import Model.TimeTable;
 
 public class Filter
 {

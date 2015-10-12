@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.layout.Pane;
+import javafx.fxml.FXMLLoader;
 
 // javaFX - Help:
 // Stage = Window  !!!
@@ -25,26 +26,26 @@ public class MainJavaFX extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception			
 	{
-		// GridPane root = (GridPane)FXMLLoader.load(MainJavaFX.class.getRessource("FilterPage.fxml"));
-		// Scene scene = new Scene(root);
-		// primaryStage.setScene(scene);
-		// primaryStage.show();
-
-		primaryStage.setTitle("Title of the window");
-		button = new Button();
-		button.setText("Click me");
-		button.setOnAction(e -> 
-		{
-			System.out.println("hello world");
-			performAction();
-		});
-		
-		StackPane layout = new StackPane();
-		layout.getChildren().add(button);
-
-		Scene scene = new Scene(layout, 300, 250);
+		GridPane root = (GridPane)FXMLLoader.load(MainJavaFX.class.getResource("FilterPage.fxml"));
+		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+
+		// primaryStage.setTitle("Title of the window");
+		// button = new Button();
+		// button.setText("Click me");
+		// button.setOnAction(e -> 
+		// {
+		// 	System.out.println("hello world");
+		// 	performAction();
+		// });
+		
+		// StackPane layout = new StackPane();
+		// layout.getChildren().add(button);
+
+		// Scene scene = new Scene(layout, 300, 250);
+		// primaryStage.setScene(scene);
+		// primaryStage.show();
 	}
 
 

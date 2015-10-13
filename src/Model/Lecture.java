@@ -1,3 +1,4 @@
+package Model;
 public class Lecture extends Course
 {
 	// place for additional fields

@@ -1,3 +1,7 @@
+package Model;
+import Enumerations.EDay;
+import Enumerations.EPeriod;
+
 public class Time
 {
 	private EDay day;

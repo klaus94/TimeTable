@@ -1,3 +1,4 @@
+package Model;
 public class ExerciseCourse extends Course
 {
 	// place for additional fields

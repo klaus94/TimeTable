@@ -1,4 +1,7 @@
+package Model;
 import java.util.*;
+
+import Enumerations.EPeriod;
 
 public class TimeTable
 {
@@ -76,7 +79,7 @@ public class TimeTable
 			return;
 		}
 
-		Course currentCourse;
+//		Course currentCourse;
 
 		System.out.format("\nTimetable %d\n", id);
 

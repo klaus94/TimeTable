@@ -1,4 +1,9 @@
+package Logic;
 import java.util.*;
+
+import Model.Course;
+import Model.Lecture;
+import Model.TimeTable;
 
 public class Controller
 {

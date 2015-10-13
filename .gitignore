@@ -1,0 +1,5 @@
+# ignore all created .class files
+*.class
+.classpath
+.project
+bin\

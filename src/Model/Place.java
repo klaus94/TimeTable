@@ -1,3 +1,4 @@
+package Model;
 public class Place
 {
 	private String building;

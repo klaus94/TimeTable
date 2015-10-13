@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<FlowPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="60.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Logic.ModulController">
+   <children>
+      <Label fx:id="lblModul" onMouseClicked="#onMouseClicked" text="Modul">
+         <FlowPane.margin>
+            <Insets />
+         </FlowPane.margin>
+      </Label>
+      <Separator prefHeight="4.0" prefWidth="53.0" />
+      <Label fx:id="lblRoom" alignment="TOP_LEFT" contentDisplay="TOP" text="Raum">
+         <FlowPane.margin>
+            <Insets />
+         </FlowPane.margin>
+      </Label>
+   </children>
+</FlowPane>

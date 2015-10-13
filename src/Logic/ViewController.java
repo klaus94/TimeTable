@@ -1,4 +1,5 @@
 package Logic;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import Model.TimeTable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class ViewController implements Initializable
@@ -23,16 +25,31 @@ public class ViewController implements Initializable
 	TextField txtTest;
 	
 	@FXML
-	private void btnNextClick(ActionEvent event)
-	{
-		performAction();
-		
-		txtTest.setText("test");
-	}
+	Label lblModul;
+	
+	@FXML
+	Label lblRoom;
+	
+	
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
+	}
+	
+	@FXML
+	private void onMouseClicked(ActionEvent event)
+	{
+		lblRoom.setText("Wil/C212");
+		System.out.println("event ausgelößt");
+	}
+	
+	@FXML
+	private void btnNextClick(ActionEvent event)
+	{
+		performAction();
+		
+		lblRoom.setText("test");
 	}
 	
 	private void performAction()

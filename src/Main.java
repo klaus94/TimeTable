@@ -1,8 +1,11 @@
 
+
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
 // javaFX - Help:
@@ -19,12 +22,16 @@ public class Main extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception			
 	{
-		 GridPane root = (GridPane)FXMLLoader.load(Main.class.getResource("FilterPage.fxml"));
-		 
+		
+		String filePath = "Views\\MainPage.fxml"; 
+		System.out.println(filePath);
+		FlowPane root = (FlowPane) FXMLLoader.load(Main.class.getResource(filePath));
 		 
 		 Scene scene = new Scene(root);
 		 primaryStage.setScene(scene);
 		 primaryStage.show();
+		
+		
 	}
 
 }

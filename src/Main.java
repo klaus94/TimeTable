@@ -23,8 +23,7 @@ public class Main extends Application
 	public void start(Stage primaryStage) throws Exception			
 	{
 		
-		String filePath = "Views\\MainPage.fxml"; 
-		System.out.println(filePath);
+		String filePath = "Views" + File.separator + "MainPage.fxml"; 
 		FlowPane root = (FlowPane) FXMLLoader.load(Main.class.getResource(filePath));
 		 
 		 Scene scene = new Scene(root);

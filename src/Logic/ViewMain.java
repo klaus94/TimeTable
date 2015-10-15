@@ -1,5 +1,6 @@
 package Logic;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -51,12 +52,12 @@ public class ViewMain implements Initializable
 	
 	@FXML
 	private void btnGenerateClick(ActionEvent event) {
-		
+		performAction();
 	}
 
 	@FXML
 	private void btnAddFilterClick(ActionEvent event) throws Exception {
-		String filePath = "..\\Views\\FilterPage.fxml"; 
+		String filePath = ".." + File.separator + "Views" + File.separator + "FilterPage.fxml"; 
 		GridPane root = (GridPane) FXMLLoader.load(ViewMain.class.getResource(filePath));
 		 
 		Scene scene = new Scene(root);
@@ -211,7 +212,7 @@ public class ViewMain implements Initializable
 		allTimeTables = Filter.filterByMinNumber(allTimeTables, 2);
 		allTimeTables = Filter.filterByMorningtime(allTimeTables, days, 2);
 		allTimeTables = Filter.filterByAfternoontime(allTimeTables, days, 5);
-		allTimeTables = Filter.filterByMaxInRow(allTimeTables, 2);
+		allTimeTables = Filter.filterByMaxInRow(allTimeTables, 3);
 		
 		myController.showTimeTables(allTimeTables);
 	}

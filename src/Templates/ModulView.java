@@ -18,7 +18,7 @@ public class ModulView extends FlowPane
 	
 	public ModulView(String modulName, String room) throws Exception
 	{
-		String filePath = "Views" + File.separator + "ModulViewTemplate.fxml";		// "/" in Unix and "\" in Windows
+		String filePath = "ModulView.fxml";		// "/" in Unix and "\" in Windows
 		
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(filePath));
         fxmlLoader.setRoot(this);
@@ -30,6 +30,8 @@ public class ModulView extends FlowPane
             throw new RuntimeException(exception);
         }
         
+        this.getStyleClass().add("flowpane");
+        this.getStylesheets().add("Styles" + File.separator + "ModulViewStyle.css");
 		lblModul.setText(modulName);
 		lblRoom.setText(room);
 	}

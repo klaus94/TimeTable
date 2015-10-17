@@ -5,9 +5,9 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<FlowPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="60.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Logic.ModulController">
+<fx:root id="flowPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="60.0" stylesheets="@../Styles/ModulViewStyle.css" type="javafx.scene.layout.FlowPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="lblModul" onMouseClicked="#onMouseClicked" text="Modul">
+      <Label fx:id="lblModul" text="Modul">
          <FlowPane.margin>
             <Insets />
          </FlowPane.margin>
@@ -19,4 +19,4 @@
          </FlowPane.margin>
       </Label>
    </children>
-</FlowPane>
+</fx:root>

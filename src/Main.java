@@ -27,6 +27,9 @@ public class Main extends Application
 //		String filePath = "Templates" + File.separator + "ModulView.fxml";		// "/" in Unix and "\" in Windows
 //		FlowPane root = (FlowPane)FXMLLoader.load(Main.class.getResource(filePath)); 
 		
+		String filePath = "Views\\MainPage.fxml"; 
+		System.out.println(filePath);
+		FlowPane root = (FlowPane) FXMLLoader.load(Main.class.getResource(filePath));
 		
 		//ModulView root = new ModulView("Ma 1", "WIL/C121");
 		Course course = new ExerciseCourse("MA-1", new Time(EDay.MONTAG, 2, EPeriod.EACHWEEK), new Place("WIL", "C212"), "Dr. Noack");
@@ -39,6 +42,8 @@ public class Main extends Application
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		
+		
 	}
 
 }

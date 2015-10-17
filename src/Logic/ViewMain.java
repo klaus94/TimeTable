@@ -1,10 +1,12 @@
 package Logic;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.collections.ObservableList;
 import Enumerations.EDay;
 import Enumerations.EPeriod;
 import Model.Course;
@@ -13,11 +15,16 @@ import Model.Lecture;
 import Model.Place;
 import Model.Time;
 import Model.TimeTable;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class ViewMain implements Initializable
@@ -25,11 +32,73 @@ public class ViewMain implements Initializable
 	
 	@FXML private javafx.scene.control.Button btnClose;
 
+	@FXML private javafx.scene.control.Button btnGenerate;
+	@FXML private javafx.scene.control.Button btnAddFilter;
+	@FXML private javafx.scene.control.Button btnRemoveFilter;
+	@FXML private javafx.scene.control.Button btnAddCourse;
+	@FXML private javafx.scene.control.Button btnRemoveCourse;
+	@FXML private javafx.scene.control.Button btnLoadCourses;
+	@FXML private javafx.scene.control.Button btnSaveCourses;
+	@FXML private javafx.scene.control.ComboBox<String> cbModuleName;
+	@FXML private javafx.scene.control.ListView<String> listFilter;
+	@FXML private javafx.scene.control.ListView<String> listCourses;
 	
 	@FXML
-	private void btnNextClick(ActionEvent event)
+	private void btnCloseClick(ActionEvent event)
 	{
 		((Stage) btnClose.getScene().getWindow()).close();
+	}
+	
+	@FXML
+	private void btnGenerateClick(ActionEvent event) {
+		
+	}
+
+	@FXML
+	private void btnAddFilterClick(ActionEvent event) throws Exception {
+		String filePath = "..\\Views\\FilterPage.fxml"; 
+		GridPane root = (GridPane) FXMLLoader.load(ViewMain.class.getResource(filePath));
+		 
+		Scene scene = new Scene(root);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		stage.show();
+	}
+
+	@FXML
+	private void btnRemoveFilterClick(ActionEvent event) {
+		
+	}
+
+	@FXML
+	private void btnAddCourseClick(ActionEvent event) {
+		ObservableList<String> items =listCourses.getItems();
+		items.add("Course");
+		items.add("Course 1");
+		items.add("Course");
+		listCourses.setItems(items);
+	}
+
+	@FXML
+	private void btnRemoveCourseClick(ActionEvent event) {
+		String remove =listCourses.getSelectionModel().getSelectedItem();
+		ObservableList<String> items = listCourses.getItems();
+		items.remove(remove);
+		listCourses.setItems(items);
+	}
+
+	@FXML
+	private void btnLoadCoursesClick(ActionEvent event) {
+		
+	}
+
+	@FXML
+	private void btnSaveCoursesClick(ActionEvent event) {
+		
+	}
+
+	@FXML
+	private void cbModuleNameChange(ActionEvent event) {
 		
 	}
 	

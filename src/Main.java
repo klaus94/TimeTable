@@ -1,9 +1,13 @@
+import java.io.File;
+
 import Enumerations.EDay;
 import Enumerations.EPeriod;
 import Model.*;
 import Templates.TimeTableView;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
 // javaFX - Help:
@@ -27,16 +31,18 @@ public class Main extends Application
 //		String filePath = "Templates" + File.separator + "ModulView.fxml";		// "/" in Unix and "\" in Windows
 //		FlowPane root = (FlowPane)FXMLLoader.load(Main.class.getResource(filePath)); 
 		
-		String filePath = "Views\\MainPage.fxml"; 
+		String filePath = "Views" + File.separator + "MainPage.fxml"; 
 		System.out.println(filePath);
 		FlowPane root = (FlowPane) FXMLLoader.load(Main.class.getResource(filePath));
 		
 		//ModulView root = new ModulView("Ma 1", "WIL/C121");
-		Course course = new ExerciseCourse("MA-1", new Time(EDay.MONTAG, 2, EPeriod.EACHWEEK), new Place("WIL", "C212"), "Dr. Noack");
-		TimeTable timetable = new TimeTable(0);
-		timetable.addCourse(course);
 		
-		TimeTableView root = new TimeTableView(timetable);
+		// Test TimeTable:
+//		Course course = new ExerciseCourse("MA-1", new Time(EDay.MONTAG, 2, EPeriod.EACHWEEK), new Place("WIL", "C212"), "Dr. Noack");
+//		TimeTable timetable = new TimeTable(0);
+//		timetable.addCourse(course);
+//		
+//		TimeTableView root = new TimeTableView(timetable);
 		
 		Scene scene = new Scene(root);
 		

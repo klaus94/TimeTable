@@ -1,5 +1,6 @@
 package Logic;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class ViewMain implements Initializable
 
 	@FXML
 	private void btnAddFilterClick(ActionEvent event) throws Exception {
-		String filePath = "..\\Views\\FilterPage.fxml"; 
+		String filePath = ".." + File.separator + "Views" + File.separator + "FilterPage.fxml"; 
 		GridPane root = (GridPane) FXMLLoader.load(ViewMain.class.getResource(filePath));
 		 
 		Scene scene = new Scene(root);

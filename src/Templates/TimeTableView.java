@@ -3,6 +3,7 @@ package Templates;
 import java.io.IOException;
 
 import Model.Course;
+import Model.ExerciseCourse;
 import Model.TimeTable;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,9 +43,19 @@ public class TimeTableView extends GridPane
         	newCourseTime = course.getTime().getTime();					// get row-index
         	newCourseDay = course.getTime().getDay().toInt();			// get column-index
         	
+        	
+        	if (course instanceof ExerciseCourse)
+        	{
+        		newCourseView.getStyleClass().add("exercise");
+        	}
+        	else
+        	{
+        		newCourseView.getStyleClass().add("lecture");
+        	}
+        	
         	this.add(newCourseView, newCourseDay, newCourseTime);		// add module to grid
-        	this.setHalignment(newCourseView, HPos.CENTER);
-        	this.setValignment(newCourseView, VPos.CENTER);
+        	GridPane.setHalignment(newCourseView, HPos.CENTER);
+        	GridPane.setValignment(newCourseView, VPos.CENTER);
         }
         
 	}

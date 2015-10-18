@@ -3,10 +3,12 @@ import java.io.File;
 import Enumerations.EDay;
 import Enumerations.EPeriod;
 import Model.*;
+import Templates.AllTimeTablesView;
 import Templates.TimeTableView;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
@@ -31,9 +33,9 @@ public class Main extends Application
 //		String filePath = "Templates" + File.separator + "ModulView.fxml";		// "/" in Unix and "\" in Windows
 //		FlowPane root = (FlowPane)FXMLLoader.load(Main.class.getResource(filePath)); 
 		
-		String filePath = "Views" + File.separator + "MainPage.fxml"; 
-		System.out.println(filePath);
-		FlowPane root = (FlowPane) FXMLLoader.load(Main.class.getResource(filePath));
+//		String filePath = "Views" + File.separator + "MainPage.fxml"; 
+//		System.out.println(filePath);
+//		FlowPane root = (FlowPane) FXMLLoader.load(Main.class.getResource(filePath));
 		
 		//ModulView root = new ModulView("Ma 1", "WIL/C121");
 		
@@ -43,6 +45,8 @@ public class Main extends Application
 //		timetable.addCourse(course);
 //		
 //		TimeTableView root = new TimeTableView(timetable);
+		
+		AllTimeTablesView root = new AllTimeTablesView();
 		
 		Scene scene = new Scene(root);
 		

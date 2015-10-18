@@ -14,5 +14,6 @@ these things are working:
 TODO:
 - filter: look for timetables where two courses of the same modulename take place at the same time
 - filter: fix a course
+- filter: exclude a course
 - read-in all courses from xml-file
 - GUI

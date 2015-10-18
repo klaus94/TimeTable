@@ -58,5 +58,7 @@ public class TimeTableView extends GridPane
         	GridPane.setValignment(newCourseView, VPos.CENTER);
         }
         
+        this.setStyle("-fx-border-color: orange; -fx-border-radius: 12pt; -fx-border-width: 3pt;");
+        
 	}
 }

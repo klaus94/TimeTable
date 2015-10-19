@@ -1,0 +1,13 @@
+.flowpane {
+	-fx-font-family: "Ubuntu";
+}
+
+.exercise {
+	-fx-background-color: #33AA00;
+}
+
+.lecture {
+	-fx-background-color: #BBFF00;
+}
+
+

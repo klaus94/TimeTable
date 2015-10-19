@@ -16,17 +16,16 @@ import Model.Lecture;
 import Model.Place;
 import Model.Time;
 import Model.TimeTable;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import sun.applet.Main;
 
 public class ViewMain implements Initializable
 {
@@ -52,13 +51,19 @@ public class ViewMain implements Initializable
 	
 	@FXML
 	private void btnGenerateClick(ActionEvent event) {
-		
+		performAction();
 	}
 
 	@FXML
-	private void btnAddFilterClick(ActionEvent event) throws Exception {
+
+	private void btnAddFilterClick(ActionEvent event) throws IOException{
 		String filePath = ".." + File.separator + "Views" + File.separator + "FilterPage.fxml"; 
-		GridPane root = (GridPane) FXMLLoader.load(ViewMain.class.getResource(filePath));
+		FXMLLoader loader = new FXMLLoader(ViewMain.class.getResource(filePath));
+		FlowPane root = (FlowPane) loader.load();
+		
+		ViewFilter filterPage = loader.<ViewFilter>getController();
+		filterPage.initData(null);
+
 		 
 		Scene scene = new Scene(root);
 		Stage stage = new Stage();
@@ -78,6 +83,13 @@ public class ViewMain implements Initializable
 		items.add("Course 1");
 		items.add("Course");
 		listCourses.setItems(items);
+		
+		ObservableList<String> cbItems =cbModuleName.getItems();
+		cbItems.add("Mathe");
+		cbItems.add("TGI");
+		cbItems.add("pupsen");
+		cbModuleName.setItems(cbItems);
+		
 	}
 
 	@FXML
@@ -103,10 +115,28 @@ public class ViewMain implements Initializable
 		
 	}
 	
+	@FXML
+	private void cbModuleNameClick(ActionEvent event) {
+		ObservableList<String> items =cbModuleName.getItems();
+		items.add("Mathe");
+		items.add("TGI");
+		items.add("pupsen");
+		cbModuleName.setItems(items);
+	}
+	
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
+		ObservableList<String> items =cbModuleName.getItems();
+		items.add("Mathe");
+		items.add("TGI");
+		items.add("pupsen");
+		cbModuleName.setItems(items);
 
+	}
+	
+	public void initData(String str){
+		
 	}
 	
 	private void performAction()
@@ -212,7 +242,7 @@ public class ViewMain implements Initializable
 		allTimeTables = Filter.filterByMinNumber(allTimeTables, 2);
 		allTimeTables = Filter.filterByMorningtime(allTimeTables, days, 2);
 		allTimeTables = Filter.filterByAfternoontime(allTimeTables, days, 5);
-		allTimeTables = Filter.filterByMaxInRow(allTimeTables, 2);
+		allTimeTables = Filter.filterByMaxInRow(allTimeTables, 3);
 		
 		myController.showTimeTables(allTimeTables);
 	}

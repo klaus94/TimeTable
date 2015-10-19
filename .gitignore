@@ -1,9 +1,5 @@
 # ignore all created .class files
 *.class
-.classpath
-<<<<<<< HEAD
+*.classpath
 *.project
-=======
-.project
 bin\
->>>>>>> refs/remotes/origin/tilo.develop

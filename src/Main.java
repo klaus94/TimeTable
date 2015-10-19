@@ -1,5 +1,6 @@
 import java.io.File;
 
+
 import Enumerations.EDay;
 import Enumerations.EPeriod;
 import Model.*;
@@ -11,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
+
+import Logic.ViewMain;
 
 // javaFX - Help:
 // Stage = Window  !!!
@@ -50,8 +53,19 @@ public class Main extends Application
 		
 		Scene scene = new Scene(root);
 		
-		primaryStage.setScene(scene);
-		primaryStage.show();
+
+//		String filePath = "Views" + File.separator + "MainPage.fxml"; 
+//		FXMLLoader loader = new FXMLLoader(Main.class.getResource(filePath));
+//		FlowPane root = (FlowPane) loader.load();
+//		 ViewMain controller = loader.<ViewMain>getController();
+		 
+//		controller.initData("Pfosten");
+		
+//		 Scene scene = new Scene(root);
+		 primaryStage.setScene(scene);
+		 primaryStage.setTitle("Main");
+		 primaryStage.show();
+
 		
 		
 	}

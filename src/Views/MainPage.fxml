@@ -43,7 +43,7 @@
                                  <children>
                                     <FlowPane orientation="VERTICAL" prefHeight="338.0" prefWidth="309.0">
                                        <children>
-                                          <ComboBox fx:id="cbModuleName" onAction="#cbModuleNameChange" prefHeight="25.0" prefWidth="307.0">
+                                          <ComboBox fx:id="cbModuleName" promptText="ModuleName" onAction="#cbModuleNameChange" onMouseEntered="#cbModuleNameClick" prefHeight="25.0" prefWidth="307.0">
                                              <opaqueInsets>
                                                 <Insets />
                                              </opaqueInsets>

@@ -1,145 +1,54 @@
-package Logic;
+package Templates;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
-import javafx.collections.ObservableList;
+import javax.swing.event.ChangeListener;
+
 import Enumerations.EDay;
 import Enumerations.EPeriod;
+import Logic.Controller;
+import Logic.Filter;
 import Model.Course;
 import Model.ExerciseCourse;
 import Model.Lecture;
 import Model.Place;
 import Model.Time;
 import Model.TimeTable;
-import javafx.event.ActionEvent;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
-import sun.applet.Main;
 
-public class ViewMain implements Initializable
-{
-	
-	@FXML private javafx.scene.control.Button btnClose;
-
-	@FXML private javafx.scene.control.Button btnGenerate;
-	@FXML private javafx.scene.control.Button btnAddFilter;
-	@FXML private javafx.scene.control.Button btnRemoveFilter;
-	@FXML private javafx.scene.control.Button btnAddCourse;
-	@FXML private javafx.scene.control.Button btnRemoveCourse;
-	@FXML private javafx.scene.control.Button btnLoadCourses;
-	@FXML private javafx.scene.control.Button btnSaveCourses;
-	@FXML private javafx.scene.control.ComboBox<String> cbModuleName;
-	@FXML private javafx.scene.control.ListView<String> listFilter;
-	@FXML private javafx.scene.control.ListView<String> listCourses;
+public class AllTimeTablesView extends ScrollPane{
 	
 	@FXML
-	private void btnCloseClick(ActionEvent event)
+	FlowPane flowPane;
+	
+	public AllTimeTablesView() throws Exception
 	{
-		((Stage) btnClose.getScene().getWindow()).close();
+		String filePath = "AllTimeTablesView.fxml";		// "/" in Unix and "\" in Windows
+		
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(filePath));
+	    fxmlLoader.setRoot(this);
+	    fxmlLoader.setController(this);
+		
+	    try {
+	        fxmlLoader.load();
+	    } catch (IOException exception) {
+	        throw new RuntimeException(exception);
+	    }
+	    
+	    // test with just one timetable:
+	    List<TimeTable> allTimeTables = performAction();
+	    flowPane.getChildren().add(new TimeTableView(allTimeTables.get(1)));
+	    flowPane.getChildren().add(new TimeTableView(allTimeTables.get(2)));
+	    flowPane.getChildren().add(new TimeTableView(allTimeTables.get(3)));
+	    
 	}
 	
-	@FXML
-	private void btnGenerateClick(ActionEvent event) {
-		performAction();
-	}
-
-	@FXML
-
-	private void btnAddFilterClick(ActionEvent event) throws IOException{
-		String filePath = ".." + File.separator + "Views" + File.separator + "FilterPage.fxml"; 
-		FXMLLoader loader = new FXMLLoader(ViewMain.class.getResource(filePath));
-		FlowPane root = (FlowPane) loader.load();
-		
-		ViewFilter filterPage = loader.<ViewFilter>getController();
-		filterPage.initData(null);
-
-		 
-		Scene scene = new Scene(root);
-		Stage stage = new Stage();
-		stage.setScene(scene);
-		stage.show();
-	}
-
-	@FXML
-	private void btnRemoveFilterClick(ActionEvent event) {
-		
-	}
-
-	@FXML
-	private void btnAddCourseClick(ActionEvent event) {
-		ObservableList<String> items =listCourses.getItems();
-		items.add("Course");
-		items.add("Course 1");
-		items.add("Course");
-		listCourses.setItems(items);
-		
-		ObservableList<String> cbItems =cbModuleName.getItems();
-		cbItems.add("Mathe");
-		cbItems.add("TGI");
-		cbItems.add("pupsen");
-		cbModuleName.setItems(cbItems);
-		
-	}
-
-	@FXML
-	private void btnRemoveCourseClick(ActionEvent event) {
-		String remove =listCourses.getSelectionModel().getSelectedItem();
-		ObservableList<String> items = listCourses.getItems();
-		items.remove(remove);
-		listCourses.setItems(items);
-	}
-
-	@FXML
-	private void btnLoadCoursesClick(ActionEvent event) {
-		
-	}
-
-	@FXML
-	private void btnSaveCoursesClick(ActionEvent event) {
-		
-	}
-
-	@FXML
-	private void cbModuleNameChange(ActionEvent event) {
-		
-	}
-	
-	@FXML
-	private void cbModuleNameClick(ActionEvent event) {
-		ObservableList<String> items =cbModuleName.getItems();
-		items.add("Mathe");
-		items.add("TGI");
-		items.add("pupsen");
-		cbModuleName.setItems(items);
-	}
-	
-	@Override
-	public void initialize(URL url, ResourceBundle resourceBundle)
-	{
-		ObservableList<String> items =cbModuleName.getItems();
-		items.add("Mathe");
-		items.add("TGI");
-		items.add("pupsen");
-		cbModuleName.setItems(items);
-
-	}
-	
-	public void initData(String str){
-		
-	}
-	
-	private void performAction()
+	private List<TimeTable> performAction()
 	{
 		Course courseMath1 = new Lecture("BuS", new Time(EDay.DIENSTAG, 2, EPeriod.ODDWEEK), new Place("HSZ", "0004"), "Härtig");
 		Course courseMath2 = new Lecture("BuS", new Time(EDay.FREITAG, 2, EPeriod.EACHWEEK), new Place("HSZ", "0003"), "Härtig");
@@ -242,9 +151,9 @@ public class ViewMain implements Initializable
 		allTimeTables = Filter.filterByMinNumber(allTimeTables, 2);
 		allTimeTables = Filter.filterByMorningtime(allTimeTables, days, 2);
 		allTimeTables = Filter.filterByAfternoontime(allTimeTables, days, 5);
-		allTimeTables = Filter.filterByMaxInRow(allTimeTables, 3);
+		allTimeTables = Filter.filterByMaxInRow(allTimeTables, 2);
 		
-		myController.showTimeTables(allTimeTables);
+		return allTimeTables;
+		//myController.showTimeTables(allTimeTables);
 	}
-	
 }

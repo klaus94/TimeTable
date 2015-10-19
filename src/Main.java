@@ -49,19 +49,19 @@ public class Main extends Application
 //		
 //		TimeTableView root = new TimeTableView(timetable);
 		
-		//AllTimeTablesView root = new AllTimeTablesView();
+		AllTimeTablesView root = new AllTimeTablesView();
 		
-		//Scene scene = new Scene(root);
+		Scene scene = new Scene(root);
 		
 
-		String filePath = "Views" + File.separator + "MainPage.fxml"; 
-		FXMLLoader loader = new FXMLLoader(Main.class.getResource(filePath));
-		FlowPane root = (FlowPane) loader.load();
-		 ViewMain controller = loader.<ViewMain>getController();
+//		String filePath = "Views" + File.separator + "MainPage.fxml"; 
+//		FXMLLoader loader = new FXMLLoader(Main.class.getResource(filePath));
+//		FlowPane root = (FlowPane) loader.load();
+//		 ViewMain controller = loader.<ViewMain>getController();
 		 
-		controller.initData("Pfosten");
+//		controller.initData("Pfosten");
 		
-		 Scene scene = new Scene(root);
+//		 Scene scene = new Scene(root);
 		 primaryStage.setScene(scene);
 		 primaryStage.setTitle("Main");
 		 primaryStage.show();

@@ -41,7 +41,7 @@
                               </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="338.0" prefWidth="287.0">
                                  <children>
-                                    <FlowPane orientation="VERTICAL" prefHeight="338.0" prefWidth="309.0">
+                                    <FlowPane orientation="VERTICAL" prefHeight="338.0" prefWidth="309.0" AnchorPane.leftAnchor="0.0">
                                        <children>
                                           <ComboBox fx:id="cbModuleName" onAction="#cbModuleNameChange" prefHeight="25.0" prefWidth="307.0">
                                              <opaqueInsets>
@@ -51,7 +51,7 @@
                                                 <Insets top="5.0" />
                                              </FlowPane.margin>
                                           </ComboBox>
-                                          <ListView fx:id="listCourses" prefHeight="303.0" prefWidth="308.0">
+                                          <ListView fx:id="listCourses" prefHeight="280.0">
                                              <FlowPane.margin>
                                                 <Insets top="5.0" />
                                              </FlowPane.margin>

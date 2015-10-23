@@ -6,7 +6,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import javafx.collections.ObservableList;
 import Enumerations.EDay;
 import Enumerations.EPeriod;
@@ -16,6 +15,7 @@ import Model.Lecture;
 import Model.Place;
 import Model.Time;
 import Model.TimeTable;
+import Templates.AllTimeTablesView;
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
@@ -23,12 +23,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import sun.applet.Main;
 
 public class ViewMain implements Initializable
 {
+	
 	
 	@FXML private javafx.scene.control.Button btnClose;
 
@@ -51,7 +50,19 @@ public class ViewMain implements Initializable
 	
 	@FXML
 	private void btnGenerateClick(ActionEvent event) {
-		performAction();
+		List<TimeTable> allTimeTables = generateTestData();
+		AllTimeTablesView nextView = null;
+		try
+		{
+			nextView = new AllTimeTablesView(allTimeTables);
+		} catch (Exception exception) {
+	        throw new RuntimeException(exception);
+	    }
+		
+		Scene scene = new Scene(nextView);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		stage.show();
 	}
 
 	@FXML
@@ -78,11 +89,12 @@ public class ViewMain implements Initializable
 
 	@FXML
 	private void btnAddCourseClick(ActionEvent event) {
-		ObservableList<String> items =listCourses.getItems();
+		ObservableList<String> items = listCourses.getItems();
 		items.add("Course");
 		items.add("Course 1");
 		items.add("Course");
 		listCourses.setItems(items);
+		listCourses.setPrefHeight(280);			// TODO: need to remake layout --> height automaticly fits to layout
 		
 		ObservableList<String> cbItems =cbModuleName.getItems();
 		cbItems.add("Mathe");
@@ -139,7 +151,7 @@ public class ViewMain implements Initializable
 		
 	}
 	
-	private void performAction()
+	private List<TimeTable> generateTestData()
 	{
 		Course courseMath1 = new Lecture("BuS", new Time(EDay.DIENSTAG, 2, EPeriod.ODDWEEK), new Place("HSZ", "0004"), "Härtig");
 		Course courseMath2 = new Lecture("BuS", new Time(EDay.FREITAG, 2, EPeriod.EACHWEEK), new Place("HSZ", "0003"), "Härtig");
@@ -244,7 +256,7 @@ public class ViewMain implements Initializable
 		allTimeTables = Filter.filterByAfternoontime(allTimeTables, days, 5);
 		allTimeTables = Filter.filterByMaxInRow(allTimeTables, 3);
 		
-		myController.showTimeTables(allTimeTables);
+		return allTimeTables;
 	}
 	
 }

@@ -4,10 +4,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import Model.FilterObject;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
+//import javafx.event.ActionEvent;
+//import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.stage.Stage;
+//import javafx.stage.Stage;
 
 public class ViewFilter implements Initializable {
 	

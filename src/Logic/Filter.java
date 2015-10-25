@@ -5,6 +5,16 @@ import Enumerations.EDay;
 import Model.Course;
 import Model.TimeTable;
 
+// Filters available:
+	// earliest lesson
+	// latest lesson
+	// min lessons per day
+	// max lessons per day
+	// max lessons in a row
+// ideas for other filters:
+	// fix a lesson
+	// exclude a lesson (e.g. no course in 1.DS Mo)
+
 public class Filter
 {
 	// Filter should not be instantiated

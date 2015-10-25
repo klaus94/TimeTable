@@ -1,4 +1,4 @@
-package Logic;
+package ViewModel;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -9,7 +9,7 @@ import Model.FilterObject;
 import javafx.fxml.Initializable;
 //import javafx.stage.Stage;
 
-public class ViewFilter implements Initializable {
+public class FilterViewModel implements Initializable {
 	
 /*	@FXML private javafx.scene.control.Button btnNext;
 	

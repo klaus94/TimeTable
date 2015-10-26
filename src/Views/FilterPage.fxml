@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<FlowPane id="FlowPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="276.0" prefWidth="427.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+<FlowPane id="FlowPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="276.0" prefWidth="427.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="Logic.ViewFilter">
   <children>
     <FlowPane orientation="VERTICAL" prefHeight="251.0" prefWidth="427.0">
       <children>
@@ -18,7 +18,7 @@
               <children>
                 <FlowPane alignment="CENTER" prefHeight="56.0" prefWidth="225.0">
                   <children>
-                    <ComboBox prefHeight="21.0" prefWidth="189.0">
+                    <ComboBox fx:id="chb1" prefHeight="21.0" prefWidth="189.0">
                       <items>
                         <FXCollections fx:factory="observableArrayList">
                           <String fx:value="Item 1" />
@@ -31,12 +31,12 @@
                 </FlowPane>
                 <FlowPane alignment="CENTER" prefHeight="96.0" prefWidth="225.0">
                   <children>
-                    <Label text="Label" />
+                    <Label prefHeight="21.0" text="Wert" />
                   </children>
                 </FlowPane>
                 <FlowPane alignment="CENTER" prefHeight="99.0" prefWidth="225.0">
                   <children>
-                    <TextField prefWidth="200.0" />
+                    <TextField fx:id="txtWert" prefWidth="200.0" />
                   </children>
                 </FlowPane>
               </children>
@@ -49,7 +49,7 @@
                     <GridPane alignment="CENTER">
                       <children>
                         <CheckBox mnemonicParsing="false" text="" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Label text="MONTAG" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                       </children>
                       <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="44.0" />
@@ -66,7 +66,7 @@
                     <GridPane>
                       <children>
                         <CheckBox mnemonicParsing="false" text="" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Label text="DIENSTAG" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                       </children>
                       <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="44.0" />
@@ -83,7 +83,7 @@
                     <GridPane>
                       <children>
                         <CheckBox mnemonicParsing="false" text="" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Label text="MITTWOCH" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                       </children>
                       <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="44.0" />
@@ -100,7 +100,7 @@
                     <GridPane>
                       <children>
                         <CheckBox mnemonicParsing="false" text="" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Label text="DONNERSTAG" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                       </children>
                       <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="44.0" />
@@ -117,7 +117,7 @@
                     <GridPane>
                       <children>
                         <CheckBox mnemonicParsing="false" text="" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Label text="FREITAG" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                       </children>
                       <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="44.0" />
@@ -144,12 +144,12 @@
     </FlowPane>
     <GridPane prefHeight="25.0" prefWidth="427.0">
       <children>
-        <Button mnemonicParsing="false" text="Button" GridPane.columnIndex="0" GridPane.rowIndex="0">
+        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveClick" text="Speichern" GridPane.columnIndex="0" GridPane.rowIndex="0">
           <GridPane.margin>
             <Insets left="20.0" />
           </GridPane.margin>
         </Button>
-        <Button mnemonicParsing="false" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <Button fx:id="btnClose" mnemonicParsing="false" onAction="#btnCloseClick" text="Schließen" GridPane.columnIndex="1" GridPane.rowIndex="0">
           <GridPane.margin>
             <Insets right="20.0" />
           </GridPane.margin>

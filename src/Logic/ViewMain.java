@@ -26,6 +26,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import sun.applet.Main;
+import sun.misc.FpUtils;
 
 public class ViewMain implements Initializable
 {
@@ -57,18 +58,9 @@ public class ViewMain implements Initializable
 	@FXML
 
 	private void btnAddFilterClick(ActionEvent event) throws IOException{
-		String filePath = ".." + File.separator + "Views" + File.separator + "FilterPage.fxml"; 
-		FXMLLoader loader = new FXMLLoader(ViewMain.class.getResource(filePath));
-		FlowPane root = (FlowPane) loader.load();
-		
-		ViewFilter filterPage = loader.<ViewFilter>getController();
+		ViewFilter filterPage = new ViewFilter();
 		filterPage.initData(null);
 
-		 
-		Scene scene = new Scene(root);
-		Stage stage = new Stage();
-		stage.setScene(scene);
-		stage.show();
 	}
 
 	@FXML

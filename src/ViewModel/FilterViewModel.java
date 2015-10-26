@@ -1,4 +1,4 @@
-package Logic;
+package ViewModel;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
-public class ViewFilter implements Initializable {
+public class FilterViewModel implements Initializable {
 	
 	@FXML private javafx.scene.control.Button btnClose;
 	

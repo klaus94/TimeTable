@@ -1,38 +1,43 @@
-package Logic;
+package ViewModel;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
-
 import javafx.collections.ObservableList;
 import Enumerations.EDay;
 import Enumerations.EPeriod;
+import Logic.Controller;
+import Logic.Filter;
 import Model.Course;
 import Model.ExerciseCourse;
 import Model.Lecture;
 import Model.Place;
 import Model.Time;
 import Model.TimeTable;
+import Templates.AllTimeTablesView;
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import sun.applet.Main;
 import sun.misc.FpUtils;
 
-public class ViewMain implements Initializable
+public class MainViewModel implements Initializable
 {
+	private List<Course> courseList;
 	
 	@FXML private javafx.scene.control.Button btnClose;
-
 	@FXML private javafx.scene.control.Button btnGenerate;
 	@FXML private javafx.scene.control.Button btnAddFilter;
 	@FXML private javafx.scene.control.Button btnRemoveFilter;
@@ -44,6 +49,30 @@ public class ViewMain implements Initializable
 	@FXML private javafx.scene.control.ListView<String> listFilter;
 	@FXML private javafx.scene.control.ListView<String> listCourses;
 	
+	@Override
+	public void initialize(URL url, ResourceBundle resourceBundle)
+	{
+		courseList = new ArrayList<Course>();
+		
+		setCourseList();		// fills courseList with hardcoded data
+								// later: import list or user input
+		
+		// set combobox-items
+		ObservableList<String> items =cbModuleName.getItems();
+		items.add("Mathe");
+		items.add("TGI");
+		items.add("pupsen");
+		cbModuleName.setItems(items);
+		
+		items.clear();
+		// set listbox-items
+		for (Course course: courseList)
+		{
+			items.add(course.getModuleName() + " " + course.getTime().toString());
+		}
+		listCourses.setItems(items);
+	}
+	
 	@FXML
 	private void btnCloseClick(ActionEvent event)
 	{
@@ -52,13 +81,30 @@ public class ViewMain implements Initializable
 	
 	@FXML
 	private void btnGenerateClick(ActionEvent event) {
-		performAction();
+		List<TimeTable> allTimeTables = generateTestData();
+		AllTimeTablesView nextView = null;
+		try
+		{
+			nextView = new AllTimeTablesView(allTimeTables);
+		} catch (Exception exception) {
+	        throw new RuntimeException(exception);
+	    }
+		
+		Scene scene = new Scene(nextView);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		stage.show();
 	}
 
 	@FXML
 
 	private void btnAddFilterClick(ActionEvent event) throws IOException{
-		ViewFilter filterPage = new ViewFilter();
+
+		String filePath = ".." + File.separator + "Views" + File.separator + "FilterPage.fxml"; 
+		FXMLLoader loader = new FXMLLoader(MainViewModel.class.getResource(filePath));
+		FlowPane root = (FlowPane) loader.load();
+		
+		FilterViewModel filterPage = loader.<FilterViewModel>getController();
 		filterPage.initData(null);
 
 	}
@@ -70,11 +116,12 @@ public class ViewMain implements Initializable
 
 	@FXML
 	private void btnAddCourseClick(ActionEvent event) {
-		ObservableList<String> items =listCourses.getItems();
+		ObservableList<String> items = listCourses.getItems();
 		items.add("Course");
 		items.add("Course 1");
 		items.add("Course");
 		listCourses.setItems(items);
+		listCourses.setPrefHeight(280);			// TODO: need to remake layout --> height automaticly fits to layout
 		
 		ObservableList<String> cbItems =cbModuleName.getItems();
 		cbItems.add("Mathe");
@@ -87,24 +134,41 @@ public class ViewMain implements Initializable
 	@FXML
 	private void btnRemoveCourseClick(ActionEvent event) {
 		String remove =listCourses.getSelectionModel().getSelectedItem();
-		ObservableList<String> items = listCourses.getItems();
-		items.remove(remove);
-		listCourses.setItems(items);
+		
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setHeaderText("Remove course: '" + remove + "'");
+		alert.setContentText("Are you sure?");
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK){
+			// remove course
+			ObservableList<String> items = listCourses.getItems();
+			items.remove(remove);
+			listCourses.setItems(items);
+		} 
 	}
 
 	@FXML
 	private void btnLoadCoursesClick(ActionEvent event) {
-		
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Attention");
+		alert.setHeaderText("Method not implemented yet");
+		alert.showAndWait();
 	}
 
 	@FXML
 	private void btnSaveCoursesClick(ActionEvent event) {
-		
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Attention");
+		alert.setHeaderText("Method not implemented yet");
+		alert.showAndWait();
 	}
 
 	@FXML
 	private void cbModuleNameChange(ActionEvent event) {
-		
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Attention");
+		alert.setHeaderText("Method not implemented yet");
+		alert.showAndWait();
 	}
 	
 	@FXML
@@ -116,22 +180,13 @@ public class ViewMain implements Initializable
 		cbModuleName.setItems(items);
 	}
 	
-	@Override
-	public void initialize(URL url, ResourceBundle resourceBundle)
-	{
-		ObservableList<String> items =cbModuleName.getItems();
-		items.add("Mathe");
-		items.add("TGI");
-		items.add("pupsen");
-		cbModuleName.setItems(items);
-
-	}
+	
 	
 	public void initData(String str){
 		
 	}
 	
-	private void performAction()
+	private void setCourseList()
 	{
 		Course courseMath1 = new Lecture("BuS", new Time(EDay.DIENSTAG, 2, EPeriod.ODDWEEK), new Place("HSZ", "0004"), "Härtig");
 		Course courseMath2 = new Lecture("BuS", new Time(EDay.FREITAG, 2, EPeriod.EACHWEEK), new Place("HSZ", "0003"), "Härtig");
@@ -174,8 +229,7 @@ public class ViewMain implements Initializable
 		Course courseMath42 = new ExerciseCourse("Mathe", new Time(EDay.MITTWOCH, 4, EPeriod.EVENWEEK), new Place("WIL", "A923"), "3");
 		Course courseMath43 = new ExerciseCourse("Mathe", new Time(EDay.DONNERSTAG, 6, EPeriod.EACHWEEK), new Place("WIL", "B234"), "4");
 		Course courseMath44 = new ExerciseCourse("Mathe", new Time(EDay.FREITAG, 5, EPeriod.ODDWEEK), new Place("WIL", "B234"), "5");
-
-		List<Course> courseList = new ArrayList<Course>();
+		
 		courseList.add(courseMath1);
 		courseList.add(courseMath2);
 		courseList.add(courseMath3);
@@ -218,7 +272,10 @@ public class ViewMain implements Initializable
 		courseList.add(courseMath42);
 		courseList.add(courseMath43);
 		courseList.add(courseMath44);
-		
+	}
+	
+	private List<TimeTable> generateTestData()
+	{
 		Controller myController = new Controller(courseList);
 		myController.generateTimeTables();
 		List<TimeTable> allTimeTables = myController.getAllTimeTables();
@@ -236,7 +293,7 @@ public class ViewMain implements Initializable
 		allTimeTables = Filter.filterByAfternoontime(allTimeTables, days, 5);
 		allTimeTables = Filter.filterByMaxInRow(allTimeTables, 3);
 		
-		myController.showTimeTables(allTimeTables);
+		return allTimeTables;
 	}
 	
 }

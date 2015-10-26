@@ -1,19 +1,13 @@
 import java.io.File;
 
 
-import Enumerations.EDay;
-import Enumerations.EPeriod;
-import Model.*;
-import Templates.AllTimeTablesView;
-import Templates.TimeTableView;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
-import Logic.ViewMain;
+//import Logic.ViewMain;
 
 // javaFX - Help:
 // Stage = Window  !!!
@@ -31,6 +25,7 @@ public class Main extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception			
 	{
+
 //		String filePath = "Views" + File.separator + "MainPage.fxml";		// "/" in Unix and "\" in Windows
 //		FlowPane root = (FlowPane)FXMLLoader.load(Main.class.getResource(filePath));
 //		String filePath = "Templates" + File.separator + "ModulView.fxml";		// "/" in Unix and "\" in Windows
@@ -50,7 +45,7 @@ public class Main extends Application
 //		TimeTableView root = new TimeTableView(timetable);
 		
 //		AllTimeTablesView root = new AllTimeTablesView();
-		
+
 	//	Scene scene = new Scene(root);
 		
 
@@ -66,8 +61,6 @@ public class Main extends Application
 		 primaryStage.setTitle("Main");
 		 primaryStage.show();
 
-		
-		
 	}
 
 }

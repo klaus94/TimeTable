@@ -37,4 +37,18 @@ public class Time
 	{
 		return period;
 	}
+	
+	@Override
+	public String toString()
+	{
+		// Return Format: "Mo 2.DS"
+		String result = "";
+		
+		result += day.toString();
+		result += " ";
+		result += time;
+		result += ".DS";
+		
+		return result;
+	}
 }

@@ -31,7 +31,7 @@ public class ModulView extends FlowPane
         }
         
         this.getStyleClass().add("flowpane");
-        this.getStylesheets().add("Styles" + File.separator + "ModulViewStyle.css");
+        this.getStylesheets().add(".." + File.separator + "Styles" + File.separator + "ModulViewStyle.css");
 		lblModul.setText(modulName);
 		lblRoom.setText(room);
 	}

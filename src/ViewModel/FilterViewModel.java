@@ -34,11 +34,11 @@ public class FilterViewModel implements Initializable {
 		
 		
 			String filePath = ".." + File.separator + "Views" + File.separator + "FilterPage.fxml"; 
-			FXMLLoader loader = new FXMLLoader(ViewMain.class.getResource(filePath));
+			FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
 			FlowPane root = (FlowPane) loader.load();
 			
 			
-			ViewFilter filterPage = loader.<ViewFilter>getController();
+			FilterViewModel filterPage = loader.<FilterViewModel>getController();
 			System.out.println(filterPage);
 
 			 
@@ -46,6 +46,11 @@ public class FilterViewModel implements Initializable {
 			Stage stage = new Stage();
 			stage.setScene(scene);
 			stage.show();
+			
+			if(filter != null){
+				txtWert.setPromptText("" + filter.getParameter());
+				
+			}
 	
 				System.out.println("hallo1");
 				//btnClose.setText("hallo");

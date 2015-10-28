@@ -30,8 +30,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
-import sun.applet.Main;
-import sun.misc.FpUtils;
+
 
 public class MainViewModel implements Initializable
 {
@@ -99,12 +98,8 @@ public class MainViewModel implements Initializable
 	@FXML
 
 	private void btnAddFilterClick(ActionEvent event) throws IOException{
-
-		String filePath = ".." + File.separator + "Views" + File.separator + "FilterPage.fxml"; 
-		FXMLLoader loader = new FXMLLoader(MainViewModel.class.getResource(filePath));
-		FlowPane root = (FlowPane) loader.load();
 		
-		FilterViewModel filterPage = loader.<FilterViewModel>getController();
+		FilterViewModel filterPage = new FilterViewModel();//loader.<FilterViewModel>getController();
 		filterPage.initData(null);
 
 	}
@@ -171,19 +166,18 @@ public class MainViewModel implements Initializable
 		alert.showAndWait();
 	}
 	
-	@FXML
-	private void cbModuleNameClick(ActionEvent event) {
-		ObservableList<String> items =cbModuleName.getItems();
-		items.add("Mathe");
-		items.add("TGI");
-		items.add("pupsen");
-		cbModuleName.setItems(items);
-	}
 	
 	
-	
-	public void initData(String str){
-		
+	public void initData(String str) throws IOException{
+		String filePath = ".." + File.separator + "Views" + File.separator + "MainPage.fxml"; 
+		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+		FlowPane root = (FlowPane) loader.load();
+		 
+		Scene scene = new Scene(root);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		stage.setTitle(str);
+		stage.show();
 	}
 	
 	private void setCourseList()
@@ -289,9 +283,9 @@ public class MainViewModel implements Initializable
 		days.add(EDay.FREITAG);
 
 		allTimeTables = Filter.filterByMinNumber(allTimeTables, 2);
-		allTimeTables = Filter.filterByMorningtime(allTimeTables, days, 2);
+		allTimeTables = Filter.filterByMorningtime(allTimeTables, days, 1);
 		allTimeTables = Filter.filterByAfternoontime(allTimeTables, days, 5);
-		allTimeTables = Filter.filterByMaxInRow(allTimeTables, 3);
+		allTimeTables = Filter.filterByMaxInRow(allTimeTables, 4);
 		
 		return allTimeTables;
 	}

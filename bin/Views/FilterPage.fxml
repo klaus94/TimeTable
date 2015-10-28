@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-
-<FlowPane id="FlowPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="276.0" prefWidth="427.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewModel.FilterViewModel">
+<FlowPane id="FlowPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="276.0" prefWidth="427.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ViewModel.FilterViewModel">
   <children>
     <FlowPane orientation="VERTICAL" prefHeight="251.0" prefWidth="427.0">
       <children>
@@ -19,7 +18,7 @@
               <children>
                 <FlowPane alignment="CENTER" prefHeight="56.0" prefWidth="225.0">
                   <children>
-                    <ComboBox fx:id="chb1" prefHeight="21.0" prefWidth="189.0">
+                    <ComboBox id="chb1" fx:id="cbFilter" onAction="#cbFilterChange" prefHeight="21.0" prefWidth="189.0">
                       <items>
                         <FXCollections fx:factory="observableArrayList">
                           <String fx:value="Item 1" />
@@ -49,8 +48,8 @@
                   <children>
                     <GridPane alignment="CENTER">
                       <children>
-                        <CheckBox mnemonicParsing="false" text="" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <Label text="MONTAG" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <CheckBox fx:id="chbMo" mnemonicParsing="false" text="" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <Label fx:id="lblMo" text="MONTAG" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                       </children>
                       <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="44.0" />
@@ -66,8 +65,8 @@
                   <children>
                     <GridPane>
                       <children>
-                        <CheckBox mnemonicParsing="false" text="" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <Label text="DIENSTAG" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <CheckBox fx:id="chbDi" mnemonicParsing="false" text="" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <Label fx:id="lblDi" text="DIENSTAG" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                       </children>
                       <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="44.0" />
@@ -83,8 +82,8 @@
                   <children>
                     <GridPane>
                       <children>
-                        <CheckBox mnemonicParsing="false" text="" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <Label text="MITTWOCH" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <CheckBox fx:id="chbMi" mnemonicParsing="false" text="" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <Label fx:id="lblMi" text="MITTWOCH" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                       </children>
                       <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="44.0" />
@@ -100,8 +99,8 @@
                   <children>
                     <GridPane>
                       <children>
-                        <CheckBox mnemonicParsing="false" text="" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <Label text="DONNERSTAG" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <CheckBox fx:id="chbDo" mnemonicParsing="false" text="" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <Label fx:id="lblDo" text="DONNERSTAG" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                       </children>
                       <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="44.0" />
@@ -117,8 +116,8 @@
                   <children>
                     <GridPane>
                       <children>
-                        <CheckBox mnemonicParsing="false" text="" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <Label text="FREITAG" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <CheckBox fx:id="chbFr" mnemonicParsing="false" text="" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <Label fx:id="lblFr" text="FREITAG" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                       </children>
                       <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="44.0" />

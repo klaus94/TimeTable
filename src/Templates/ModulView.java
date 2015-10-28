@@ -18,7 +18,7 @@ public class ModulView extends FlowPane
 	
 	public ModulView(String modulName, String room) throws Exception
 	{
-		String filePath = "ModulView.fxml";		// "/" in Unix and "\" in Windows
+		String filePath = ".." + File.separator + "Views" + File.separator + "ModulView.fxml";		// "/" in Unix and "\" in Windows
 		
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(filePath));
         fxmlLoader.setRoot(this);

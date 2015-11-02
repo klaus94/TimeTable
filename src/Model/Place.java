@@ -28,4 +28,8 @@ public class Place
 	{
 		return room;
 	}
+	
+	public String toString() {
+		return building + " " + room;
+	}
 }

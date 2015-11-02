@@ -42,4 +42,12 @@ public abstract class Course
 	{
 		return instructor;
 	}
+	
+	public String toString() {
+		String str = moduleName + " " +
+				time.toString() + " " +
+				place.toString() + " " +
+				instructor;
+		return str;
+	}
 }

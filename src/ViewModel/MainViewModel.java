@@ -55,19 +55,42 @@ public class MainViewModel implements Initializable
 		
 		setCourseList();		// fills courseList with hardcoded data
 								// later: import list or user input
+		refreshComboBox();
 		
+	}
+	
+	private void refreshComboBox() {
 		// set combobox-items
+		String value = cbModuleName.getValue();
+
 		ObservableList<String> items =cbModuleName.getItems();
-		items.add("Mathe");
-		items.add("TGI");
-		items.add("pupsen");
+		items.clear();
+		
+		for (Course course : courseList) {
+			if (!items.contains(course.getModuleName())) {
+				items.add(course.getModuleName());
+			}
+		}
 		cbModuleName.setItems(items);
 		
-		items.clear();
+		if(value == null) {
+			cbModuleName.setValue(items.get(0));
+		} else {
+			cbModuleName.setValue(value);
+		}
+		
+		refreshListBox();
+	}
+
+	public void refreshListBox() {		
 		// set listbox-items
+		ObservableList<String> items = listCourses.getItems();
+		items.clear();
 		for (Course course: courseList)
 		{
-			items.add(course.getModuleName() + " " + course.getTime().toString());
+			if (course.getModuleName().equals(cbModuleName.getValue())) {
+				items.add(course.toString());
+			}
 		}
 		listCourses.setItems(items);
 	}
@@ -110,20 +133,12 @@ public class MainViewModel implements Initializable
 	}
 
 	@FXML
-	private void btnAddCourseClick(ActionEvent event) {
-		ObservableList<String> items = listCourses.getItems();
-		items.add("Course");
-		items.add("Course 1");
-		items.add("Course");
-		listCourses.setItems(items);
-		listCourses.setPrefHeight(280);			// TODO: need to remake layout --> height automaticly fits to layout
-		
-		ObservableList<String> cbItems =cbModuleName.getItems();
-		cbItems.add("Mathe");
-		cbItems.add("TGI");
-		cbItems.add("pupsen");
-		cbModuleName.setItems(cbItems);
-		
+	private void btnAddCourseClick(ActionEvent event) throws IOException {
+		System.out.println("davor");
+		CourseViewModel cvm = new CourseViewModel();
+		System.out.println("darin");
+		cvm.initData(courseList);
+		System.out.println("danach");
 	}
 
 	@FXML
@@ -160,10 +175,7 @@ public class MainViewModel implements Initializable
 
 	@FXML
 	private void cbModuleNameChange(ActionEvent event) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Attention");
-		alert.setHeaderText("Method not implemented yet");
-		alert.showAndWait();
+		refreshListBox();
 	}
 	
 	

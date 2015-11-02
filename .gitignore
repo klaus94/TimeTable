@@ -2,5 +2,6 @@
 *.class
 *.classpath
 *.project
+bin/
 bin\
 **\*.class

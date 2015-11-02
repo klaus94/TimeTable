@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -43,7 +44,7 @@
                                  <children>
                                     <FlowPane orientation="VERTICAL" prefHeight="338.0" prefWidth="309.0" AnchorPane.leftAnchor="0.0">
                                        <children>
-                                          <ComboBox fx:id="cbModuleName" promptText="ModuleName" onAction="#cbModuleNameChange" onMouseEntered="#cbModuleNameClick" prefHeight="25.0" prefWidth="307.0">
+                                          <ComboBox fx:id="cbModuleName" onAction="#cbModuleNameChange" onMouseEntered="#cbModuleNameClick" prefHeight="25.0" prefWidth="307.0" promptText="ModuleName">
                                              <opaqueInsets>
                                                 <Insets />
                                              </opaqueInsets>

@@ -3,5 +3,4 @@
 *.classpath
 *.project
 bin/
-bin\
-**\*.class
+**/*.class

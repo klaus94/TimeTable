@@ -42,10 +42,13 @@ public class CourseViewModel implements Initializable {
 //		for (Course course : courseList) {
 //			items.add(course.getModuleName());
 //		}
+		System.out.println("cbi " + cbModulename);
+		System.out.println("cli " + courseList);
 	}
 	
 	public void initData(List<Course> courseList) throws IOException {
 		System.out.println("initData");
+		this.courseList = courseList;
 		String filePath = ".." + File.separator + "Views" + File.separator + "CoursePage.fxml"; 
 		System.out.println(filePath);
 		FXMLLoader loader = new FXMLLoader(CourseViewModel.class.getResource(filePath));
@@ -61,7 +64,6 @@ public class CourseViewModel implements Initializable {
 			System.out.println(E.getMessage());
 		}
 		
-		this.courseList = courseList;
 		
 		refresh();
 		System.out.println("cb " + cbModulename);

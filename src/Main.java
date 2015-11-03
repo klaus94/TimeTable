@@ -21,8 +21,8 @@ public class Main extends Application
 	public void start(Stage primaryStage) throws Exception			
 	{
 
-		
 		MainViewModel mainModel = new MainViewModel();
+		System.out.println("start");
 		mainModel.initData("moin");
 
 	}

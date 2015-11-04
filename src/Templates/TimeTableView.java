@@ -1,5 +1,6 @@
 package Templates;
 
+import java.io.File;
 import java.io.IOException;
 
 import Model.Course;
@@ -21,7 +22,7 @@ public class TimeTableView extends GridPane
 	
 	public TimeTableView(TimeTable timeTable) throws Exception
 	{
-		String filePath = "TimeTableView.fxml";		// "/" in Unix and "\" in Windows
+		String filePath = ".." + File.separator + "Views" + File.separator + "TimeTableView.fxml";		// "/" in Unix and "\" in Windows
 		
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(filePath));
         fxmlLoader.setRoot(this);

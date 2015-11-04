@@ -1,5 +1,6 @@
 package Templates;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class AllTimeTablesView extends ScrollPane{
 	
 	public AllTimeTablesView(List<TimeTable> allTimeTables) throws Exception
 	{
-		String filePath = "AllTimeTablesView.fxml";		// "/" in Unix and "\" in Windows
+		String filePath = ".." + File.separator + "Views" + File.separator + "AllTimeTablesView.fxml";		// "/" in Unix and "\" in Windows
 		
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(filePath));
 	    fxmlLoader.setRoot(this);

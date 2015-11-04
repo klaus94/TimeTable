@@ -31,6 +31,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
+
 public class MainViewModel implements Initializable
 {
 	private List<Course> courseList;
@@ -54,19 +55,42 @@ public class MainViewModel implements Initializable
 		
 		setCourseList();		// fills courseList with hardcoded data
 								// later: import list or user input
+		refreshComboBox();
 		
+	}
+	
+	private void refreshComboBox() {
 		// set combobox-items
+		String value = cbModuleName.getValue();
+
 		ObservableList<String> items =cbModuleName.getItems();
-		items.add("Mathe");
-		items.add("TGI");
-		items.add("pupsen");
+		items.clear();
+		
+		for (Course course : courseList) {
+			if (!items.contains(course.getModuleName())) {
+				items.add(course.getModuleName());
+			}
+		}
 		cbModuleName.setItems(items);
 		
-		items.clear();
+		if(value == null) {
+			cbModuleName.setValue(items.get(0));
+		} else {
+			cbModuleName.setValue(value);
+		}
+		
+		refreshListBox();
+	}
+
+	public void refreshListBox() {		
 		// set listbox-items
+		ObservableList<String> items = listCourses.getItems();
+		items.clear();
 		for (Course course: courseList)
 		{
-			items.add(course.getModuleName() + " " + course.getTime().toString());
+			if (course.getModuleName().equals(cbModuleName.getValue())) {
+				items.add(course.toString());
+			}
 		}
 		listCourses.setItems(items);
 	}
@@ -97,18 +121,10 @@ public class MainViewModel implements Initializable
 	@FXML
 
 	private void btnAddFilterClick(ActionEvent event) throws IOException{
-		String filePath = ".." + File.separator + "Views" + File.separator + "FilterPage.fxml"; 
-		FXMLLoader loader = new FXMLLoader(MainViewModel.class.getResource(filePath));
-		FlowPane root = (FlowPane) loader.load();
 		
-		FilterViewModel filterPage = loader.<FilterViewModel>getController();
+		FilterViewModel filterPage = new FilterViewModel();//loader.<FilterViewModel>getController();
 		filterPage.initData(null);
 
-		 
-		Scene scene = new Scene(root);
-		Stage stage = new Stage();
-		stage.setScene(scene);
-		stage.show();
 	}
 
 	@FXML
@@ -117,20 +133,12 @@ public class MainViewModel implements Initializable
 	}
 
 	@FXML
-	private void btnAddCourseClick(ActionEvent event) {
-		ObservableList<String> items = listCourses.getItems();
-		items.add("Course");
-		items.add("Course 1");
-		items.add("Course");
-		listCourses.setItems(items);
-		listCourses.setPrefHeight(280);			// TODO: need to remake layout --> height automaticly fits to layout
-		
-		ObservableList<String> cbItems =cbModuleName.getItems();
-		cbItems.add("Mathe");
-		cbItems.add("TGI");
-		cbItems.add("pupsen");
-		cbModuleName.setItems(cbItems);
-		
+	private void btnAddCourseClick(ActionEvent event) throws IOException {
+		System.out.println("davor");
+		CourseViewModel cvm = new CourseViewModel();
+		System.out.println("darin");
+		cvm.initData(courseList);
+		System.out.println("danach");
 	}
 
 	@FXML
@@ -167,25 +175,21 @@ public class MainViewModel implements Initializable
 
 	@FXML
 	private void cbModuleNameChange(ActionEvent event) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Attention");
-		alert.setHeaderText("Method not implemented yet");
-		alert.showAndWait();
-	}
-	
-	@FXML
-	private void cbModuleNameClick(ActionEvent event) {
-		ObservableList<String> items =cbModuleName.getItems();
-		items.add("Mathe");
-		items.add("TGI");
-		items.add("pupsen");
-		cbModuleName.setItems(items);
+		refreshListBox();
 	}
 	
 	
 	
-	public void initData(String str){
-		
+	public void initData(String str) throws IOException{
+		String filePath = ".." + File.separator + "Views" + File.separator + "MainPage.fxml"; 
+		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+		FlowPane root = (FlowPane) loader.load();
+		 
+		Scene scene = new Scene(root);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		stage.setTitle(str);
+		stage.show();
 	}
 	
 	private void setCourseList()
@@ -291,9 +295,9 @@ public class MainViewModel implements Initializable
 		days.add(EDay.FREITAG);
 
 		allTimeTables = Filter.filterByMinNumber(allTimeTables, 2);
-		allTimeTables = Filter.filterByMorningtime(allTimeTables, days, 2);
+		allTimeTables = Filter.filterByMorningtime(allTimeTables, days, 1);
 		allTimeTables = Filter.filterByAfternoontime(allTimeTables, days, 5);
-		allTimeTables = Filter.filterByMaxInRow(allTimeTables, 3);
+		allTimeTables = Filter.filterByMaxInRow(allTimeTables, 4);
 		
 		return allTimeTables;
 	}

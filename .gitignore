@@ -2,5 +2,5 @@
 *.class
 *.classpath
 *.project
-bin/*
-**\*.class
+bin/
+**/*.class

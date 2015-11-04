@@ -15,7 +15,7 @@ public class FilterObject {
 			throw new NullPointerException("type should not be null");
 		}
 		
-		if (type.toInt() == 1) {
+		if (type.needDays()) {
 			if (days == null) {
 				throw new NullPointerException("days should not be null");
 			}

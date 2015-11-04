@@ -22,7 +22,7 @@ public class TimeTableView extends GridPane
 	
 	public TimeTableView(TimeTable timeTable) throws Exception
 	{
-		String filePath = ".." + File.separator + "Views" + File.separator + "TimeTableView.fxml";		// "/" in Unix and "\" in Windows
+		String filePath = ".." + File.separator + "Templates" + File.separator + "TimeTableView.fxml";		// "/" in Unix and "\" in Windows
 		
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(filePath));
         fxmlLoader.setRoot(this);

@@ -17,7 +17,7 @@ public class AllTimeTablesView extends ScrollPane{
 	
 	public AllTimeTablesView(List<TimeTable> allTimeTables) throws Exception
 	{
-		String filePath = ".." + File.separator + "Views" + File.separator + "AllTimeTablesView.fxml";		// "/" in Unix and "\" in Windows
+		String filePath = ".." + File.separator + "Templates" + File.separator + "AllTimeTablesView.fxml";		// "/" in Unix and "\" in Windows
 		
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(filePath));
 	    fxmlLoader.setRoot(this);

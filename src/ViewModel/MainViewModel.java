@@ -1,6 +1,5 @@
 package ViewModel;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -47,15 +46,12 @@ public class MainViewModel implements Initializable
 	@FXML private javafx.scene.control.ComboBox<String> cbModuleName;
 	@FXML private javafx.scene.control.ListView<String> listFilter;
 	@FXML private javafx.scene.control.ListView<String> listCourses;
+	private String str;
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
-		courseList = new ArrayList<Course>();
 		
-		setCourseList();		// fills courseList with hardcoded data
-								// later: import list or user input
-		refreshComboBox();
 		
 	}
 	
@@ -82,10 +78,17 @@ public class MainViewModel implements Initializable
 		refreshListBox();
 	}
 
-	public void refreshListBox() {		
+	public void refreshListBox() {
+		
+		
 		// set listbox-items
 		ObservableList<String> items = listCourses.getItems();
 		items.clear();
+		
+		if(str != null) {
+			items.add(str);
+		}
+		
 		for (Course course: courseList)
 		{
 			if (course.getModuleName().equals(cbModuleName.getValue())) {
@@ -180,16 +183,14 @@ public class MainViewModel implements Initializable
 	
 	
 	
-	public void initData(String str) throws IOException{
-		String filePath = ".." + File.separator + "Views" + File.separator + "MainPage.fxml"; 
-		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
-		FlowPane root = (FlowPane) loader.load();
-		 
-		Scene scene = new Scene(root);
-		Stage stage = new Stage();
-		stage.setScene(scene);
-		stage.setTitle(str);
-		stage.show();
+	public void initData(String str){
+		this.str = str;
+		courseList = new ArrayList<Course>();
+		
+		setCourseList();		// fills courseList with hardcoded data
+								// later: import list or user input
+		refreshComboBox();
+
 	}
 	
 	private void setCourseList()

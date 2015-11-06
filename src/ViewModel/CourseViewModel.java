@@ -48,6 +48,7 @@ public class CourseViewModel implements Initializable {
 		System.out.println("cbi " + cbModulename);
 		System.out.println("cli " + courseList);
 		System.out.println("ii " + items);
+		refresh();
 	}
 	
 	public void initData(List<Course> courseList) throws IOException {
@@ -81,7 +82,6 @@ public class CourseViewModel implements Initializable {
 		refresh();
 	}
 	
-	@FXML
 	private void refresh() {
 		System.out.println("refresh();");
 		System.out.println("cbr " + cbModulename);

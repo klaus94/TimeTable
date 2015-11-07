@@ -1,5 +1,6 @@
 package ViewModel;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 
@@ -124,9 +126,22 @@ public class MainViewModel implements Initializable
 	@FXML
 
 	private void btnAddFilterClick(ActionEvent event) throws IOException{
-		
-		FilterViewModel filterPage = new FilterViewModel();//loader.<FilterViewModel>getController();
-		filterPage.initData(null);
+		String filePath = ".." + File.separator + "Views" + File.separator + "FilterPage.fxml"; 
+		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+		FlowPane root;
+		try {
+			root = (FlowPane) loader.load();
+			FilterViewModel filterModel = loader.getController();
+			filterModel.initData(null);
+
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.show();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 
 	}
 
@@ -137,11 +152,23 @@ public class MainViewModel implements Initializable
 
 	@FXML
 	private void btnAddCourseClick(ActionEvent event) throws IOException {
-		System.out.println("davor");
-		CourseViewModel cvm = new CourseViewModel();
-		System.out.println("darin");
-		cvm.initData(courseList);
-		System.out.println("danach");
+		String filePath = ".." + File.separator + "Views" + File.separator + "CoursePage.fxml"; 
+		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+		try {
+			GridPane root = (GridPane) loader.load();
+			
+			CourseViewModel courseModel = loader.getController();
+			System.out.println("hallo");
+			courseModel.initData(courseList);
+
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.show();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@FXML

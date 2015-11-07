@@ -28,4 +28,15 @@ public enum EDay
     		default: throw new IllegalArgumentException();
     	}
     }
+    
+    public static EDay getDay(String str) throws IllegalArgumentException{
+    	switch(str) {
+    		case "Montag": return MONTAG;
+    		case "Dienstag": return DIENSTAG;
+    		case "Mittwoch": return MITTWOCH;
+    		case "Donnerstag": return DONNERSTAG;
+    		case "Freitag": return FREITAG;
+    		default: throw new IllegalArgumentException();
+    	}
+    }
 }

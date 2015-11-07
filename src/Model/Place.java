@@ -10,10 +10,6 @@ public class Place
 		{
 			throw new NullPointerException();
 		}
-		if ( building.equals("") || room.equals("") )
-		{
-			throw new IllegalArgumentException();
-		}
 
 		this.building = building;
 		this.room = room;

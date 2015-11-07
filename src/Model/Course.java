@@ -12,7 +12,7 @@ public abstract class Course
 		{
 			throw new NullPointerException();
 		}
-		if (instructor.equals("") || moduleName.equals(""))
+		if (moduleName.equals(""))
 		{
 			throw new IllegalArgumentException();
 		}

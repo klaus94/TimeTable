@@ -8,7 +8,9 @@ import java.util.ResourceBundle;
 import Enumerations.EDay;
 import Enumerations.EPeriod;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,7 +29,7 @@ import Model.Time;
 
 public class CourseViewModel implements Initializable {
 
-	private List<Course> courseList;
+	private Map<String, List<Course>> courseMap;
 	EDay day;
 	int ds;
 	EPeriod period;
@@ -65,20 +67,16 @@ public class CourseViewModel implements Initializable {
 		// TODO Auto-generated method stub
 	}
 	
-	public void initData(List<Course> courseList) {
-		this.courseList = courseList;
+	public void initData(Map<String, List<Course>> courseMap) {
+		this.courseMap = courseMap;
 		refresh();
 	}
 	
 	private void refresh() {
 		ObservableList<String> items = cbModulename.getItems();
 		items.clear();
-		if(courseList != null) {
-			for (Course course : courseList) {
-				if (!items.contains(course.getModuleName())) {
-					items.add(course.getModuleName());
-				}
-			}
+		for (String modules : courseMap.keySet()) {
+			items.add(modules);
 		}
 		items = cbTyp.getItems();
 		items.clear();
@@ -104,8 +102,13 @@ public class CourseViewModel implements Initializable {
 				newCourse = new ExerciseCourse(cbModulename.getValue(), new Time(day, ds, period), new Place(txtBuilding.getText(), txtRoom.getText()), txtProf.getText());
 			}
 			
-			System.out.println("ok");
-			courseList.add(newCourse);
+			
+			List<Course> list = courseMap.get(newCourse.getModuleName());
+			if(list == null) {
+				list = new ArrayList<Course>();
+			}
+			list.add(newCourse);
+			courseMap.put(newCourse.getModuleName(), list);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

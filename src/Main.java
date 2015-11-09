@@ -35,7 +35,7 @@ public class Main extends Application
 		try {
 			root = (FlowPane) loader.load();
 			MainViewModel mainModel = loader.getController();
-			mainModel.initData("moin");
+			mainModel.initData();
 
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();

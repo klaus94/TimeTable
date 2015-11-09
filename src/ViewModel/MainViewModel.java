@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
@@ -36,6 +38,7 @@ import javafx.stage.Stage;
 public class MainViewModel implements Initializable
 {
 	private List<Course> courseList;
+	private Map<String, List<Course>> courseMap;
 	
 	@FXML private javafx.scene.control.Button btnClose;
 	@FXML private javafx.scene.control.Button btnGenerate;
@@ -48,12 +51,10 @@ public class MainViewModel implements Initializable
 	@FXML private javafx.scene.control.ComboBox<String> cbModuleName;
 	@FXML private javafx.scene.control.ListView<String> listFilter;
 	@FXML private javafx.scene.control.ListView<String> listCourses;
-	private String str;
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
-	{
-		
+	{	
 		
 	}
 	
@@ -64,10 +65,8 @@ public class MainViewModel implements Initializable
 		ObservableList<String> items =cbModuleName.getItems();
 		items.clear();
 		
-		for (Course course : courseList) {
-			if (!items.contains(course.getModuleName())) {
-				items.add(course.getModuleName());
-			}
+		for (String module : courseMap.keySet()) {
+			items.add(module);		
 		}
 		cbModuleName.setItems(items);
 		
@@ -82,20 +81,14 @@ public class MainViewModel implements Initializable
 
 	public void refreshListBox() {
 		
-		
 		// set listbox-items
 		ObservableList<String> items = listCourses.getItems();
 		items.clear();
 		
-		if(str != null) {
-			items.add(str);
-		}
-		
+		List<Course> courseList = courseMap.get(cbModuleName.getValue());
 		for (Course course: courseList)
 		{
-			if (course.getModuleName().equals(cbModuleName.getValue())) {
-				items.add(course.toString());
-			}
+			items.add(course.toString());
 		}
 		listCourses.setItems(items);
 	}
@@ -159,7 +152,7 @@ public class MainViewModel implements Initializable
 			
 			CourseViewModel courseModel = loader.getController();
 			System.out.println("hallo");
-			courseModel.initData(courseList);
+			courseModel.initData(courseMap);
 
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
@@ -173,7 +166,7 @@ public class MainViewModel implements Initializable
 
 	@FXML
 	private void btnRemoveCourseClick(ActionEvent event) {
-		String remove =listCourses.getSelectionModel().getSelectedItem();
+		String remove = listCourses.getSelectionModel().getSelectedItem();
 		
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setHeaderText("Remove course: '" + remove + "'");
@@ -184,6 +177,8 @@ public class MainViewModel implements Initializable
 			ObservableList<String> items = listCourses.getItems();
 			items.remove(remove);
 			listCourses.setItems(items);
+			
+			//TODO remove Course from courseMap
 		} 
 	}
 
@@ -210,9 +205,10 @@ public class MainViewModel implements Initializable
 	
 	
 	
-	public void initData(String str){
-		this.str = str;
+	public void initData(){
+
 		courseList = new ArrayList<Course>();
+		courseMap = new HashMap<String, List<Course>>();
 		
 		setCourseList();		// fills courseList with hardcoded data
 								// later: import list or user input
@@ -306,11 +302,21 @@ public class MainViewModel implements Initializable
 		courseList.add(courseMath42);
 		courseList.add(courseMath43);
 		courseList.add(courseMath44);
+		
+		List<Course> list;
+		for (Course course : courseList) {
+			list = courseMap.get(course.getModuleName());
+			if (list == null) {
+				list = new ArrayList<Course>();
+			}
+			list.add(course);
+			courseMap.put(course.getModuleName(), list);
+		}
 	}
 	
 	private List<TimeTable> generateTestData()
 	{
-		Controller myController = new Controller(courseList);
+		Controller myController = new Controller(courseMap);
 		myController.generateTimeTables();
 		List<TimeTable> allTimeTables = myController.getAllTimeTables();
 

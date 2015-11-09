@@ -10,7 +10,7 @@ public abstract class Course
 	{
 		if (moduleName == null || time == null || place == null || instructor == null)
 		{
-			throw new NullPointerException();
+			throw new NullPointerException("any argument is null in Course");
 		}
 		if (moduleName.equals(""))
 		{

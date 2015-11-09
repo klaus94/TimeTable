@@ -84,18 +84,27 @@ public class CourseViewModel implements Initializable {
 		items.clear();
 		items.add("Vorlesung");
 		items.add("Übung");
+		
+		cbTyp.setValue(items.get(0));
 	}
 	
 	@FXML
 	private void btnSaveClick(ActionEvent event) {
 		
+		//TODO: getValue from editable ComboBox.. no idea why this is not possible
+		
 		try {
 			Course newCourse;
+			System.out.println(cbModulename.valueProperty());
 			if (cbTyp.getValue().equals("Vorlesung")) {
-				newCourse = new Lecture(cbModulename.getValue(), new Time(day, ds, period), new Place(txtBuilding.getText(), txtRoom.getText()), txtProf.getText());				
+				System.out.println("Vorlesung");
+				newCourse = new Lecture(cbModulename.getPromptText(), new Time(day, ds, period), new Place(txtBuilding.getText(), txtRoom.getText()), txtProf.getText());				
 			} else {
+				System.out.println("Exercise");
 				newCourse = new ExerciseCourse(cbModulename.getValue(), new Time(day, ds, period), new Place(txtBuilding.getText(), txtRoom.getText()), txtProf.getText());
 			}
+			
+			System.out.println("ok");
 			courseList.add(newCourse);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

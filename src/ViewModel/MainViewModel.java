@@ -58,6 +58,18 @@ public class MainViewModel implements Initializable
 		
 	}
 	
+	public void initData(String str) throws IOException{
+		String filePath = ".." + File.separator + "Views" + File.separator + "MainPage.fxml"; 
+		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+		FlowPane root = (FlowPane) loader.load();
+		 
+		Scene scene = new Scene(root);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		stage.setTitle(str);
+		stage.show();
+	}
+	
 	private void refreshComboBox() {
 		// set combobox-items
 		String value = cbModuleName.getValue();
@@ -145,6 +157,7 @@ public class MainViewModel implements Initializable
 
 	@FXML
 	private void btnAddCourseClick(ActionEvent event) throws IOException {
+
 		String filePath = ".." + File.separator + "Views" + File.separator + "CoursePage.fxml"; 
 		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
 		try {
@@ -162,6 +175,20 @@ public class MainViewModel implements Initializable
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
+
+		System.out.println("davor");
+		CourseViewModel cvm = new CourseViewModel();
+		System.out.println("darin");
+		List<String> allModuls = new ArrayList<String>();
+		allModuls.add("Ma");
+		allModuls.add("BuS");
+		allModuls.add("FS");
+		cvm.initData(allModuls);	// later there need to be passed in the KEYS of our Map<String, List<Course>>
+		System.out.println("danach");
+		System.out.println("new Course : " + cvm.getNewCourse());
+		// TODO: add new course to the courseList/Map
+		
+
 	}
 
 	@FXML
@@ -216,6 +243,7 @@ public class MainViewModel implements Initializable
 
 	}
 	
+
 	private void setCourseList()
 	{
 		Course courseMath1 = new Lecture("BuS", new Time(EDay.DIENSTAG, 2, EPeriod.ODDWEEK), new Place("HSZ", "0004"), "Härtig");

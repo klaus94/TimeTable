@@ -27,18 +27,18 @@
             <Insets left="20.0" />
          </GridPane.margin>
       </Label>
-      <TextField prefHeight="25.0" prefWidth="326.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+      <TextField fx:id="txtInstructor" prefHeight="25.0" prefWidth="326.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
          <GridPane.margin>
             <Insets right="20.0" />
          </GridPane.margin>
       </TextField>
-      <ComboBox fx:id="cbModulename" editable="true" prefWidth="150.0" GridPane.columnIndex="1" />
-      <TextField GridPane.columnIndex="1" GridPane.rowIndex="6">
+      <ComboBox fx:id="cbModulename" prefWidth="150.0" GridPane.columnIndex="1" />
+      <TextField fx:id="txtBuilding" GridPane.columnIndex="1" GridPane.rowIndex="6">
          <GridPane.margin>
             <Insets right="20.0" />
          </GridPane.margin>
       </TextField>
-      <TextField GridPane.columnIndex="1" GridPane.rowIndex="7">
+      <TextField fx:id="txtRoom" GridPane.columnIndex="1" GridPane.rowIndex="7">
          <GridPane.margin>
             <Insets right="20.0" />
          </GridPane.margin>
@@ -147,7 +147,7 @@
         </rowConstraints>
          <children>
             <Button fx:id="btnClose" alignment="CENTER" mnemonicParsing="false" onAction="#btnCloseClick" text="Abbrechen" GridPane.columnIndex="2" />
-            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveClick" text="Speichern" GridPane.columnIndex="1" />
+            <Button mnemonicParsing="false" onAction="#btnSaveClick" text="Speichern" GridPane.columnIndex="1" />
          </children>
       </GridPane>
    </children>

@@ -27,13 +27,10 @@ public class Main extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception			
 	{
-
-		System.out.println("start");
 		String filePath = ".." + File.separator + "Views" + File.separator + "MainPage.fxml"; 
 		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
-		FlowPane root;
 		try {
-			root = (FlowPane) loader.load();
+			 FlowPane root = (FlowPane) loader.load();
 			MainViewModel mainModel = loader.getController();
 			mainModel.initData();
 
@@ -42,7 +39,6 @@ public class Main extends Application
 			stage.setScene(scene);
 			stage.show();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
 		

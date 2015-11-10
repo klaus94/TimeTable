@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import Enumerations.EDay;
 import Enumerations.EPeriod;
@@ -31,14 +32,11 @@ import Model.Time;
 
 public class CourseViewModel implements Initializable {
 
-
-	private Map<String, List<Course>> courseMap;
 	private EDay day;
 	private int ds;
 	private EPeriod period;
 
-	private static Course newCourse;
-	private static List<String> modulList;
+	private Course newCourse;
 	private ObservableList<String> modulItems;
 
 	
@@ -73,6 +71,14 @@ public class CourseViewModel implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
+		
+		
+	}
+	
+	public void initData(Set<String> set) {
+		System.out.println("iiD1 " + modulItems);
+		System.out.println("initData");
+		
 //		ObservableList<String> items = cbModulename.getItems();
 //		for (Course course : courseList) {
 //			items.add(course.getModuleName());
@@ -81,7 +87,7 @@ public class CourseViewModel implements Initializable {
 		modulItems = cbModulename.getItems();
 		System.out.println("initialize();");
 		System.out.println("cbi " + cbModulename);
-		System.out.println("cli " + modulList);
+		System.out.println("cli " + set);
 		System.out.println("ii " + modulItems);
 		
 		// fill in Combobox - Items for cbTyp:
@@ -93,64 +99,21 @@ public class CourseViewModel implements Initializable {
 		cbTyp.setValue("Übung");
 		
 		// fill in Combobox - Items for cbModuleName
-		System.out.println("my modullist:2 " + modulList);
+		System.out.println("my modullist:2 " + set);
 		modulItems.clear();
-		modulItems.addAll(modulList);
+		modulItems.addAll(set);
 		cbModulename.setItems(modulItems);
-		if (modulList != null)
-			cbModulename.setValue(modulList.get(0));
-		
-		
-	}
-	
-	public void initData(List<String> modulList) throws IOException {
-		System.out.println("iiD1 " + modulItems);
-		System.out.println("initData");
-		CourseViewModel.modulList = modulList;
-		System.out.println("my modullist:1 " + modulList);
-		String filePath = ".." + File.separator + "Views" + File.separator + "CoursePage.fxml"; 
-		System.out.println(filePath);
-		FXMLLoader loader = new FXMLLoader(CourseViewModel.class.getResource(filePath));
-		System.out.println(loader);
-		System.out.println(CourseViewModel.modulList);
-		GridPane root = (GridPane) loader.load();		// call initialize
-		System.out.println(root);
-		
-		
-		try {
-			Scene scene = new Scene(root);
-			Stage stage = new Stage();
-			stage.setScene(scene);
-			stage.showAndWait();
-		} catch (Exception E) {
-			System.out.println(E.getMessage());
-		}
-		
-		System.out.println("initData();");
-		System.out.println("cbiD " + cbModulename);
-		System.out.println("cliD " + CourseViewModel.modulList);
-		System.out.println("iiD2 " + modulItems);
-		
-		refresh();
+		if (set != null)
+			cbModulename.setValue(modulItems.get(0));
+
 	}
 	
 	//TEST
 	public Course getNewCourse()
 	{
-		return CourseViewModel.newCourse;
+		return newCourse;
 	}
-	
-	@FXML
-	private void refresh() {
-		System.out.println("refresh();");
-		System.out.println("cbr " + cbModulename);
-		System.out.println("clr " + CourseViewModel.modulList);
-		System.out.println("ir " + modulItems);
-
 		
-		cbTyp.setValue(items.get(0));
-	}
-	
 	@FXML
 	private void btnSaveClick(ActionEvent event) {
 		// TODO: validate user-input
@@ -159,9 +122,9 @@ public class CourseViewModel implements Initializable {
 		String newModulName = cbModulename.getValue();
 		String newInstructor = txtInstructor.getText();
 		
-		EDay newDay = EDay.MONTAG;					// TODO: read from GUI
-		EPeriod newPeriod = EPeriod.EACHWEEK;		// TODO: read from GUI
-		int newLesson = 2;							// TODO: read from GUI
+		EDay newDay = day;					
+		EPeriod newPeriod = period;		
+		int newLesson = ds;					
 		Time newTime = new Time(newDay, newLesson, newPeriod);
 		
 		String newBuilding = txtBuilding.getText();
@@ -170,29 +133,6 @@ public class CourseViewModel implements Initializable {
 		
 
 		//TODO: getValue from editable ComboBox.. no idea why this is not possible
-		
-		try {
-			Course newCourse;
-			System.out.println(cbModulename.valueProperty());
-			if (cbTyp.getValue().equals("Vorlesung")) {
-				System.out.println("Vorlesung");
-				newCourse = new Lecture(cbModulename.getPromptText(), new Time(day, ds, period), new Place(txtBuilding.getText(), txtRoom.getText()), txtProf.getText());				
-			} else {
-				System.out.println("Exercise");
-				newCourse = new ExerciseCourse(cbModulename.getValue(), new Time(day, ds, period), new Place(txtBuilding.getText(), txtRoom.getText()), txtProf.getText());
-			}
-			
-			
-			List<Course> list = courseMap.get(newCourse.getModuleName());
-			if(list == null) {
-				list = new ArrayList<Course>();
-			}
-			list.add(newCourse);
-			courseMap.put(newCourse.getModuleName(), list);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		
 
 		if (cbTyp.getValue().equals("Vorlesung"))
 		{

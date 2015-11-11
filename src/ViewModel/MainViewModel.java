@@ -39,6 +39,7 @@ import javafx.stage.Stage;
 public class MainViewModel implements Initializable
 {
 	private Map<String, List<Course>> courseMap;
+	private List<FilterObject> filterList;
 	
 	@FXML private javafx.scene.control.Button btnClose;
 	@FXML private javafx.scene.control.Button btnGenerate;
@@ -119,7 +120,6 @@ public class MainViewModel implements Initializable
 	@FXML
 
 	private void btnAddFilterClick(ActionEvent event) throws IOException{
-		//TODO -oTilo: implementieren
 		String filePath = ".." + File.separator + "Views" + File.separator + "FilterPage.fxml"; 
 		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
 		try {
@@ -130,17 +130,40 @@ public class MainViewModel implements Initializable
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setScene(scene);
-			stage.show();
+			stage.showAndWait();
+			if (filterModel.getFilter() != null)
+				filterList.add(filterModel.getFilter());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		
+		refreshlbFilter();
+	}
 
+	private void refreshlbFilter() {
+		ObservableList<FilterObject> items = listFilter.getItems();
+		items.clear();
+		
+		for (FilterObject filter: filterList)
+		{
+			items.add(filter);
+		}
+		listFilter.setItems(items);
 	}
 
 	@FXML
 	private void btnRemoveFilterClick(ActionEvent event) {
-		//TODO -oTilo: implementieren
-		
+		FilterObject remove = listFilter.getSelectionModel().getSelectedItem();
+		if (remove != null) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setHeaderText("Remove course: '" + remove + "'");
+			alert.setContentText("Are you sure?");
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){
+				filterList.remove(remove);
+				refreshlbFilter();
+			} 
+		}
 	}
 
 	@FXML
@@ -220,12 +243,11 @@ public class MainViewModel implements Initializable
 		list.add(course);
 		courseMap.put(course.getModuleName(), list);
 	}
-	
-	
-	
+		
 	public void initData(){
 
 		courseMap = new HashMap<String, List<Course>>();
+		filterList = new ArrayList<FilterObject>();
 		
 		//TODO entfernen
 		setCourseList();		// fills courseList with hardcoded data
@@ -330,7 +352,7 @@ public class MainViewModel implements Initializable
 	
 	private List<TimeTable> generateTestData()
 	{
-		//TODO von FilterObjects abhängig machen
+		//TODO -oTilo: von FilterObjects abhängig machen
 		Controller myController = new Controller(courseMap);
 		myController.generateTimeTables();
 		List<TimeTable> allTimeTables = myController.getAllTimeTables();

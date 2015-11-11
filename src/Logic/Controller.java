@@ -12,15 +12,20 @@ public class Controller
 	private List<TimeTable> allTimeTables;					// list of all generated timeTables
 	private List<Course> possibleCoursesList;				// list of all courses available
 	private Map<String, List<Course>> exercisesModulMap;	// mappes a module to all possible exercises for this module
-
-	public Controller(List<Course> possibleCoursesList)
+	
+	public Controller(Map<String, List<Course>> courseMap)
 	{
-		if (possibleCoursesList == null)
+		if (courseMap == null)
 		{
 			throw new NullPointerException();
 		}
-
-		this.possibleCoursesList = possibleCoursesList;
+		
+		possibleCoursesList = new ArrayList<Course>();
+		for (String module : courseMap.keySet()) {
+			possibleCoursesList.addAll(courseMap.get(module));
+		}
+		
+		
 		allTimeTables = new ArrayList<TimeTable>();
 		exercisesModulMap = new HashMap<String, List<Course>>();
 		basicTimeTable = new TimeTable(0);

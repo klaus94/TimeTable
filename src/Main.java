@@ -1,5 +1,12 @@
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
+
+import java.io.File;
+
+import ViewModel.FilterViewModel;
 import ViewModel.MainViewModel;
 
 //import Logic.ViewMain;
@@ -21,10 +28,25 @@ public class Main extends Application
 	public void start(Stage primaryStage) throws Exception			
 	{
 
-		MainViewModel mainModel = new MainViewModel();
 		System.out.println("start");
-		mainModel.initData("moin");
+		String filePath = ".." + File.separator + "Views" + File.separator + "MainPage.fxml"; 
+		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+		FlowPane root;
+		try {
+			root = (FlowPane) loader.load();
+			MainViewModel mainModel = loader.getController();
+			mainModel.initData();
 
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.show();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		
+		 
 	}
 
 }

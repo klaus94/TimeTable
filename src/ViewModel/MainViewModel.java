@@ -39,6 +39,7 @@ import javafx.stage.Stage;
 public class MainViewModel implements Initializable
 {
 	private Map<String, List<Course>> courseMap;
+	private List<FilterObject> filterList;
 	
 	@FXML private javafx.scene.control.Button btnClose;
 	@FXML private javafx.scene.control.Button btnGenerate;
@@ -121,31 +122,54 @@ public class MainViewModel implements Initializable
 	private void btnAddFilterClick(ActionEvent event) throws IOException{
 		String filePath = ".." + File.separator + "Views" + File.separator + "FilterPage.fxml"; 
 		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
-		FlowPane root;
 		try {
-			root = (FlowPane) loader.load();
+			FlowPane root = (FlowPane) loader.load();
 			FilterViewModel filterModel = loader.getController();
 			filterModel.initData(null);
 
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setScene(scene);
-			stage.show();
+			stage.showAndWait();
+			if (filterModel.getFilter() != null)
+				filterList.add(filterModel.getFilter());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
+		
+		refreshlbFilter();
+	}
 
+	private void refreshlbFilter() {
+		ObservableList<FilterObject> items = listFilter.getItems();
+		items.clear();
+		
+		for (FilterObject filter: filterList)
+		{
+			items.add(filter);
+		}
+		listFilter.setItems(items);
 	}
 
 	@FXML
 	private void btnRemoveFilterClick(ActionEvent event) {
-		
+		FilterObject remove = listFilter.getSelectionModel().getSelectedItem();
+		if (remove != null) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setHeaderText("Remove course: '" + remove + "'");
+			alert.setContentText("Are you sure?");
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){
+				filterList.remove(remove);
+				refreshlbFilter();
+			} 
+		}
 	}
 
 	@FXML
 	private void btnAddCourseClick(ActionEvent event) throws IOException {
 
+		//TODO sinnlose statements entfernen
 		String filePath = ".." + File.separator + "Views" + File.separator + "CoursePage.fxml"; 
 		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
 		try {
@@ -159,22 +183,11 @@ public class MainViewModel implements Initializable
 			Stage stage = new Stage();
 			stage.setScene(scene);
 			stage.showAndWait();
-			System.out.println("new Course : " + courseModel.getNewCourse());
-			if (courseModel.getNewCourse() != null) {
-				List<Course> list = courseMap.get(courseModel.getNewCourse().getModuleName());
-				if (list == null) {
-					list = new ArrayList<Course>();
-					courseMap.keySet().add(courseModel.getNewCourse().getModuleName());
-				}
-				list.add(courseModel.getNewCourse());
-				courseMap.put(courseModel.getNewCourse().getModuleName(), list);
-			}
+			addCourse(courseModel.getNewCourse());		//add new course to map
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
 
-		// TODO: add new course to the courseList/Map
 		refreshlbCourses();
 
 	}
@@ -188,7 +201,6 @@ public class MainViewModel implements Initializable
 			alert.setContentText("Are you sure?");
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK){
-				//TODO remove Course from courseMap
 				courseMap.get(remove.getModuleName()).remove(remove);
 				refreshlbCourses();
 			} 
@@ -197,6 +209,8 @@ public class MainViewModel implements Initializable
 
 	@FXML
 	private void btnLoadCoursesClick(ActionEvent event) {
+		//TODO -oTill: implementieren
+		
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Attention");
 		alert.setHeaderText("Method not implemented yet");
@@ -205,6 +219,7 @@ public class MainViewModel implements Initializable
 
 	@FXML
 	private void btnSaveCoursesClick(ActionEvent event) {
+		//TODO überlegen wie überhaupt
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Attention");
 		alert.setHeaderText("Method not implemented yet");
@@ -216,12 +231,25 @@ public class MainViewModel implements Initializable
 		refreshlbCourses();
 	}
 	
-	
-	
+	private void addCourse(Course course) {
+		if (course == null) {
+			return;
+		} 
+		
+		List<Course> list = courseMap.get(course.getModuleName());
+		if (list == null) {
+			list = new ArrayList<Course>();
+		}
+		list.add(course);
+		courseMap.put(course.getModuleName(), list);
+	}
+		
 	public void initData(){
 
 		courseMap = new HashMap<String, List<Course>>();
+		filterList = new ArrayList<FilterObject>();
 		
+		//TODO entfernen
 		setCourseList();		// fills courseList with hardcoded data
 								// later: import list or user input
 		refreshcbModuleName();
@@ -317,19 +345,14 @@ public class MainViewModel implements Initializable
 		courseList.add(courseMath43);
 		courseList.add(courseMath44);
 		
-		List<Course> list;
 		for (Course course : courseList) {
-			list = courseMap.get(course.getModuleName());
-			if (list == null) {
-				list = new ArrayList<Course>();
-			}
-			list.add(course);
-			courseMap.put(course.getModuleName(), list);
+			addCourse(course);
 		}
 	}
 	
 	private List<TimeTable> generateTestData()
 	{
+		//TODO -oTilo: von FilterObjects abhängig machen
 		Controller myController = new Controller(courseMap);
 		myController.generateTimeTables();
 		List<TimeTable> allTimeTables = myController.getAllTimeTables();

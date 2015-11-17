@@ -84,7 +84,6 @@ public class Controller
 	}
 
 
-	//TODO -oTilo: need to change that							modulName, list
 	private void generateNewTimeTable(TimeTable oldTimeTable, Map<String, List<Course>> restCourses)
 	{
 		if (oldTimeTable == null || restCourses == null)
@@ -111,10 +110,7 @@ public class Controller
 			if (newTimeTable.addCourse(course))						// if course could successfully be added to the timetable
 			{
 				generateNewTimeTable(newTimeTable, restCourses);
-			} else 
-			{
-				//free(newTimeTable);
-			}
+			} 
 		}
 
 		restCourses.put(nextModule, courseList);

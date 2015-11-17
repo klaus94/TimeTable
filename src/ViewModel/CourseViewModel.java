@@ -1,7 +1,5 @@
 package ViewModel;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -9,19 +7,12 @@ import java.util.Set;
 import Enumerations.EDay;
 import Enumerations.EPeriod;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import Model.Course;
@@ -70,19 +61,14 @@ public class CourseViewModel implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 		
 		
 	}
 	
 	public void initData(Set<String> set) {
+		//TODO sinnlose statements entfernen
 		System.out.println("iiD1 " + modulItems);
 		System.out.println("initData");
-		
-//		ObservableList<String> items = cbModulename.getItems();
-//		for (Course course : courseList) {
-//			items.add(course.getModuleName());
-//		}
 		
 		modulItems = cbModulename.getItems();
 		System.out.println("initialize();");
@@ -119,28 +105,34 @@ public class CourseViewModel implements Initializable {
 		// TODO: validate user-input
 		//		- try/catch block
 		//		- wrong input -> cancel save-method, print warning
-		String newModulName = cbModulename.getValue();
-		String newInstructor = txtInstructor.getText();
-		
-		EDay newDay = day;					
-		EPeriod newPeriod = period;		
-		int newLesson = ds;					
-		Time newTime = new Time(newDay, newLesson, newPeriod);
-		
-		String newBuilding = txtBuilding.getText();
-		String newRoom = txtRoom.getText();
-		Place newPlace = new Place(newBuilding, newRoom);
-		
-
 		//TODO: getValue from editable ComboBox.. no idea why this is not possible
 
-		if (cbTyp.getValue().equals("Vorlesung"))
-		{
-			newCourse = new Lecture(newModulName, newTime, newPlace, newInstructor);
-		}
-		else if (cbTyp.getValue().equals("Übung"))
-		{
-			newCourse = new ExerciseCourse(newModulName, newTime, newPlace, newInstructor);
+		try {
+			String newModulName = cbModulename.getValue();
+			String newInstructor = txtInstructor.getText();
+
+			EDay newDay = day;					
+			EPeriod newPeriod = period;		
+			int newLesson = ds;					
+			Time newTime = new Time(newDay, newLesson, newPeriod);
+
+			String newBuilding = txtBuilding.getText();
+			String newRoom = txtRoom.getText();
+			Place newPlace = new Place(newBuilding, newRoom);
+
+
+
+			if (cbTyp.getValue().equals("Vorlesung"))
+			{
+				newCourse = new Lecture(newModulName, newTime, newPlace, newInstructor);
+			}
+			else if (cbTyp.getValue().equals("Übung"))
+			{
+				newCourse = new ExerciseCourse(newModulName, newTime, newPlace, newInstructor);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
 		}
 
 		System.out.println("new entry saved");

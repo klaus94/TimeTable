@@ -222,29 +222,6 @@ public class MainViewModel implements Initializable
 			Stage stage = new Stage();
 			stage.setScene(scene);
 			stage.showAndWait();
-			
-//			addCourse(loadcourseModel.getNewCourse());
-			
-//			GridPane root = (GridPane) loader.load();
-//			
-//			LoadCourseViewModel loadcourseModel = loader.getController();
-//			System.out.println("hallo");
-//			loadcourseModel.initData(courseMap.keySet());
-//
-//			Scene scene = new Scene(root);
-//			Stage stage = new Stage();
-//			stage.setScene(scene);
-//			stage.showAndWait();
-//			System.out.println("new Course : " + courseModel.getNewCourse());
-//			if (courseModel.getNewCourse() != null) {
-//				List<Course> list = courseMap.get(courseModel.getNewCourse().getModuleName());
-//				if (list == null) {
-//					list = new ArrayList<Course>();
-//					courseMap.keySet().add(courseModel.getNewCourse().getModuleName());
-//				}
-//				list.add(courseModel.getNewCourse());
-//				courseMap.put(courseModel.getNewCourse().getModuleName(), list);
-//			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());

@@ -209,12 +209,51 @@ public class MainViewModel implements Initializable
 
 	@FXML
 	private void btnLoadCoursesClick(ActionEvent event) {
-		//TODO -oTill: implementieren
+		String filePath = ".." + File.separator + "Views" + File.separator + "LoadCoursePage.fxml"; 
+		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+		try {
+			GridPane root = (GridPane) loader.load();
+			
+			LoadCourseViewModel loadcourseModel = loader.getController();
+			System.out.println("hallo");
+			loadcourseModel.initData(courseMap.keySet());
+
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.showAndWait();
+			
+//			addCourse(loadcourseModel.getNewCourse());
+			
+//			GridPane root = (GridPane) loader.load();
+//			
+//			LoadCourseViewModel loadcourseModel = loader.getController();
+//			System.out.println("hallo");
+//			loadcourseModel.initData(courseMap.keySet());
+//
+//			Scene scene = new Scene(root);
+//			Stage stage = new Stage();
+//			stage.setScene(scene);
+//			stage.showAndWait();
+//			System.out.println("new Course : " + courseModel.getNewCourse());
+//			if (courseModel.getNewCourse() != null) {
+//				List<Course> list = courseMap.get(courseModel.getNewCourse().getModuleName());
+//				if (list == null) {
+//					list = new ArrayList<Course>();
+//					courseMap.keySet().add(courseModel.getNewCourse().getModuleName());
+//				}
+//				list.add(courseModel.getNewCourse());
+//				courseMap.put(courseModel.getNewCourse().getModuleName(), list);
+//			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 		
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Attention");
-		alert.setHeaderText("Method not implemented yet");
-		alert.showAndWait();
+//		Alert alert = new Alert(AlertType.INFORMATION);
+//		alert.setTitle("Attention");
+//		alert.setHeaderText("Method not implemented yet");
+//		alert.showAndWait();
 	}
 
 	@FXML

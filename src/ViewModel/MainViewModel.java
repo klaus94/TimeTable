@@ -209,12 +209,28 @@ public class MainViewModel implements Initializable
 
 	@FXML
 	private void btnLoadCoursesClick(ActionEvent event) {
-		//TODO -oTill: implementieren
+		String filePath = ".." + File.separator + "Views" + File.separator + "LoadCoursePage.fxml"; 
+		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+		try {
+			GridPane root = (GridPane) loader.load();
+			
+			LoadCourseViewModel loadcourseModel = loader.getController();
+			System.out.println("hallo");
+			loadcourseModel.initData(courseMap.keySet());
+
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.showAndWait();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 		
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Attention");
-		alert.setHeaderText("Method not implemented yet");
-		alert.showAndWait();
+//		Alert alert = new Alert(AlertType.INFORMATION);
+//		alert.setTitle("Attention");
+//		alert.setHeaderText("Method not implemented yet");
+//		alert.showAndWait();
 	}
 
 	@FXML

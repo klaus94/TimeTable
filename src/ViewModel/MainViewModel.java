@@ -87,7 +87,6 @@ public class MainViewModel implements Initializable
 		ObservableList<Course> items = listCourses.getItems();
 		items.clear();
 		
-		//TODO -oTilo: debugging coming from addcourse with new module
 		List<Course> courseList = courseMap.get(cbModuleName.getValue());
 		try {
 		for (Course course: courseList)
@@ -188,9 +187,11 @@ public class MainViewModel implements Initializable
 			stage.showAndWait();
 			addCourse(courseModel.getNewCourse());		//add new course to map
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("addcourseexception " + e.getMessage());
 		}
 
+		System.out.println("btnadd: " + cbModuleName.getValue());
+		
 		refreshlbCourses();
 
 	}

@@ -67,15 +67,8 @@ public class CourseViewModel implements Initializable {
 	
 	public void initData(Set<String> set) {
 		//TODO sinnlose statements entfernen
-		System.out.println("iiD1 " + modulItems);
-		System.out.println("initData");
 		
 		modulItems = cbModulename.getItems();
-		System.out.println("initialize();");
-		System.out.println("cbi " + cbModulename);
-		System.out.println("cli " + set);
-		System.out.println("ii " + modulItems);
-		
 		// fill in Combobox - Items for cbTyp:
 		ObservableList<String> typList = cbTyp.getItems();
 		typList.clear();
@@ -85,7 +78,6 @@ public class CourseViewModel implements Initializable {
 		cbTyp.setValue("Übung");
 		
 		// fill in Combobox - Items for cbModuleName
-		System.out.println("my modullist:2 " + set);
 		modulItems.clear();
 		modulItems.addAll(set);
 		cbModulename.setItems(modulItems);
@@ -105,10 +97,9 @@ public class CourseViewModel implements Initializable {
 		// TODO: validate user-input
 		//		- try/catch block
 		//		- wrong input -> cancel save-method, print warning
-		//TODO: getValue from editable ComboBox.. no idea why this is not possible
 
 		try {
-			String newModulName = cbModulename.getValue();
+			String newModulName = cbModulename.getEditor().getText();
 			String newInstructor = txtInstructor.getText();
 
 			EDay newDay = day;					
@@ -131,7 +122,7 @@ public class CourseViewModel implements Initializable {
 				newCourse = new ExerciseCourse(newModulName, newTime, newPlace, newInstructor);
 			}
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("btnSave " + e.getMessage());
 			return;
 		}
 

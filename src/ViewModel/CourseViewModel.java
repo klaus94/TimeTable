@@ -149,6 +149,11 @@ public class CourseViewModel implements Initializable {
 	}
 	
 	@FXML
+	private void test(ActionEvent event) {
+		System.out.println("wat");
+	}
+	
+	@FXML
 	private void btnCloseClick(ActionEvent event) {
 		((Stage) btnClose.getScene().getWindow()).close();
 	}

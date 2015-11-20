@@ -27,7 +27,7 @@ public class Controller
 		
 		
 		allTimeTables = new ArrayList<TimeTable>();
-		exercisesModulMap = new HashMap<String, List<Course>>();
+		exercisesModulMap = courseMap;
 		basicTimeTable = new TimeTable(0);
 		basicTimeTable = buildBasicTimeTable();
 		basicTimeTable.showTimeTable();
@@ -40,24 +40,7 @@ public class Controller
 
 	public void generateTimeTables()
 	{
-		// generate the exercise-List
-		// e.g the exercisesModulList could look like this: ( {[course_a, course_b, course_c](Math-1)},  {[course_d](TGI)} )
-		List<Course> currentExerciseList;
-		for (Course course: possibleCoursesList)
-		{
-			// be sure, that course-associated list exists
-			currentExerciseList = exercisesModulMap.get( course.getModuleName() );
-			if (currentExerciseList == null)
-			{
-				currentExerciseList =  new ArrayList<Course>();
-				exercisesModulMap.put(course.getModuleName(), currentExerciseList);
-			}
-
-			// add current course to this list
-			currentExerciseList.add(course);
-		}
-
-		generateNewTimeTable(basicTimeTable, exercisesModulMap);
+		generateTimeTables(basicTimeTable, exercisesModulMap);
 	}
 
 	// add all lectures to the basic-timetable
@@ -66,25 +49,30 @@ public class Controller
 	{
 		TimeTable basicTimeTable = new TimeTable(-1);
 		List<Course> coursesToRemove = new ArrayList<Course>();
-		for (Course course: possibleCoursesList)
-		{
-			if (course instanceof Lecture)
+		
+		//go through courseMap and get all Lectures
+		for (String module : exercisesModulMap.keySet()) {
+			coursesToRemove.clear();
+			for (Course course : exercisesModulMap.get(module)) {
+				if (course instanceof Lecture) {
+					coursesToRemove.add(course);
+					basicTimeTable.addCourse(course);
+				}
+			}
+		
+			for (Course course: coursesToRemove)
 			{
-				basicTimeTable.addCourse(course);
-				coursesToRemove.add(course);		
+				exercisesModulMap.get(module).remove(course);
 			}
 		}
-
-		for (Course course: coursesToRemove)
-		{
-			possibleCoursesList.remove(course);
-		}
+	
+		
 
 		return basicTimeTable;
 	}
 
 
-	private void generateNewTimeTable(TimeTable oldTimeTable, Map<String, List<Course>> restCourses)
+	private void generateTimeTables(TimeTable oldTimeTable, Map<String, List<Course>> restCourses)
 	{
 		if (oldTimeTable == null || restCourses == null)
 		{
@@ -109,7 +97,7 @@ public class Controller
 			
 			if (newTimeTable.addCourse(course))						// if course could successfully be added to the timetable
 			{
-				generateNewTimeTable(newTimeTable, restCourses);
+				generateTimeTables(newTimeTable, restCourses);
 			} 
 		}
 

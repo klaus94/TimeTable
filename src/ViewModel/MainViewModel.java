@@ -262,7 +262,14 @@ public class MainViewModel implements Initializable
 		List<Course> list = courseMap.get(course.getModuleName());
 		if (list == null) {
 			list = new ArrayList<Course>();
+		} else {
+			for (Course c : list) {
+				if (c.toString().equals(course.toString())) {
+					return;
+				}
+			}
 		}
+		
 		list.add(course);
 		courseMap.put(course.getModuleName(), list);
 		

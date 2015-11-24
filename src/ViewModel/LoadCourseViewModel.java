@@ -266,7 +266,7 @@ public class LoadCourseViewModel implements Initializable {
 							break;
 						}
 					}
-					System.out.println("Added new Courses: " + modulenamestr);
+					System.out.println("Added whole Module: " + modulenamestr);
 					newCourseMap.put(modulenamestr, newCourseList);
 //					System.out.println(modulenamestr + " | " + semstr + " | " + instructorstr + " | " + kindofcoursestr + " | " + daystr + " | " + timestr + " | " + placestr + " | " + periodstr);
 //					System.out.println("-> Anzahl Kurse: " + coursecounter);

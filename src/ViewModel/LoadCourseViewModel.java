@@ -252,14 +252,17 @@ public class LoadCourseViewModel implements Initializable {
 						case "V":
 							newCourse = new Lecture(modulenamestr, new Time(EDay.getDay(getEntry(daystr, i)), Integer.parseInt(String.valueOf(timestr.charAt(3*(i-1)))), EPeriod.getPeriod(getEntry(periodstr, i))), new Place(getEntry(placestr, i), ""), instructorstr);
 							newCourseList.add(newCourse);
+							System.out.println("added: " + newCourse);
 							break;
 						case "U":
 							newCourse = new ExerciseCourse(modulenamestr, new Time(EDay.getDay(getEntry(daystr, i)), Integer.parseInt(String.valueOf(timestr.charAt(3*(i-1)))), EPeriod.getPeriod(getEntry(periodstr, i))), new Place(getEntry(placestr, i), ""), "Tutor");
 							newCourseList.add(newCourse);
+							System.out.println("added: " + newCourse);
 							break;
 						default:
 							newCourse = new ExerciseCourse(modulenamestr, new Time(EDay.getDay(getEntry(daystr, i)), Integer.parseInt(String.valueOf(timestr.charAt(3*(i-1)))), EPeriod.getPeriod(getEntry(periodstr, i))), new Place(getEntry(placestr, i), ""), "Tutor");
 							newCourseList.add(newCourse);
+							System.out.println("added: " + newCourse);
 							break;
 						}
 					}
@@ -267,6 +270,14 @@ public class LoadCourseViewModel implements Initializable {
 					newCourseMap.put(modulenamestr, newCourseList);
 //					System.out.println(modulenamestr + " | " + semstr + " | " + instructorstr + " | " + kindofcoursestr + " | " + daystr + " | " + timestr + " | " + placestr + " | " + periodstr);
 //					System.out.println("-> Anzahl Kurse: " + coursecounter);
+					modulenamestr = "";
+					instructorstr = "";
+					kindofcoursestr = "";
+					daystr = "";
+					timestr = "";
+					periodstr = "";
+					placestr = "";
+					newCourseList = new ArrayList<Course>();
 					insubjectcode = false;
 				}
 				continue;

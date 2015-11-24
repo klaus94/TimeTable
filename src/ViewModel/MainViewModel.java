@@ -89,11 +89,14 @@ public class MainViewModel implements Initializable
 		
 		List<Course> courseList = courseMap.get(cbModuleName.getValue());
 		try {
-		for (Course course: courseList)
-		{
-			items.add(course);
+			for (Course course: courseList)
+			{
+				items.add(course);
+			}
+			listCourses.setItems(items);
+		} catch (Exception e ){ 
+//			System.out.println(e.getMessage());
 		}
-		listCourses.setItems(items);} catch (Exception e ){System.out.println(e.getMessage());}
 	}
 	
 	@FXML
@@ -235,8 +238,6 @@ public class MainViewModel implements Initializable
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
-		refreshcbModuleName();
-		refreshlbCourses();
 	}
 
 	@FXML

@@ -219,28 +219,30 @@ public class MainViewModel implements Initializable
 			GridPane root = (GridPane) loader.load();
 			
 			LoadCourseViewModel loadcourseModel = loader.getController();
-			System.out.println("hallo");
 			loadcourseModel.initData(courseMap.keySet());
 
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setScene(scene);
 			stage.showAndWait();
+			
+			for ( String key : loadcourseModel.getNewCourseMap().keySet() ) {
+				for ( Course c : loadcourseModel.getNewCourseMap().get(key) ) {
+					addCourse(c);
+				}
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
-		
-//		Alert alert = new Alert(AlertType.INFORMATION);
-//		alert.setTitle("Attention");
-//		alert.setHeaderText("Method not implemented yet");
-//		alert.showAndWait();
+		refreshcbModuleName();
+		refreshlbCourses();
 	}
 
 	@FXML
 	private void btnSaveCoursesClick(ActionEvent event) {
 		//TODO überlegen wie überhaupt
-		Alert alert = new Alert(AlertType.INFORMATION);
+		Alert alert = new Alert(AlertType.WARNING);
 		alert.setTitle("Attention");
 		alert.setHeaderText("Method not implemented yet");
 		alert.showAndWait();

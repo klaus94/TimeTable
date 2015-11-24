@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import Enumerations.EDay;
+import Enumerations.EFilter;
 import Enumerations.EPeriod;
 import Logic.Controller;
 import Logic.Filter;
@@ -38,7 +39,7 @@ import javafx.stage.Stage;
 
 public class MainViewModel implements Initializable
 {
-	private Map<String, List<Course>> courseMap;
+	private Map<String, List<Course>> courseMap; //maps modulnames to available courses
 	private List<FilterObject> filterList;
 	
 	@FXML private javafx.scene.control.Button btnClose;
@@ -87,11 +88,15 @@ public class MainViewModel implements Initializable
 		items.clear();
 		
 		List<Course> courseList = courseMap.get(cbModuleName.getValue());
-		for (Course course: courseList)
-		{
-			items.add(course);
+		try {
+			for (Course course: courseList)
+			{
+				items.add(course);
+			}
+			listCourses.setItems(items);
+		} catch (Exception e ){ 
+//			System.out.println(e.getMessage());
 		}
-		listCourses.setItems(items);
 	}
 	
 	@FXML
@@ -185,9 +190,11 @@ public class MainViewModel implements Initializable
 			stage.showAndWait();
 			addCourse(courseModel.getNewCourse());		//add new course to map
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("addcourseexception " + e.getMessage());
 		}
 
+		System.out.println("btnadd: " + cbModuleName.getValue());
+		
 		refreshlbCourses();
 
 	}
@@ -209,18 +216,34 @@ public class MainViewModel implements Initializable
 
 	@FXML
 	private void btnLoadCoursesClick(ActionEvent event) {
-		//TODO -oTill: implementieren
-		
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Attention");
-		alert.setHeaderText("Method not implemented yet");
-		alert.showAndWait();
+		String filePath = ".." + File.separator + "Views" + File.separator + "LoadCoursePage.fxml"; 
+		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+		try {
+			GridPane root = (GridPane) loader.load();
+			
+			LoadCourseViewModel loadcourseModel = loader.getController();
+			loadcourseModel.initData(courseMap.keySet());
+
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.showAndWait();
+			
+			for ( String key : loadcourseModel.getNewCourseMap().keySet() ) {
+				for ( Course c : loadcourseModel.getNewCourseMap().get(key) ) {
+					addCourse(c);
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@FXML
 	private void btnSaveCoursesClick(ActionEvent event) {
 		//TODO überlegen wie überhaupt
-		Alert alert = new Alert(AlertType.INFORMATION);
+		Alert alert = new Alert(AlertType.WARNING);
 		alert.setTitle("Attention");
 		alert.setHeaderText("Method not implemented yet");
 		alert.showAndWait();
@@ -242,6 +265,8 @@ public class MainViewModel implements Initializable
 		}
 		list.add(course);
 		courseMap.put(course.getModuleName(), list);
+		
+		refreshcbModuleName();
 	}
 		
 	public void initData(){
@@ -352,23 +377,40 @@ public class MainViewModel implements Initializable
 	
 	private List<TimeTable> generateTestData()
 	{
-		//TODO -oTilo: von FilterObjects abhängig machen
 		Controller myController = new Controller(courseMap);
 		myController.generateTimeTables();
 		List<TimeTable> allTimeTables = myController.getAllTimeTables();
 
-		//myController.showTimeTables(allTimeTables);
-		List<EDay> days = new ArrayList<EDay>();
-		days.add(EDay.MONTAG);
-		days.add(EDay.DIENSTAG);
-		days.add(EDay.MITTWOCH);
-		days.add(EDay.DONNERSTAG);
-		days.add(EDay.FREITAG);
+		
+		//iterate over FilterList and filter allTimeTables
+		for (FilterObject filter : filterList) {
+			switch (filter.getType()) {
+			case BYAFTERNOONTIME:
+				allTimeTables = Filter.filterByAfternoontime(allTimeTables, filter.getDays(), filter.getParameter());
+				break;
+				
+			case BYMAXINROW:
+				allTimeTables = Filter.filterByMaxInRow(allTimeTables, filter.getParameter());
+				break;
+			
+			case BYMAXNUMBER:
+				allTimeTables = Filter.filterByMaxNumber(allTimeTables, filter.getParameter());
+				break;
+				
+			case BYMINNUMBER:
+				allTimeTables = Filter.filterByMinNumber(allTimeTables, filter.getParameter());
+				break;
+				
+			case BYMORNINGTIME:
+				allTimeTables = Filter.filterByMorningtime(allTimeTables, filter.getDays(), filter.getParameter());
+				break;
 
-		allTimeTables = Filter.filterByMinNumber(allTimeTables, 2);
-		allTimeTables = Filter.filterByMorningtime(allTimeTables, days, 1);
-		allTimeTables = Filter.filterByAfternoontime(allTimeTables, days, 5);
-		allTimeTables = Filter.filterByMaxInRow(allTimeTables, 4);
+			default:
+				break;
+			}
+		}
+
+		//myController.showTimeTables(allTimeTables);
 		
 		return allTimeTables;
 	}

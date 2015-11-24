@@ -5,7 +5,8 @@ public enum EDay
 	DIENSTAG,
 	MITTWOCH,
 	DONNERSTAG,
-	FREITAG;
+	FREITAG,
+	UNDEFINED;
 
 	public String toString() {
     	switch(this) {
@@ -14,6 +15,7 @@ public enum EDay
       		case MITTWOCH: return "Mittwoch";
       		case DONNERSTAG: return "Donnerstag";
       		case FREITAG: return "Freitag";
+      		case UNDEFINED: return "";
       		default: throw new IllegalArgumentException();
     	}
 	}
@@ -25,6 +27,7 @@ public enum EDay
     		case MITTWOCH: return 3;
     		case DONNERSTAG: return 4;
     		case FREITAG: return 5;
+    		case UNDEFINED: return 0;
     		default: throw new IllegalArgumentException();
     	}
     }
@@ -36,6 +39,7 @@ public enum EDay
     		case "Mittwoch": return MITTWOCH;
     		case "Donnerstag": return DONNERSTAG;
     		case "Freitag": return FREITAG;
+    		case "ZVZ": return UNDEFINED;
     		default: throw new IllegalArgumentException();
     	}
     }

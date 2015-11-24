@@ -32,7 +32,6 @@
             <Insets right="20.0" />
          </GridPane.margin>
       </TextField>
-      <ComboBox fx:id="cbModulename" prefWidth="150.0" GridPane.columnIndex="1" />
       <TextField fx:id="txtBuilding" GridPane.columnIndex="1" GridPane.rowIndex="6">
          <GridPane.margin>
             <Insets right="20.0" />
@@ -97,7 +96,7 @@
             <RadioButton fx:id="rbMo" mnemonicParsing="false" onAction="#rbMoCheck" prefHeight="2.0" prefWidth="88.0" text="Montag" />
          </children>
       </GridPane>
-      <ComboBox fx:id="cbTyp" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <ComboBox fx:id="cbTyp" prefHeight="25.0" prefWidth="230.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <GridPane GridPane.columnIndex="1" GridPane.rowIndex="3">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -150,5 +149,6 @@
             <Button mnemonicParsing="false" onAction="#btnSaveClick" text="Speichern" GridPane.columnIndex="1" />
          </children>
       </GridPane>
+      <ComboBox fx:id="cbModulename" editable="true" onAction="#test" prefHeight="25.0" prefWidth="230.0" GridPane.columnIndex="1" />
    </children>
 </GridPane>

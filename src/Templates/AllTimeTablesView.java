@@ -29,8 +29,12 @@ public class AllTimeTablesView extends ScrollPane{
 	        throw new RuntimeException(exception);
 	    }
 	    
+	    int i = 0;
+	    
 	    for (TimeTable timetable: allTimeTables)
 	    {
+	    	i = i+1;
+	    	System.out.println("show TimeTable " + Integer.toString(i) + " von " + Integer.toString(allTimeTables.size()));
 	    	flowPane.getChildren().add(new TimeTableView(timetable));
 	    }
 	    flowPane.setPrefWidth(allTimeTables.size() * 600);		// TODO: change, if size changes (generic)

@@ -77,23 +77,24 @@ public class MainViewModel implements Initializable
 		} else {
 			cbModuleName.setValue(value);
 		}
-		
 		refreshlbCourses();
 	}
 
 	public void refreshlbCourses() {
-		
 		// set listbox-items
 		ObservableList<Course> items = listCourses.getItems();
 		items.clear();
 		
 		List<Course> courseList = courseMap.get(cbModuleName.getValue());
 		try {
-		for (Course course: courseList)
-		{
-			items.add(course);
+			for (Course course: courseList)
+			{
+				items.add(course);
+			}
+			listCourses.setItems(items);
+		} catch (Exception e ) {
+			System.out.println("refreshlb " + e.getMessage());			
 		}
-		listCourses.setItems(items);} catch (Exception e ){System.out.println(e.getMessage());}
 	}
 	
 	@FXML
@@ -136,7 +137,7 @@ public class MainViewModel implements Initializable
 			if (filterModel.getFilter() != null)
 				filterList.add(filterModel.getFilter());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("AddFilter " + e.getMessage());
 		}
 		
 		refreshlbFilter();
@@ -170,7 +171,6 @@ public class MainViewModel implements Initializable
 
 	@FXML
 	private void btnAddCourseClick(ActionEvent event) throws IOException {
-
 		//TODO sinnlose statements entfernen
 		String filePath = ".." + File.separator + "Views" + File.separator + "CoursePage.fxml"; 
 		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
@@ -178,7 +178,6 @@ public class MainViewModel implements Initializable
 			GridPane root = (GridPane) loader.load();
 			
 			CourseViewModel courseModel = loader.getController();
-			System.out.println("hallo");
 			courseModel.initData(courseMap.keySet());
 
 			Scene scene = new Scene(root);
@@ -190,10 +189,8 @@ public class MainViewModel implements Initializable
 			System.out.println("addcourseexception " + e.getMessage());
 		}
 
-		System.out.println("btnadd: " + cbModuleName.getValue());
-		
 		refreshlbCourses();
-
+		
 	}
 
 	@FXML
@@ -219,7 +216,6 @@ public class MainViewModel implements Initializable
 			GridPane root = (GridPane) loader.load();
 			
 			LoadCourseViewModel loadcourseModel = loader.getController();
-			System.out.println("hallo");
 			loadcourseModel.initData(courseMap.keySet());
 
 			Scene scene = new Scene(root);
@@ -227,8 +223,7 @@ public class MainViewModel implements Initializable
 			stage.setScene(scene);
 			stage.showAndWait();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
+			System.out.println("btnLoadCourses: " + e.getMessage());
 		}
 		
 //		Alert alert = new Alert(AlertType.INFORMATION);
@@ -262,8 +257,6 @@ public class MainViewModel implements Initializable
 		}
 		list.add(course);
 		courseMap.put(course.getModuleName(), list);
-		
-		refreshcbModuleName();
 	}
 		
 	public void initData(){
@@ -271,7 +264,7 @@ public class MainViewModel implements Initializable
 		courseMap = new HashMap<String, List<Course>>();
 		filterList = new ArrayList<FilterObject>();
 		
-		//TODO entfernen
+		//TODO entfernen (via LoadCourses)
 		setCourseList();		// fills courseList with hardcoded data
 								// later: import list or user input
 		refreshcbModuleName();

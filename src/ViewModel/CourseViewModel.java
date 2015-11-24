@@ -68,7 +68,6 @@ public class CourseViewModel implements Initializable {
 	public void initData(Set<String> set) {
 		//TODO sinnlose statements entfernen
 		
-		modulItems = cbModulename.getItems();
 		// fill in Combobox - Items for cbTyp:
 		ObservableList<String> typList = cbTyp.getItems();
 		typList.clear();
@@ -78,6 +77,7 @@ public class CourseViewModel implements Initializable {
 		cbTyp.setValue("Übung");
 		
 		// fill in Combobox - Items for cbModuleName
+		modulItems = cbModulename.getItems();
 		modulItems.clear();
 		modulItems.addAll(set);
 		cbModulename.setItems(modulItems);
@@ -86,7 +86,6 @@ public class CourseViewModel implements Initializable {
 
 	}
 	
-	//TEST
 	public Course getNewCourse()
 	{
 		return newCourse;
@@ -94,10 +93,6 @@ public class CourseViewModel implements Initializable {
 		
 	@FXML
 	private void btnSaveClick(ActionEvent event) {
-		// TODO: validate user-input
-		//		- try/catch block
-		//		- wrong input -> cancel save-method, print warning
-
 		try {
 			String newModulName = cbModulename.getEditor().getText();
 			String newInstructor = txtInstructor.getText();
@@ -123,12 +118,14 @@ public class CourseViewModel implements Initializable {
 			}
 		} catch (Exception e) {
 			System.out.println("btnSave " + e.getMessage());
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Information");
+			alert.setHeaderText("Der Eintrag konnte nicht gespeichert werden!!!");
+ 			alert.setContentText("Es fehlen bestimmte notwendige Informationen!!!");
+			alert.showAndWait();
 			return;
 		}
 
-		System.out.println("new entry saved");
-		System.out.println("new course instructor:" + getNewCourse().getInstructor());
-		
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Information");
 		alert.setHeaderText("Der Eintrag wurde erfolgreich gespeichert");
@@ -137,11 +134,6 @@ public class CourseViewModel implements Initializable {
 		
 		((Stage) btnClose.getScene().getWindow()).close();
 
-	}
-	
-	@FXML
-	private void test(ActionEvent event) {
-		System.out.println("wat");
 	}
 	
 	@FXML

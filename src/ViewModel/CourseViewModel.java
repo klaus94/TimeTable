@@ -35,7 +35,7 @@ public class CourseViewModel implements Initializable {
 	@FXML private javafx.scene.control.ComboBox<String> cbTyp;
 	@FXML private javafx.scene.control.TextField txtBuilding;
 	@FXML private javafx.scene.control.TextField txtRoom;
-	@FXML private javafx.scene.control.TextField txtTime;
+	//@FXML private javafx.scene.control.TextField txtTime;		// not used yet
 	@FXML private javafx.scene.control.TextField txtInstructor;
 	@FXML private javafx.scene.control.Button btnSave;
 	@FXML private javafx.scene.control.Button btnClose;
@@ -56,7 +56,7 @@ public class CourseViewModel implements Initializable {
 	@FXML private javafx.scene.control.RadioButton rbOD;
 	
 	public CourseViewModel() {
-		
+		System.out.println("old constructor");
 	}
 	
 	@Override
@@ -65,7 +65,7 @@ public class CourseViewModel implements Initializable {
 		
 	}
 	
-	public void initData(Set<String> set) {
+	public void initData(Set<String> set, Course oldCourse) {
 		//TODO sinnlose statements entfernen
 		
 		modulItems = cbModulename.getItems();
@@ -83,10 +83,57 @@ public class CourseViewModel implements Initializable {
 		cbModulename.setItems(modulItems);
 		if (set != null)
 			cbModulename.setValue(modulItems.get(0));
+		
+		// fill in other fields with course, the user wants to edit
+		if (oldCourse != null)
+		{
+			// comboboxes
+			cbModulename.setValue(oldCourse.getModuleName());
+			if (oldCourse instanceof Lecture)
+				cbTyp.setValue("Vorlesung");
+			else
+				cbTyp.setValue("Übung");
+			// textboxes
+			txtBuilding.setText(oldCourse.getPlace().getBuilding());
+			txtRoom.setText(oldCourse.getPlace().getRoom());
+			txtInstructor.setText(oldCourse.getInstructor());
+			// checkboxes
+			switch (oldCourse.getTime().getDay())
+			{
+				case MONTAG: rbMo.setSelected(true); break;
+				case DIENSTAG: rbDi.setSelected(true); break;
+				case MITTWOCH: rbMi.setSelected(true); break;
+				case DONNERSTAG: rbDo.setSelected(true); break;
+				case FREITAG: rbFr.setSelected(true); break;
+				default: break;
+			}
+			switch (oldCourse.getTime().getPeriod())
+			{
+				case EACHWEEK: rbEW.setSelected(true); break;
+				case EVENWEEK: rbEV.setSelected(true); break;
+				case ODDWEEK: rbOD.setSelected(true); break;
+				default: break;
+			}
+			switch (oldCourse.getTime().getTime())
+			{
+				case 1: rb1.setSelected(true); break;
+				case 2: rb2.setSelected(true); break;
+				case 3: rb3.setSelected(true); break;
+				case 4: rb4.setSelected(true); break;
+				case 5: rb5.setSelected(true); break;
+				case 6: rb6.setSelected(true); break;
+				default: break;
+			}
+		}
 
 	}
 	
-	//TEST
+	// for a course to be edited
+	public void setCourse(Course oldCourse)
+	{
+		System.out.println(oldCourse + " wurde geladen");
+	}
+	
 	public Course getNewCourse()
 	{
 		return newCourse;

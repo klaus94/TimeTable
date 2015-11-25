@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import Enumerations.EDay;
+import Enumerations.EFilter;
 import Enumerations.EPeriod;
 import Logic.Controller;
 import Logic.Filter;
@@ -23,7 +24,7 @@ import Model.Time;
 import Model.TimeTable;
 import Templates.AllTimeTablesView;
 import javafx.event.ActionEvent;
-
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -31,6 +32,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -56,7 +58,37 @@ public class MainViewModel implements Initializable
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{	
-		
+		// set handler for course-list -> click on a course
+		listCourses.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+	        @Override
+	        public void handle(MouseEvent event) {
+	            // TODO: Test, if clicked mouse-button was PRIMARY (left mouse key)
+            	if(event.getClickCount() == 2){
+            		System.out.println("Double clicked " + listCourses.getSelectionModel().getSelectedItem());
+            		
+            		String filePath = ".." + File.separator + "Views" + File.separator + "CoursePage.fxml";
+            		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+            		try {
+            			GridPane root = (GridPane) loader.load();
+	            		CourseViewModel courseModel = loader.getController();
+	        			System.out.println("hallo");
+	        			courseModel.initData(courseMap.keySet(), listCourses.getSelectionModel().getSelectedItem());
+	        			courseModel.setCourse(listCourses.getSelectionModel().getSelectedItem());
+	
+	        			Scene scene = new Scene(root);
+	        			Stage stage = new Stage();
+	        			stage.setScene(scene);
+	        			stage.showAndWait();
+	        			addCourse(courseModel.getNewCourse());		//add new course to map
+            		}
+            		catch(Exception e)
+            		{
+            			System.out.println("Kurs konnte nicht geladen werden");
+            		}
+            	}
+	        }
+	    });
 	}
 	
 	private void refreshcbModuleName() {
@@ -76,10 +108,12 @@ public class MainViewModel implements Initializable
 		} else {
 			cbModuleName.setValue(value);
 		}
+		
 		refreshlbCourses();
 	}
 
 	public void refreshlbCourses() {
+		
 		// set listbox-items
 		ObservableList<Course> items = listCourses.getItems();
 		items.clear();
@@ -91,8 +125,8 @@ public class MainViewModel implements Initializable
 				items.add(course);
 			}
 			listCourses.setItems(items);
-		} catch (Exception e ) {
-			System.out.println("refreshlb " + e.getMessage());			
+		} catch (Exception e ){ 
+//			System.out.println(e.getMessage());
 		}
 	}
 	
@@ -136,7 +170,7 @@ public class MainViewModel implements Initializable
 			if (filterModel.getFilter() != null)
 				filterList.add(filterModel.getFilter());
 		} catch (Exception e) {
-			System.out.println("AddFilter " + e.getMessage());
+			System.out.println(e.getMessage());
 		}
 		
 		refreshlbFilter();
@@ -170,6 +204,7 @@ public class MainViewModel implements Initializable
 
 	@FXML
 	private void btnAddCourseClick(ActionEvent event) throws IOException {
+
 		//TODO sinnlose statements entfernen
 		String filePath = ".." + File.separator + "Views" + File.separator + "CoursePage.fxml"; 
 		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
@@ -177,7 +212,8 @@ public class MainViewModel implements Initializable
 			GridPane root = (GridPane) loader.load();
 			
 			CourseViewModel courseModel = loader.getController();
-			courseModel.initData(courseMap.keySet());
+			System.out.println("hallo");
+			courseModel.initData(courseMap.keySet(), null);
 
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
@@ -188,8 +224,10 @@ public class MainViewModel implements Initializable
 			System.out.println("addcourseexception " + e.getMessage());
 		}
 
-		refreshlbCourses();
+		System.out.println("btnadd: " + cbModuleName.getValue());
 		
+		refreshlbCourses();
+
 	}
 
 	@FXML
@@ -221,20 +259,22 @@ public class MainViewModel implements Initializable
 			Stage stage = new Stage();
 			stage.setScene(scene);
 			stage.showAndWait();
+			
+			for ( String key : loadcourseModel.getNewCourseMap().keySet() ) {
+				for ( Course c : loadcourseModel.getNewCourseMap().get(key) ) {
+					addCourse(c);
+				}
+			}
 		} catch (Exception e) {
-			System.out.println("btnLoadCourses: " + e.getMessage());
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
 		}
-		
-//		Alert alert = new Alert(AlertType.INFORMATION);
-//		alert.setTitle("Attention");
-//		alert.setHeaderText("Method not implemented yet");
-//		alert.showAndWait();
 	}
 
 	@FXML
 	private void btnSaveCoursesClick(ActionEvent event) {
 		//TODO überlegen wie überhaupt
-		Alert alert = new Alert(AlertType.INFORMATION);
+		Alert alert = new Alert(AlertType.WARNING);
 		alert.setTitle("Attention");
 		alert.setHeaderText("Method not implemented yet");
 		alert.showAndWait();
@@ -244,6 +284,7 @@ public class MainViewModel implements Initializable
 	private void cbModuleNameChange(ActionEvent event) {
 		refreshlbCourses();
 	}
+	
 	
 	private void addCourse(Course course) {
 		if (course == null) {
@@ -263,7 +304,7 @@ public class MainViewModel implements Initializable
 		courseMap = new HashMap<String, List<Course>>();
 		filterList = new ArrayList<FilterObject>();
 		
-		//TODO entfernen (via LoadCourses)
+		//TODO entfernen
 		setCourseList();		// fills courseList with hardcoded data
 								// later: import list or user input
 		refreshcbModuleName();
@@ -274,47 +315,47 @@ public class MainViewModel implements Initializable
 	private void setCourseList()
 	{
 		List<Course> courseList = new ArrayList<Course>();
-		Course courseMath1 = new Lecture("BuS", new Time(EDay.DIENSTAG, 2, EPeriod.EACHWEEK), new Place("HSZ", "0004"), "Härtig");
+		Course courseMath1 = new Lecture("BuS", new Time(EDay.DIENSTAG, 2, EPeriod.ODDWEEK), new Place("HSZ", "0004"), "Härtig");
 		Course courseMath2 = new Lecture("BuS", new Time(EDay.FREITAG, 2, EPeriod.EACHWEEK), new Place("HSZ", "0003"), "Härtig");
 		Course courseMath3 = new Lecture("FS", new Time(EDay.MONTAG, 3, EPeriod.EACHWEEK), new Place("HSZ", "0002"), "Hölldobler");
-		Course courseMath4 = new Lecture("FS", new Time(EDay.DONNERSTAG, 4, EPeriod.EACHWEEK), new Place("HSZ", "0003"), "Hölldobler");
+		Course courseMath4 = new Lecture("FS", new Time(EDay.DONNERSTAG, 4, EPeriod.ODDWEEK), new Place("HSZ", "0003"), "Hölldobler");
 		Course courseMath5 = new Lecture("Mathe", new Time(EDay.DIENSTAG, 3, EPeriod.ODDWEEK), new Place("HSZ", "0002"), "Baumann");
 		Course courseMath6 = new Lecture("Mathe", new Time(EDay.DONNERSTAG, 3, EPeriod.EACHWEEK), new Place("HSZ", "0003"), "Baumann");
 		Course courseMath10 = new ExerciseCourse("BuS", new Time(EDay.MONTAG, 2, EPeriod.EACHWEEK), new Place("WIL", "C073"), "1");
 		Course courseMath11 = new ExerciseCourse("BuS", new Time(EDay.MONTAG, 3, EPeriod.EACHWEEK), new Place("WIL", "C013"), "2");
-		Course courseMath12 = new ExerciseCourse("BuS", new Time(EDay.MONTAG, 3, EPeriod.EACHWEEK), new Place("WIL", "A923"), "3");
+		Course courseMath12 = new ExerciseCourse("BuS", new Time(EDay.MONTAG, 3, EPeriod.EVENWEEK), new Place("WIL", "A923"), "3");
 		Course courseMath13 = new ExerciseCourse("BuS", new Time(EDay.DIENSTAG, 1, EPeriod.EACHWEEK), new Place("WIL", "B234"), "4");
-		Course courseMath14 = new ExerciseCourse("BuS", new Time(EDay.DIENSTAG, 6, EPeriod.EACHWEEK), new Place("WIL", "B234"), "5");
+		Course courseMath14 = new ExerciseCourse("BuS", new Time(EDay.DIENSTAG, 6, EPeriod.ODDWEEK), new Place("WIL", "B234"), "5");
 		Course courseMath15 = new ExerciseCourse("BuS", new Time(EDay.MITTWOCH, 6, EPeriod.EACHWEEK), new Place("WIL", "C073"), "1");
 		Course courseMath16 = new ExerciseCourse("BuS", new Time(EDay.DONNERSTAG, 1, EPeriod.EACHWEEK), new Place("WIL", "C013"), "2");
-		Course courseMath17 = new ExerciseCourse("BuS", new Time(EDay.DONNERSTAG, 1, EPeriod.EACHWEEK), new Place("WIL", "A923"), "3");
+		Course courseMath17 = new ExerciseCourse("BuS", new Time(EDay.DONNERSTAG, 1, EPeriod.EVENWEEK), new Place("WIL", "A923"), "3");
 		Course courseMath18 = new ExerciseCourse("BuS", new Time(EDay.DONNERSTAG, 3, EPeriod.EACHWEEK), new Place("WIL", "B234"), "4");
-		Course courseMath19 = new ExerciseCourse("BuS", new Time(EDay.FREITAG, 1, EPeriod.EACHWEEK), new Place("WIL", "B234"), "5");
+		Course courseMath19 = new ExerciseCourse("BuS", new Time(EDay.FREITAG, 1, EPeriod.ODDWEEK), new Place("WIL", "B234"), "5");
 		Course courseMath20 = new ExerciseCourse("BuS", new Time(EDay.FREITAG, 5, EPeriod.EACHWEEK), new Place("WIL", "C073"), "1");
 		Course courseMath21 = new ExerciseCourse("FS", new Time(EDay.MONTAG, 1, EPeriod.EACHWEEK), new Place("WIL", "C013"), "2");
-		Course courseMath22 = new ExerciseCourse("FS", new Time(EDay.MONTAG, 6, EPeriod.EACHWEEK), new Place("WIL", "A923"), "3");
+		Course courseMath22 = new ExerciseCourse("FS", new Time(EDay.MONTAG, 6, EPeriod.EVENWEEK), new Place("WIL", "A923"), "3");
 		Course courseMath23 = new ExerciseCourse("FS", new Time(EDay.DIENSTAG, 1, EPeriod.EACHWEEK), new Place("WIL", "B234"), "4");
-		Course courseMath24 = new ExerciseCourse("FS", new Time(EDay.DIENSTAG, 2, EPeriod.EACHWEEK), new Place("WIL", "B234"), "5");
+		Course courseMath24 = new ExerciseCourse("FS", new Time(EDay.DIENSTAG, 2, EPeriod.ODDWEEK), new Place("WIL", "B234"), "5");
 		Course courseMath25 = new ExerciseCourse("FS", new Time(EDay.MITTWOCH, 1, EPeriod.EACHWEEK), new Place("WIL", "C073"), "1");
 		Course courseMath26 = new ExerciseCourse("FS", new Time(EDay.MITTWOCH, 6, EPeriod.EACHWEEK), new Place("WIL", "C013"), "2");
-		Course courseMath27 = new ExerciseCourse("FS", new Time(EDay.DONNERSTAG, 1, EPeriod.EACHWEEK), new Place("WIL", "A923"), "3");
+		Course courseMath27 = new ExerciseCourse("FS", new Time(EDay.DONNERSTAG, 1, EPeriod.EVENWEEK), new Place("WIL", "A923"), "3");
 		Course courseMath28 = new ExerciseCourse("FS", new Time(EDay.FREITAG, 1, EPeriod.EACHWEEK), new Place("WIL", "B234"), "4");
-		Course courseMath29 = new ExerciseCourse("FS", new Time(EDay.FREITAG, 2, EPeriod.EACHWEEK), new Place("WIL", "B234"), "5");
+		Course courseMath29 = new ExerciseCourse("FS", new Time(EDay.FREITAG, 2, EPeriod.ODDWEEK), new Place("WIL", "B234"), "5");
 		Course courseMath30 = new ExerciseCourse("FS", new Time(EDay.FREITAG, 3, EPeriod.EACHWEEK), new Place("WIL", "C073"), "1");
 		Course courseMath31 = new ExerciseCourse("FS", new Time(EDay.FREITAG, 3, EPeriod.EACHWEEK), new Place("WIL", "C013"), "2");
-		Course courseMath32 = new ExerciseCourse("FS", new Time(EDay.FREITAG, 5, EPeriod.EACHWEEK), new Place("WIL", "A923"), "3");
+		Course courseMath32 = new ExerciseCourse("FS", new Time(EDay.FREITAG, 5, EPeriod.EVENWEEK), new Place("WIL", "A923"), "3");
 		Course courseMath33 = new ExerciseCourse("Mathe", new Time(EDay.MONTAG, 2, EPeriod.EACHWEEK), new Place("WIL", "B234"), "4");
-		Course courseMath34 = new ExerciseCourse("Mathe", new Time(EDay.MONTAG, 4, EPeriod.EACHWEEK), new Place("WIL", "B234"), "5");
+		Course courseMath34 = new ExerciseCourse("Mathe", new Time(EDay.MONTAG, 4, EPeriod.ODDWEEK), new Place("WIL", "B234"), "5");
 		Course courseMath35 = new ExerciseCourse("Mathe", new Time(EDay.MONTAG, 4, EPeriod.EACHWEEK), new Place("WIL", "C073"), "1");
 		Course courseMath36 = new ExerciseCourse("Mathe", new Time(EDay.MONTAG, 5, EPeriod.EACHWEEK), new Place("WIL", "C013"), "2");
-		Course courseMath37 = new ExerciseCourse("Mathe", new Time(EDay.DIENSTAG, 4, EPeriod.EACHWEEK), new Place("WIL", "A923"), "3");
+		Course courseMath37 = new ExerciseCourse("Mathe", new Time(EDay.DIENSTAG, 4, EPeriod.EVENWEEK), new Place("WIL", "A923"), "3");
 		Course courseMath38 = new ExerciseCourse("Mathe", new Time(EDay.MITTWOCH, 2, EPeriod.EACHWEEK), new Place("WIL", "B234"), "4");
-		Course courseMath39 = new ExerciseCourse("Mathe", new Time(EDay.MITTWOCH, 2, EPeriod.EACHWEEK), new Place("WIL", "B234"), "5");
+		Course courseMath39 = new ExerciseCourse("Mathe", new Time(EDay.MITTWOCH, 2, EPeriod.ODDWEEK), new Place("WIL", "B234"), "5");
 		Course courseMath40 = new ExerciseCourse("Mathe", new Time(EDay.MITTWOCH, 3, EPeriod.EACHWEEK), new Place("WIL", "C073"), "1");
 		Course courseMath41 = new ExerciseCourse("Mathe", new Time(EDay.MITTWOCH, 4, EPeriod.EACHWEEK), new Place("WIL", "C013"), "2");
-		Course courseMath42 = new ExerciseCourse("Mathe", new Time(EDay.MITTWOCH, 4, EPeriod.EACHWEEK), new Place("WIL", "A923"), "3");
+		Course courseMath42 = new ExerciseCourse("Mathe", new Time(EDay.MITTWOCH, 4, EPeriod.EVENWEEK), new Place("WIL", "A923"), "3");
 		Course courseMath43 = new ExerciseCourse("Mathe", new Time(EDay.DONNERSTAG, 6, EPeriod.EACHWEEK), new Place("WIL", "B234"), "4");
-		Course courseMath44 = new ExerciseCourse("Mathe", new Time(EDay.FREITAG, 5, EPeriod.EACHWEEK), new Place("WIL", "B234"), "5");
+		Course courseMath44 = new ExerciseCourse("Mathe", new Time(EDay.FREITAG, 5, EPeriod.ODDWEEK), new Place("WIL", "B234"), "5");
 		
 		courseList.add(courseMath1);
 		courseList.add(courseMath2);
@@ -398,8 +439,6 @@ public class MainViewModel implements Initializable
 				break;
 			}
 		}
-		
-		allTimeTables = Filter.filterByDoubleCourses(allTimeTables);
 
 		//myController.showTimeTables(allTimeTables);
 		

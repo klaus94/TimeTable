@@ -58,4 +58,14 @@ public class FilterObject {
 		
 		this.days = days;
 	}
+	
+	public String toString() {
+		String daysstring = "";
+		
+		for (EDay eDay : days) {
+			daysstring = daysstring + eDay.toString() + " ";
+		}
+		
+		return type.toString() + " " + Integer.toString(parameter) + " " + daysstring;
+	}
 }

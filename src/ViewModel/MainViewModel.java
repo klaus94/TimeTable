@@ -4,16 +4,20 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import Enumerations.EDay;
+import Enumerations.EFilter;
 import Enumerations.EPeriod;
 import Logic.Controller;
 import Logic.Filter;
 import Model.Course;
 import Model.ExerciseCourse;
+import Model.FilterObject;
 import Model.Lecture;
 import Model.Place;
 import Model.Time;
@@ -29,12 +33,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 
 public class MainViewModel implements Initializable
 {
-	private List<Course> courseList;
+	private Map<String, List<Course>> courseMap; //maps modulnames to available courses
+	private List<FilterObject> filterList;
 	
 	@FXML private javafx.scene.control.Button btnClose;
 	@FXML private javafx.scene.control.Button btnGenerate;
@@ -45,31 +51,24 @@ public class MainViewModel implements Initializable
 	@FXML private javafx.scene.control.Button btnLoadCourses;
 	@FXML private javafx.scene.control.Button btnSaveCourses;
 	@FXML private javafx.scene.control.ComboBox<String> cbModuleName;
-	@FXML private javafx.scene.control.ListView<String> listFilter;
-	@FXML private javafx.scene.control.ListView<String> listCourses;
+	@FXML private javafx.scene.control.ListView<FilterObject> listFilter;
+	@FXML private javafx.scene.control.ListView<Course> listCourses;
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
-	{
-		courseList = new ArrayList<Course>();
-		
-		setCourseList();		// fills courseList with hardcoded data
-								// later: import list or user input
-		refreshComboBox();
+	{	
 		
 	}
 	
-	private void refreshComboBox() {
+	private void refreshcbModuleName() {
 		// set combobox-items
 		String value = cbModuleName.getValue();
 
 		ObservableList<String> items =cbModuleName.getItems();
 		items.clear();
 		
-		for (Course course : courseList) {
-			if (!items.contains(course.getModuleName())) {
-				items.add(course.getModuleName());
-			}
+		for (String module : courseMap.keySet()) {
+			items.add(module);		
 		}
 		cbModuleName.setItems(items);
 		
@@ -79,20 +78,25 @@ public class MainViewModel implements Initializable
 			cbModuleName.setValue(value);
 		}
 		
-		refreshListBox();
+		refreshlbCourses();
 	}
 
-	public void refreshListBox() {		
+	public void refreshlbCourses() {
+		
 		// set listbox-items
-		ObservableList<String> items = listCourses.getItems();
+		ObservableList<Course> items = listCourses.getItems();
 		items.clear();
-		for (Course course: courseList)
-		{
-			if (course.getModuleName().equals(cbModuleName.getValue())) {
-				items.add(course.toString());
+		
+		List<Course> courseList = courseMap.get(cbModuleName.getValue());
+		try {
+			for (Course course: courseList)
+			{
+				items.add(course);
 			}
+			listCourses.setItems(items);
+		} catch (Exception e ){ 
+//			System.out.println(e.getMessage());
 		}
-		listCourses.setItems(items);
 	}
 	
 	@FXML
@@ -121,53 +125,125 @@ public class MainViewModel implements Initializable
 	@FXML
 
 	private void btnAddFilterClick(ActionEvent event) throws IOException{
-		
-		FilterViewModel filterPage = new FilterViewModel();//loader.<FilterViewModel>getController();
-		filterPage.initData(null);
+		String filePath = ".." + File.separator + "Views" + File.separator + "FilterPage.fxml"; 
+		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+		try {
+			FlowPane root = (FlowPane) loader.load();
+			FilterViewModel filterModel = loader.getController();
+			filterModel.initData(null);
 
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.showAndWait();
+			if (filterModel.getFilter() != null)
+				filterList.add(filterModel.getFilter());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		refreshlbFilter();
+	}
+
+	private void refreshlbFilter() {
+		ObservableList<FilterObject> items = listFilter.getItems();
+		items.clear();
+		
+		for (FilterObject filter: filterList)
+		{
+			items.add(filter);
+		}
+		listFilter.setItems(items);
 	}
 
 	@FXML
 	private void btnRemoveFilterClick(ActionEvent event) {
-		
+		FilterObject remove = listFilter.getSelectionModel().getSelectedItem();
+		if (remove != null) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setHeaderText("Remove course: '" + remove + "'");
+			alert.setContentText("Are you sure?");
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){
+				filterList.remove(remove);
+				refreshlbFilter();
+			} 
+		}
 	}
 
 	@FXML
 	private void btnAddCourseClick(ActionEvent event) throws IOException {
-		System.out.println("davor");
-		CourseViewModel cvm = new CourseViewModel();
-		System.out.println("darin");
-		cvm.initData(courseList);
-		System.out.println("danach");
+
+		//TODO sinnlose statements entfernen
+		String filePath = ".." + File.separator + "Views" + File.separator + "CoursePage.fxml"; 
+		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+		try {
+			GridPane root = (GridPane) loader.load();
+			
+			CourseViewModel courseModel = loader.getController();
+			System.out.println("hallo");
+			courseModel.initData(courseMap.keySet());
+
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.showAndWait();
+			addCourse(courseModel.getNewCourse());		//add new course to map
+		} catch (Exception e) {
+			System.out.println("addcourseexception " + e.getMessage());
+		}
+
+		System.out.println("btnadd: " + cbModuleName.getValue());
+		
+		refreshlbCourses();
+
 	}
 
 	@FXML
 	private void btnRemoveCourseClick(ActionEvent event) {
-		String remove =listCourses.getSelectionModel().getSelectedItem();
-		
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setHeaderText("Remove course: '" + remove + "'");
-		alert.setContentText("Are you sure?");
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK){
-			// remove course
-			ObservableList<String> items = listCourses.getItems();
-			items.remove(remove);
-			listCourses.setItems(items);
-		} 
+		Course remove = listCourses.getSelectionModel().getSelectedItem();
+		if (remove != null) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setHeaderText("Remove course: '" + remove + "'");
+			alert.setContentText("Are you sure?");
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){
+				courseMap.get(remove.getModuleName()).remove(remove);
+				refreshlbCourses();
+			} 
+		}
 	}
 
 	@FXML
 	private void btnLoadCoursesClick(ActionEvent event) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Attention");
-		alert.setHeaderText("Method not implemented yet");
-		alert.showAndWait();
+		String filePath = ".." + File.separator + "Views" + File.separator + "LoadCoursePage.fxml"; 
+		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+		try {
+			GridPane root = (GridPane) loader.load();
+			
+			LoadCourseViewModel loadcourseModel = loader.getController();
+			loadcourseModel.initData(courseMap.keySet());
+
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.showAndWait();
+			
+			for ( String key : loadcourseModel.getNewCourseMap().keySet() ) {
+				for ( Course c : loadcourseModel.getNewCourseMap().get(key) ) {
+					addCourse(c);
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@FXML
 	private void btnSaveCoursesClick(ActionEvent event) {
-		Alert alert = new Alert(AlertType.INFORMATION);
+		//TODO überlegen wie überhaupt
+		Alert alert = new Alert(AlertType.WARNING);
 		alert.setTitle("Attention");
 		alert.setHeaderText("Method not implemented yet");
 		alert.showAndWait();
@@ -175,25 +251,47 @@ public class MainViewModel implements Initializable
 
 	@FXML
 	private void cbModuleNameChange(ActionEvent event) {
-		refreshListBox();
+		refreshlbCourses();
 	}
 	
-	
-	
-	public void initData(String str) throws IOException{
-		String filePath = ".." + File.separator + "Views" + File.separator + "MainPage.fxml"; 
-		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
-		FlowPane root = (FlowPane) loader.load();
-		 
-		Scene scene = new Scene(root);
-		Stage stage = new Stage();
-		stage.setScene(scene);
-		stage.setTitle(str);
-		stage.show();
+	private void addCourse(Course course) {
+		if (course == null) {
+			return;
+		} 
+		
+		List<Course> list = courseMap.get(course.getModuleName());
+		if (list == null) {
+			list = new ArrayList<Course>();
+		} else {
+			for (Course c : list) {
+				if (c.toString().equals(course.toString())) {
+					return;
+				}
+			}
+		}
+		
+		list.add(course);
+		courseMap.put(course.getModuleName(), list);
+		
+		refreshcbModuleName();
+	}
+		
+	public void initData(){
+
+		courseMap = new HashMap<String, List<Course>>();
+		filterList = new ArrayList<FilterObject>();
+		
+		//TODO entfernen
+		setCourseList();		// fills courseList with hardcoded data
+								// later: import list or user input
+		refreshcbModuleName();
+
 	}
 	
+
 	private void setCourseList()
 	{
+		List<Course> courseList = new ArrayList<Course>();
 		Course courseMath1 = new Lecture("BuS", new Time(EDay.DIENSTAG, 2, EPeriod.ODDWEEK), new Place("HSZ", "0004"), "Härtig");
 		Course courseMath2 = new Lecture("BuS", new Time(EDay.FREITAG, 2, EPeriod.EACHWEEK), new Place("HSZ", "0003"), "Härtig");
 		Course courseMath3 = new Lecture("FS", new Time(EDay.MONTAG, 3, EPeriod.EACHWEEK), new Place("HSZ", "0002"), "Hölldobler");
@@ -278,26 +376,48 @@ public class MainViewModel implements Initializable
 		courseList.add(courseMath42);
 		courseList.add(courseMath43);
 		courseList.add(courseMath44);
+		
+		for (Course course : courseList) {
+			addCourse(course);
+		}
 	}
 	
 	private List<TimeTable> generateTestData()
 	{
-		Controller myController = new Controller(courseList);
+		Controller myController = new Controller(courseMap);
 		myController.generateTimeTables();
 		List<TimeTable> allTimeTables = myController.getAllTimeTables();
 
-		//myController.showTimeTables(allTimeTables);
-		List<EDay> days = new ArrayList<EDay>();
-		days.add(EDay.MONTAG);
-		days.add(EDay.DIENSTAG);
-		days.add(EDay.MITTWOCH);
-		days.add(EDay.DONNERSTAG);
-		days.add(EDay.FREITAG);
+		
+		//iterate over FilterList and filter allTimeTables
+		for (FilterObject filter : filterList) {
+			switch (filter.getType()) {
+			case BYAFTERNOONTIME:
+				allTimeTables = Filter.filterByAfternoontime(allTimeTables, filter.getDays(), filter.getParameter());
+				break;
+				
+			case BYMAXINROW:
+				allTimeTables = Filter.filterByMaxInRow(allTimeTables, filter.getParameter());
+				break;
+			
+			case BYMAXNUMBER:
+				allTimeTables = Filter.filterByMaxNumber(allTimeTables, filter.getParameter());
+				break;
+				
+			case BYMINNUMBER:
+				allTimeTables = Filter.filterByMinNumber(allTimeTables, filter.getParameter());
+				break;
+				
+			case BYMORNINGTIME:
+				allTimeTables = Filter.filterByMorningtime(allTimeTables, filter.getDays(), filter.getParameter());
+				break;
 
-		allTimeTables = Filter.filterByMinNumber(allTimeTables, 2);
-		allTimeTables = Filter.filterByMorningtime(allTimeTables, days, 1);
-		allTimeTables = Filter.filterByAfternoontime(allTimeTables, days, 5);
-		allTimeTables = Filter.filterByMaxInRow(allTimeTables, 4);
+			default:
+				break;
+			}
+		}
+
+		//myController.showTimeTables(allTimeTables);
 		
 		return allTimeTables;
 	}

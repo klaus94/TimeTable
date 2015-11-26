@@ -1,27 +1,29 @@
 package ViewModel;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import Enumerations.EFilter;
+import Enumerations.EDay;
 import Model.FilterObject;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class FilterViewModel implements Initializable {
 	
+	private FilterObject newFilter;
+	
 	@FXML private javafx.scene.control.Button btnClose;
 	@FXML private javafx.scene.control.Button btnSave;
 	@FXML private javafx.scene.control.TextField txtWert;
-	@FXML private javafx.scene.control.ComboBox<String> cbFilter;
+	@FXML private javafx.scene.control.ComboBox<EFilter> cbFilter;
 	
 	@FXML private javafx.scene.control.CheckBox chbMo;
 	@FXML private javafx.scene.control.CheckBox chbDi;
@@ -36,10 +38,29 @@ public class FilterViewModel implements Initializable {
 	@FXML private javafx.scene.control.Label lblFr;
 	
 	@FXML private void btnSaveClick(ActionEvent event){
-		txtWert.setText("No");
-		if (chbMo != null) {
-			chbMo.setVisible(false);
-		}
+		List<EDay> days = new ArrayList<EDay>();
+		
+		if (chbMo.isSelected())
+			days.add(EDay.MONTAG);
+		if (chbDi.isSelected())
+			days.add(EDay.DIENSTAG);
+		if (chbMi.isSelected())
+			days.add(EDay.MITTWOCH);
+		if (chbDo.isSelected())
+			days.add(EDay.DONNERSTAG);
+		if (chbFr.isSelected())
+			days.add(EDay.FREITAG);
+			
+		
+		newFilter = new FilterObject(cbFilter.getValue(), Integer.parseInt(txtWert.getText()), days);
+		
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Information");
+		alert.setHeaderText("Der Eintrag wurde erfolgreich gespeichert");
+		alert.setContentText("Klicke OK um zum Hauptfenster zurückzukehren");
+		alert.showAndWait();
+		
+		((Stage) btnClose.getScene().getWindow()).close();
 	}
 
 	@FXML private void btnCloseClick(ActionEvent event) {
@@ -48,7 +69,7 @@ public class FilterViewModel implements Initializable {
 	
 	@FXML private void cbFilterChange(ActionEvent event) {
 		System.out.println("hallo");
-		if (EFilter.toEnum(cbFilter.getValue()).needDays()) {
+		if (cbFilter.getValue().needDays()) {
 			chbMo.setVisible(true);
 			chbDi.setVisible(true);
 			chbMi.setVisible(true);
@@ -61,6 +82,11 @@ public class FilterViewModel implements Initializable {
 			lblFr.setVisible(true);
 			
 		} else {
+			chbMo.setSelected(false);
+			chbDi.setSelected(false);
+			chbMi.setSelected(false);
+			chbDo.setSelected(false);
+			chbFr.setSelected(false);
 			chbMo.setVisible(false);
 			chbDi.setVisible(false);
 			chbMi.setVisible(false);
@@ -75,29 +101,33 @@ public class FilterViewModel implements Initializable {
 		}
 	}
 	
-	public void initData(FilterObject filter) throws IOException{
+	public void initData(FilterObject filter){
+		if (filter == null) {
+			return;
+		}
 		
-		
-			String filePath = ".." + File.separator + "Views" + File.separator + "FilterPage.fxml"; 
-			FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
-			FlowPane root = (FlowPane) loader.load();
-			
-			
-			FilterViewModel filterPage = loader.<FilterViewModel>getController();
-			System.out.println(filterPage);
-
-			 
-			Scene scene = new Scene(root);
-			Stage stage = new Stage();
-			stage.setScene(scene);
-			stage.show();
-				
-			
+		cbFilter.setValue(filter.getType());
+		txtWert.setText(Integer.toString(filter.getParameter()));
+		for (EDay day : filter.getDays()) {
+			if (day == EDay.MONTAG)
+				chbMo.setSelected(true);
+			if (day == EDay.DIENSTAG)
+				chbDi.setSelected(true);
+			if (day == EDay.MITTWOCH)
+				chbMi.setSelected(true);
+			if (day == EDay.DONNERSTAG)
+				chbDo.setSelected(true);
+			if (day == EDay.FREITAG)
+				chbFr.setSelected(true);
+		}
 	}
 
+	public FilterObject getFilter() {
+		return newFilter;
+	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
 		chbMo.setVisible(false);
 		chbDi.setVisible(false);
 		chbMi.setVisible(false);
@@ -109,13 +139,13 @@ public class FilterViewModel implements Initializable {
 		lblDo.setVisible(false);
 		lblFr.setVisible(false);
 		
-		ObservableList<String> items = cbFilter.getItems();
+		ObservableList<EFilter> items = cbFilter.getItems();
 		items.clear();
-		items.add(EFilter.BYMORNINGTIME.toString());
-		items.add(EFilter.BYAFTERNOONTIME.toString());
-		items.add(EFilter.BYMINNUMBER.toString());
-		items.add(EFilter.BYMAXNUMBER.toString());
-		items.add(EFilter.BYMAXINROW.toString());
+		items.add(EFilter.BYMORNINGTIME);
+		items.add(EFilter.BYAFTERNOONTIME);
+		items.add(EFilter.BYMINNUMBER);
+		items.add(EFilter.BYMAXNUMBER);
+		items.add(EFilter.BYMAXINROW);
 		
 	}
 }

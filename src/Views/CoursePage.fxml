@@ -149,6 +149,6 @@
             <Button mnemonicParsing="false" onAction="#btnSaveClick" text="Speichern" GridPane.columnIndex="1" />
          </children>
       </GridPane>
-      <ComboBox fx:id="cbModulename" editable="true" onAction="#test" prefHeight="25.0" prefWidth="230.0" GridPane.columnIndex="1" />
+      <ComboBox fx:id="cbModulename" editable="true" prefHeight="25.0" prefWidth="230.0" GridPane.columnIndex="1" />
    </children>
 </GridPane>

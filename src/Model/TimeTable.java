@@ -60,6 +60,10 @@ public class TimeTable
 	{
 		return courses;
 	}
+	
+	public void removeCourse(Course course) {
+		
+	}
 
 	// it's not allowed to change id
 	public void setId(int id)

@@ -3,6 +3,7 @@ import java.util.*;
 
 import Enumerations.EDay;
 import Model.Course;
+import Model.ExerciseCourse;
 import Model.TimeTable;
 
 // Filters available:
@@ -209,4 +210,68 @@ public class Filter
 
 		return result;
 	}
+	
+	//TODO look for timetables where two courses of the same modulename take place at the same time
+	//TODO add this function to EFilter and MainViewModel (generateTestData)
+	public static List<TimeTable> filterByDoubleCourses(List<TimeTable> timeTables)
+	{
+		System.out.println("filterbydouble");
+		//iterate through a new list where the timetables are saved, that had been compared
+		//while iterate: compare a timetable to all others.. if its the same timetable like a compared one,
+		//then delete the old course from timetable and add a new one with the information
+		List<TimeTable> result = new ArrayList<TimeTable>();
+		
+		for (TimeTable newone : timeTables) {
+			System.out.println(Integer.toString(result.size()));
+			TimeTable todelete = null;
+			for(TimeTable savedone : result) {
+				if (compare(newone, savedone)) {
+					todelete = savedone;
+					for(Course oneCourse: newone.getCourseList()) {
+						if(!savedone.getCourseList().contains(oneCourse)) {
+							
+						}
+					}
+				} else {
+
+				}
+			}
+			result.remove(todelete);
+			result.add(newone);
+		}
+		
+		return result;
+	}
+	
+	private static boolean compare(TimeTable one, TimeTable two) {
+		boolean result = true;
+		for (Course oneCourse : one.getCourseList()) {
+			if (oneCourse instanceof ExerciseCourse) {
+				Course twoCourse = null;
+				for (Course course : two.getCourseList()) {
+					if ((course instanceof ExerciseCourse) && (oneCourse.getModuleName().equals(course.getModuleName()))) {
+						twoCourse = course;
+					}
+				}
+				if (twoCourse == null) {
+					throw new IllegalArgumentException("TimeTables must contain the same Modules");
+				}
+				//compare two courses.. if not same false (result)
+				if (!((oneCourse.getTime().getDay() == twoCourse.getTime().getDay()) &&
+						(oneCourse.getTime().getPeriod() == twoCourse.getTime().getPeriod()) &&
+						(oneCourse.getTime().getTime() == twoCourse.getTime().getTime()))){
+					result = false;
+				}
+			}
+		}
+		if (result == true) {
+			System.out.println("true");
+		}
+		return result;
+	}
+	//TODO fix a course
+	//TODO add this function to EFilter and MainViewModel (generateTestData)
+	
+	//TODO exclude a course
+	//TODO add this function to EFilter and MainViewModel (generateTestData)
 }

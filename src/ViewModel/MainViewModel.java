@@ -295,8 +295,6 @@ public class MainViewModel implements Initializable
 		}
 		list.add(course);
 		courseMap.put(course.getModuleName(), list);
-		
-		refreshcbModuleName();
 	}
 		
 	public void initData(){

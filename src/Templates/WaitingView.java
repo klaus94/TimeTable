@@ -2,22 +2,25 @@ package Templates;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
+import Model.TimeTable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.FlowPane;
-import javafx.stage.Stage;
 
 public class WaitingView extends FlowPane{
 	@FXML
 	ProgressBar pbarWaiting;
 	
-	private int managedTimeTables = 0;
-	private int allTimeTables = 0;
 	
-	public WaitingView() throws Exception
+	public WaitingView(List<TimeTable> allTimeTables) throws Exception
 	{
 		String filePath = ".." + File.separator + "Templates" + File.separator + "Waiting.fxml";		// "/" in Unix and "\" in Windows
 		
@@ -31,39 +34,29 @@ public class WaitingView extends FlowPane{
             throw new RuntimeException(exception);
         }
         
-        Task task = taskCreator();
+        AllTimeTablesView nextView = new AllTimeTablesView(allTimeTables);
+        Task<Object> viewBuilder = nextView.createViews();
         pbarWaiting.progressProperty().unbind();
-        pbarWaiting.progressProperty().bind(task.progressProperty());
-		new Thread(task).start();
+        pbarWaiting.progressProperty().bind(viewBuilder.progressProperty());
+        viewBuilder.messageProperty().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                System.out.println(newValue);
+            }
+        });
+        
+        // after creating the view, show it to the user
+        viewBuilder.setOnSucceeded(new EventHandler() {
+			@Override
+			public void handle(Event event) {
+				nextView.show();
+			}
+        });
+        
+		Thread t = new Thread(viewBuilder);
+		t.start();
         
 	}
 	
-	public void updateProgress(int managed, int all)
-	{
-		managedTimeTables = managed;
-		allTimeTables = all;
-	}
-	
-	
-	//TEST
-	//Create a New Task
-	private Task taskCreator(){
-		return new Task() {
-
-			@Override
-			protected Object call() throws Exception {
-				//TODO: get controlled by an other class (generate-method)
-				
-				for(int i=0; i<100;i++){
-					Thread.sleep(50);
-					System.out.println("updated");
-					updateProgress(i+1, 100);
-				}
-				return true;
-			}
-		};
-	}
-	//END TEST
 
 }
 

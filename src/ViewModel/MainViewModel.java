@@ -11,7 +11,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import Enumerations.EDay;
-import Enumerations.EFilter;
 import Enumerations.EPeriod;
 import Logic.Controller;
 import Logic.Filter;
@@ -22,7 +21,7 @@ import Model.Lecture;
 import Model.Place;
 import Model.Time;
 import Model.TimeTable;
-import Templates.AllTimeTablesView;
+import Templates.WaitingView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -139,15 +138,14 @@ public class MainViewModel implements Initializable
 	@FXML
 	private void btnGenerateClick(ActionEvent event) {
 		List<TimeTable> allTimeTables = generateTestData();
-		AllTimeTablesView nextView = null;
-		try
-		{
-			nextView = new AllTimeTablesView(allTimeTables);
-		} catch (Exception exception) {
-	        throw new RuntimeException(exception);
-	    }
+		WaitingView waitView = null;
+		try {
+			waitView = new WaitingView(allTimeTables);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		Scene scene = new Scene(nextView);
+		Scene scene = new Scene(waitView);
 		Stage stage = new Stage();
 		stage.setScene(scene);
 		stage.show();

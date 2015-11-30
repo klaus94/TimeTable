@@ -11,7 +11,7 @@ public enum EPeriod
     		case "wöch.": return EACHWEEK;
     		case "1. Wo.": return ODDWEEK;
     		case "2. Wo.": return EVENWEEK;
-    		case "": return UNDEFINED;
+    		case "?": return UNDEFINED;
     		default: throw new IllegalArgumentException();
     	}
     }

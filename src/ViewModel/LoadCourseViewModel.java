@@ -118,11 +118,6 @@ public class LoadCourseViewModel implements Initializable {
 			System.out.println( "IOException: " + e );
 		}
 		
-//		for ( String s : content ) {
-//			System.out.println( s );
-//		}
-		
-		
 		ArrayList<Course> newCourseList = new ArrayList<Course>();
 		String semstr = "";
 		String modulenamestr = "";
@@ -140,7 +135,7 @@ public class LoadCourseViewModel implements Initializable {
 		for ( String s : content ) {
 			if ( s.contains( "<h1>" ) ) {
 				if ( !Character.isDigit( Jsoup.parse( s ).text().charAt(0) ) ) {
-					break;
+					semstr = "?";
 				}
 				semstr = Jsoup.parse( s ).text();
 			}
@@ -241,26 +236,22 @@ public class LoadCourseViewModel implements Initializable {
 					}
 				}
 				if ( column == columnsoftable ) {
-					if ( timestr.length() == 0 || timestr.equals("ZVZ") ) {
-						insubjectcode = false;
-						continue;
-					}
 					coursecounter = ( kindofcoursestr.length()+1 ) / 2;
 					for ( int i = 1; i <= coursecounter; i++ ) {
 						Course newCourse;
 						switch ( String.valueOf(kindofcoursestr.charAt(2*(i-1))) ) {
 						case "V":
-							newCourse = new Lecture(modulenamestr, new Time(EDay.getDay(getEntry(daystr, i)), Integer.parseInt(String.valueOf(timestr.charAt(3*(i-1)))), EPeriod.getPeriod(getEntry(periodstr, i))), new Place(getEntry(placestr, i), ""), instructorstr);
+							newCourse = new Lecture(modulenamestr, new Time(EDay.getDay(getDayEntry(daystr, i)), Integer.parseInt(getTimeEntry(timestr, i)), EPeriod.getPeriod(getPeriodEntry(periodstr, i))), new Place(getPlaceEntry(placestr, i), ""), instructorstr);
 							newCourseList.add(newCourse);
 							System.out.println("added: " + newCourse);
 							break;
 						case "U":
-							newCourse = new ExerciseCourse(modulenamestr, new Time(EDay.getDay(getEntry(daystr, i)), Integer.parseInt(String.valueOf(timestr.charAt(3*(i-1)))), EPeriod.getPeriod(getEntry(periodstr, i))), new Place(getEntry(placestr, i), ""), "Tutor");
+							newCourse = new ExerciseCourse(modulenamestr, new Time(EDay.getDay(getDayEntry(daystr, i)), Integer.parseInt(getTimeEntry(timestr, i)), EPeriod.getPeriod(getPeriodEntry(periodstr, i))), new Place(getPlaceEntry(placestr, i), ""), "Tutor");
 							newCourseList.add(newCourse);
 							System.out.println("added: " + newCourse);
 							break;
 						default:
-							newCourse = new ExerciseCourse(modulenamestr, new Time(EDay.getDay(getEntry(daystr, i)), Integer.parseInt(String.valueOf(timestr.charAt(3*(i-1)))), EPeriod.getPeriod(getEntry(periodstr, i))), new Place(getEntry(placestr, i), ""), "Tutor");
+							newCourse = new ExerciseCourse(modulenamestr, new Time(EDay.getDay(getDayEntry(daystr, i)), Integer.parseInt(getTimeEntry(timestr, i)), EPeriod.getPeriod(getPeriodEntry(periodstr, i))), new Place(getPlaceEntry(placestr, i), ""), "Tutor");
 							newCourseList.add(newCourse);
 							System.out.println("added: " + newCourse);
 							break;
@@ -268,8 +259,6 @@ public class LoadCourseViewModel implements Initializable {
 					}
 					System.out.println("Added whole Module: " + modulenamestr);
 					newCourseMap.put(modulenamestr, newCourseList);
-//					System.out.println(modulenamestr + " | " + semstr + " | " + instructorstr + " | " + kindofcoursestr + " | " + daystr + " | " + timestr + " | " + placestr + " | " + periodstr);
-//					System.out.println("-> Anzahl Kurse: " + coursecounter);
 					modulenamestr = "";
 					instructorstr = "";
 					kindofcoursestr = "";
@@ -293,8 +282,41 @@ public class LoadCourseViewModel implements Initializable {
 		
 		( (Stage) btnClose.getScene().getWindow() ).close();
 	}
+
+	private String getDayEntry(String str, int pos) {
+		if ( str.equals("") || str.equals("ZVZ") ) {
+			return "?";
+		}
+		String[] strfield = str.split( "\\s+" );
+		return strfield[ pos-1 ];
+	}
 	
-	private String getEntry(String str, int pos) {
+	private String getTimeEntry(String str, int pos) {
+		//TODO: durch Komma getrennte doppelte Zeileneinträge auseinandernehmen
+		if ( str.equals("") || str.equals("ZVZ") ) {
+			return "0";
+		}
+		String[] strfield = str.split( "\\s+" );
+		for ( int k = 0; k <= strfield.length-2; k++ ) {
+			if ( strfield[k].endsWith(",") ) {
+				String[] tempstrfield = new String[ strfield.length-1 ];
+				for ( int i = 0; i <= k-1; i++) {
+					tempstrfield[i] = strfield[i];
+				}
+				tempstrfield[k] = strfield[k] + " " + strfield[k+1];
+				for ( int i = k+1; i <= strfield.length-2; i++) {
+					tempstrfield[i] = strfield[i+1];
+				}
+				strfield = tempstrfield;
+			}
+		}
+		return strfield[ pos-1 ].substring(0, 1);
+	}
+	
+	private String getPeriodEntry(String str, int pos) {
+		if ( str.equals("") ) {
+			return "?";
+		}
 		String[] strfield = str.split( "\\s+" );
 		for ( int k = 0; k <= strfield.length-2; k++ ) {
 			if ( strfield[k].startsWith("1") || strfield[k].startsWith("2") ) {
@@ -311,7 +333,23 @@ public class LoadCourseViewModel implements Initializable {
 		}
 		return strfield[ pos-1 ];
 	}
-
+	
+	private String getPlaceEntry(String str, int pos) {
+		if (str.equals("") || str.equals("AVO")) {
+			return "?";
+		}
+		String[] strfield = str.split( "\\s+" );
+		return strfield[ pos-1 ];
+	}
+	
+	private int countChar(String str, char c) {
+		int counter = 0;
+		for (int i = 0; i <= str.length(); i++) {
+			if ( str.charAt(i) == c ) counter++;
+		}
+		return counter;
+	}
+	
 	public Map<String, List<Course>> getNewCourseMap() {
 		return newCourseMap;
 	}

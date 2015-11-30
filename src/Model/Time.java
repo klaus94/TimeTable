@@ -14,7 +14,7 @@ public class Time
 		{
 			throw new NullPointerException();
 		}
-		if (time < 1 || time > 7)
+		if (time < 0 || time > 7)
 		{
 			throw new IllegalArgumentException();
 		}

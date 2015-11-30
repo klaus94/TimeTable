@@ -15,7 +15,7 @@ public enum EDay
       		case MITTWOCH: return "Mittwoch";
       		case DONNERSTAG: return "Donnerstag";
       		case FREITAG: return "Freitag";
-      		case UNDEFINED: return "";
+      		case UNDEFINED: return "?";
       		default: throw new IllegalArgumentException();
     	}
 	}
@@ -39,7 +39,7 @@ public enum EDay
     		case "Mittwoch": return MITTWOCH;
     		case "Donnerstag": return DONNERSTAG;
     		case "Freitag": return FREITAG;
-    		case "ZVZ": return UNDEFINED;
+    		case "?": return UNDEFINED;
     		default: throw new IllegalArgumentException();
     	}
     }

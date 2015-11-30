@@ -11,7 +11,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import Enumerations.EDay;
-import Enumerations.EFilter;
 import Enumerations.EPeriod;
 import Logic.Controller;
 import Logic.Filter;
@@ -22,9 +21,9 @@ import Model.Lecture;
 import Model.Place;
 import Model.Time;
 import Model.TimeTable;
-import Templates.AllTimeTablesView;
+import Templates.WaitingView;
 import javafx.event.ActionEvent;
-
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -32,6 +31,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -57,7 +57,37 @@ public class MainViewModel implements Initializable
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{	
-		
+		// set handler for course-list -> click on a course
+		listCourses.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+	        @Override
+	        public void handle(MouseEvent event) {
+	            // TODO: Test, if clicked mouse-button was PRIMARY (left mouse key)
+            	if(event.getClickCount() == 2){
+            		System.out.println("Double clicked " + listCourses.getSelectionModel().getSelectedItem());
+            		
+            		String filePath = ".." + File.separator + "Views" + File.separator + "CoursePage.fxml";
+            		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+            		try {
+            			GridPane root = (GridPane) loader.load();
+	            		CourseViewModel courseModel = loader.getController();
+	        			System.out.println("hallo");
+	        			courseModel.initData(courseMap.keySet(), listCourses.getSelectionModel().getSelectedItem());
+	        			courseModel.setCourse(listCourses.getSelectionModel().getSelectedItem());
+	
+	        			Scene scene = new Scene(root);
+	        			Stage stage = new Stage();
+	        			stage.setScene(scene);
+	        			stage.showAndWait();
+	        			addCourse(courseModel.getNewCourse());		//add new course to map
+            		}
+            		catch(Exception e)
+            		{
+            			System.out.println("Kurs konnte nicht geladen werden");
+            		}
+            	}
+	        }
+	    });
 	}
 	
 	private void refreshcbModuleName() {
@@ -108,15 +138,14 @@ public class MainViewModel implements Initializable
 	@FXML
 	private void btnGenerateClick(ActionEvent event) {
 		List<TimeTable> allTimeTables = generateTestData();
-		AllTimeTablesView nextView = null;
-		try
-		{
-			nextView = new AllTimeTablesView(allTimeTables);
-		} catch (Exception exception) {
-	        throw new RuntimeException(exception);
-	    }
+		WaitingView waitView = null;
+		try {
+			waitView = new WaitingView(allTimeTables);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		Scene scene = new Scene(nextView);
+		Scene scene = new Scene(waitView);
 		Stage stage = new Stage();
 		stage.setScene(scene);
 		stage.show();
@@ -182,7 +211,7 @@ public class MainViewModel implements Initializable
 			
 			CourseViewModel courseModel = loader.getController();
 			System.out.println("hallo");
-			courseModel.initData(courseMap.keySet());
+			courseModel.initData(courseMap.keySet(), null);
 
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
@@ -254,6 +283,7 @@ public class MainViewModel implements Initializable
 		refreshlbCourses();
 	}
 	
+	
 	private void addCourse(Course course) {
 		if (course == null) {
 			return;
@@ -272,8 +302,6 @@ public class MainViewModel implements Initializable
 		
 		list.add(course);
 		courseMap.put(course.getModuleName(), list);
-		
-		refreshcbModuleName();
 	}
 		
 	public void initData(){

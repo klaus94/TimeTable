@@ -263,10 +263,13 @@ public class MainViewModel implements Initializable
 					addCourse(c);
 				}
 			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
+		
+		refreshcbModuleName();
 	}
 
 	@FXML

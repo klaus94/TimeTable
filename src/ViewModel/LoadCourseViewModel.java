@@ -283,18 +283,15 @@ public class LoadCourseViewModel implements Initializable {
 	}
 
 	private String getDayEntry(String str, int pos) {
-		if ( str.equals("") || str.equals("ZVZ") ) {
+		String[] strfield = str.split( "\\s+" );
+		if ( strfield[ pos-1 ].equals("") || strfield[ pos-1 ].equals("ZVZ") ) {
 			return "?";
 		}
-		String[] strfield = str.split( "\\s+" );
 		return strfield[ pos-1 ];
 	}
 	
 	private String getTimeEntry(String str, int pos) {
 		//TODO: durch Komma getrennte doppelte Zeileneinträge auseinandernehmen
-		if ( str.equals("") || str.equals("ZVZ") ) {
-			return "0";
-		}
 		String[] strfield = str.split( "\\s+" );
 		for ( int k = 0; k <= strfield.length-2; k++ ) {
 			if ( strfield[k].endsWith(",") ) {
@@ -309,13 +306,13 @@ public class LoadCourseViewModel implements Initializable {
 				strfield = tempstrfield;
 			}
 		}
+		if ( strfield[ pos-1 ].equals("") || strfield[ pos-1 ].equals("ZVZ") ) {
+			return "0";
+		}
 		return strfield[ pos-1 ].substring(0, 1);
 	}
 	
 	private String getPeriodEntry(String str, int pos) {
-		if ( str.equals("") ) {
-			return "?";
-		}
 		String[] strfield = str.split( "\\s+" );
 		for ( int k = 0; k <= strfield.length-2; k++ ) {
 			if ( strfield[k].startsWith("1") || strfield[k].startsWith("2") ) {
@@ -330,14 +327,17 @@ public class LoadCourseViewModel implements Initializable {
 				strfield = tempstrfield;
 			}
 		}
+		if ( strfield[ pos-1 ].equals("") ) {
+			return "?";
+		}
 		return strfield[ pos-1 ];
 	}
 	
 	private String getPlaceEntry(String str, int pos) {
-		if (str.equals("") || str.equals("AVO")) {
+		String[] strfield = str.split( "\\s+" );
+		if (strfield[ pos-1 ].equals("") || strfield[ pos-1 ].equals("AVO")) {
 			return "?";
 		}
-		String[] strfield = str.split( "\\s+" );
 		return strfield[ pos-1 ];
 	}
 	

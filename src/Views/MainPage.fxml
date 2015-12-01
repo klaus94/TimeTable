@@ -42,19 +42,19 @@
                               </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="338.0" prefWidth="800.0">
                                  <children>
-                                    <FlowPane orientation="VERTICAL" prefHeight="338.0" prefWidth="627.0" AnchorPane.leftAnchor="0.0">
+                                    <FlowPane orientation="VERTICAL" prefHeight="338.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0">
                                        <children>
-                                          <ComboBox fx:id="cbModuleName" onAction="#cbModuleNameChange" prefHeight="31.0" prefWidth="622.0" promptText="ModuleName">
+                                          <ComboBox fx:id="cbModuleName" onAction="#cbModuleNameChange" prefHeight="31.0" prefWidth="606.0" promptText="ModuleName">
                                              <opaqueInsets>
                                                 <Insets />
                                              </opaqueInsets>
                                              <FlowPane.margin>
-                                                <Insets top="5.0" />
+                                                <Insets left="10.0" right="10.0" top="5.0" />
                                              </FlowPane.margin>
                                           </ComboBox>
-                                          <ListView fx:id="listCourses" prefHeight="280.0" prefWidth="619.0">
+                                          <ListView fx:id="listCourses" prefHeight="276.0" prefWidth="604.0">
                                              <FlowPane.margin>
-                                                <Insets top="5.0" />
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </FlowPane.margin>
                                           </ListView>
                                        </children>
@@ -69,13 +69,13 @@
           </Tab>
           <Tab text="Filter">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="340.0" prefWidth="800.0">
                      <children>
-                        <SplitPane dividerPositions="0.29797979797979796" prefHeight="339.0" prefWidth="447.0">
+                        <SplitPane dividerPositions="0.21052631578947367" prefHeight="340.0" prefWidth="800.0">
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                  <children>
-                                    <FlowPane alignment="CENTER" orientation="VERTICAL" prefHeight="337.0" prefWidth="130.0">
+                                    <FlowPane alignment="CENTER" orientation="VERTICAL" prefHeight="337.0" prefWidth="167.0">
                                        <children>
                                           <Button fx:id="btnAddFilter" mnemonicParsing="false" onAction="#btnAddFilterClick" text="add Filter" />
                                           <Button fx:id="btnRemoveFilter" alignment="CENTER" mnemonicParsing="false" onAction="#btnRemoveFilterClick" text="remove Filter">
@@ -86,13 +86,13 @@
                                        </children>
                                     </FlowPane>
                                  </children></AnchorPane>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="338.0" prefWidth="647.0">
                                  <children>
                                     <FlowPane prefHeight="337.0" prefWidth="309.0">
                                        <children>
-                                          <ListView fx:id="listFilter" prefHeight="317.0" prefWidth="289.0">
+                                          <ListView fx:id="listFilter" prefHeight="312.0" prefWidth="607.0">
                                              <FlowPane.margin>
-                                                <Insets left="10.0" top="10.0" />
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </FlowPane.margin>
                                           </ListView>
                                        </children>

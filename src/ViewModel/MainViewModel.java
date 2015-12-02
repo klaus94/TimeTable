@@ -155,12 +155,13 @@ public class MainViewModel implements Initializable
 	@FXML
 
 	private void btnAddFilterClick(ActionEvent event) throws IOException{
+		//TODO throw things in FilterViewModel
 		String filePath = ".." + File.separator + "Views" + File.separator + "FilterPage.fxml"; 
 		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
 		try {
 			FlowPane root = (FlowPane) loader.load();
 			FilterViewModel filterModel = loader.getController();
-			filterModel.initData(null);
+			filterModel.initData(null, courseMap);
 
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
@@ -266,7 +267,6 @@ public class MainViewModel implements Initializable
 			}
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
 		
@@ -426,12 +426,14 @@ public class MainViewModel implements Initializable
 		days.add(EDay.MITTWOCH);
 		days.add(EDay.DONNERSTAG);
 		days.add(EDay.FREITAG);
-		FilterObject filter1 = new FilterObject(EFilter.BYMORNINGTIME, 2, days);
-		FilterObject filter2 = new FilterObject(EFilter.BYAFTERNOONTIME, 5, days);
-		FilterObject filter3 = new FilterObject(EFilter.BYMINNUMBER, 2, days);
+		FilterObject filter1 = new FilterObject(EFilter.BYMORNINGTIME, 2, days, null);
+		FilterObject filter2 = new FilterObject(EFilter.BYAFTERNOONTIME, 5, days, null);
+		FilterObject filter3 = new FilterObject(EFilter.BYMINNUMBER, 2, null, null);
+		FilterObject filter4 = new FilterObject(EFilter.BYDOUBLECOURSES, 0, null, null);
 		filterList.add(filter1);
 		filterList.add(filter2);
 		filterList.add(filter3);
+		filterList.add(filter4);
 		
 		//iterate over FilterList and filter allTimeTables
 		for (FilterObject filter : filterList) {
@@ -456,13 +458,18 @@ public class MainViewModel implements Initializable
 				allTimeTables = Filter.filterByMorningtime(allTimeTables, filter.getDays(), filter.getParameter());
 				break;
 
+			case BYDOUBLECOURSES:
+				allTimeTables = Filter.filterByDoubleCourses(allTimeTables);
+				break;
+				
+				//TODO aa find mistake
+			case BYFIXCOURSE:
+				allTimeTables = Filter.filterByFixCourse(allTimeTables, filter.getCourse());
+				
 			default:
 				break;
 			}
 		}
-		
-		//TODO found a mistake in timetable 145
-		allTimeTables = Filter.filterByDoubleCourses(allTimeTables);
 
 		myController.showTimeTables(allTimeTables);
 		

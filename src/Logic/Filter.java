@@ -12,6 +12,7 @@ import Model.TimeTable;
 	// min lessons per day
 	// max lessons per day
 	// max lessons in a row
+	// exclude lessons from same module and same time
 // ideas for other filters:
 	// fix a lesson
 	// exclude a lesson (e.g. no course in 1.DS Mo)
@@ -212,7 +213,6 @@ public class Filter
 	}
 	
 	// look for timetables where two courses of the same modulename take place at the same time
-	//TODO add this function to EFilter and MainViewModel (generateTestData)
 	public static List<TimeTable> filterByDoubleCourses(List<TimeTable> timeTables)
 	{
 		System.out.println("filterbydouble");
@@ -274,9 +274,23 @@ public class Filter
 		}
 		return result;
 	}
+	
+	//TODO add this function MainViewModel (generateTestData), FilterViewModel, FilterViewPage, FilterObject, testing
 	//TODO fix a course
-	//TODO add this function to EFilter and MainViewModel (generateTestData)
+	//TODO this function need to be called before the filterbydouble function
+	public static List<TimeTable> filterByFixCourse(List<TimeTable> timeTables, Course course){
+		List<TimeTable> result = new ArrayList<TimeTable>();
+		
+		for (TimeTable timeTable : timeTables) {
+			if(timeTable.getCourseList().contains(course)){
+				result.add(timeTable);
+			}
+		}
+		
+		
+		return result;
+	}
 	
 	//TODO exclude a course
-	//TODO add this function to EFilter and MainViewModel (generateTestData)
+	//TODO add this function to EFilter and MainViewModel (generateTestData), FilterViewModel, FilterObject, testing
 }

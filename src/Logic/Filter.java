@@ -211,7 +211,7 @@ public class Filter
 		return result;
 	}
 	
-	//TODO look for timetables where two courses of the same modulename take place at the same time
+	// look for timetables where two courses of the same modulename take place at the same time
 	//TODO add this function to EFilter and MainViewModel (generateTestData)
 	public static List<TimeTable> filterByDoubleCourses(List<TimeTable> timeTables)
 	{
@@ -222,18 +222,23 @@ public class Filter
 		List<TimeTable> result = new ArrayList<TimeTable>();
 		
 		for (TimeTable newone : timeTables) {
-			System.out.println(Integer.toString(result.size()));
 			TimeTable todelete = null;
 			for(TimeTable savedone : result) {
 				if (compare(newone, savedone)) {
 					todelete = savedone;
 					for(Course oneCourse: newone.getCourseList()) {
-						if(!savedone.getCourseList().contains(oneCourse)) {
-							
+						if(oneCourse instanceof ExerciseCourse) {
+							if(!savedone.getCourseList().contains(oneCourse)) {
+								for (Course twoCourse : savedone.getCourseList()) {
+									if ((twoCourse instanceof ExerciseCourse) &&
+											(oneCourse.getModuleName().equals(twoCourse.getModuleName()))) {
+										oneCourse.setInstructor(oneCourse.getInstructor() + "/" + twoCourse.getInstructor());
+										oneCourse.addPlace(twoCourse.getPlace());
+									}
+								}
+							}
 						}
 					}
-				} else {
-
 				}
 			}
 			result.remove(todelete);

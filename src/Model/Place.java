@@ -14,6 +14,14 @@ public class Place
 		this.building = building;
 		this.room = room;
 	}
+	
+	public void setBuilding(String building){
+		this.building = building;
+	}
+	
+	public void setRoom(String room){
+		this.room = room;
+	}
 
 	public String getBuilding()
 	{

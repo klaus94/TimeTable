@@ -13,10 +13,17 @@ public class TimeTable
 		courses = new ArrayList<Course>();
 		this.id = id;
 	}
+	
+	public int getId() {
+		return id;
+	}
 
 	// returns true, if course could be added successfully
 	public boolean addCourse(Course course)
 	{
+		if(id == 145){
+			System.out.println("moin");
+		}
 		if (course == null)
 		{
 			throw new NullPointerException();

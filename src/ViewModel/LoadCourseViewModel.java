@@ -24,7 +24,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.CheckBox;
 import javafx.stage.Stage;
+
 import org.jsoup.Jsoup;
 
 import Enumerations.EDay;
@@ -32,13 +34,16 @@ import Enumerations.EPeriod;
 
 public class LoadCourseViewModel implements Initializable {
 	
+	private Map<String, List<Course>> fullCourseMap = new HashMap<String, List<Course>>();
 	private Map<String, List<Course>> newCourseMap = new HashMap<String, List<Course>>();
 	
 	@FXML private javafx.scene.control.Button btnClose;
 	@FXML private javafx.scene.control.Button btnLoad;
+	@FXML private javafx.scene.control.Button btnSave;
 	@FXML private javafx.scene.control.ComboBox<String> cbSemesterType;
 	@FXML private javafx.scene.control.ComboBox<String> cbStudyType;
 	@FXML private javafx.scene.control.ComboBox<String> cbYear;
+	@FXML private javafx.scene.control.ListView<CheckBox> lvModules;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {		
@@ -67,6 +72,8 @@ public class LoadCourseViewModel implements Initializable {
 	}
 	
 	@FXML private void btnLoadClick(ActionEvent event) throws MalformedURLException {
+		lvModules.getItems().clear();
+		
 		String semtype = "";
 		switch ( cbSemesterType.getValue() ) {
 		case "WS":
@@ -257,7 +264,7 @@ public class LoadCourseViewModel implements Initializable {
 						}
 					}
 					System.out.println("Added whole Module: " + modulenamestr);
-					newCourseMap.put(modulenamestr, newCourseList);
+					fullCourseMap.put(modulenamestr, newCourseList);
 					modulenamestr = "";
 					instructorstr = "";
 					kindofcoursestr = "";
@@ -269,8 +276,19 @@ public class LoadCourseViewModel implements Initializable {
 					insubjectcode = false;
 				}
 				continue;
+			}	
+		}
+		
+		for ( String mstr : fullCourseMap.keySet() ) {
+			lvModules.getItems().add( new CheckBox(mstr) );
+		}
+	}
+	
+	@FXML private void btnSaveClick(ActionEvent event) {		
+		for ( CheckBox cb : lvModules.getItems() ) {
+			if ( cb.isSelected() ) {
+				newCourseMap.put( cb.getText(), fullCourseMap.get( cb.getText() ) );
 			}
-			
 		}
 		
 		Alert alert = new Alert(AlertType.INFORMATION);

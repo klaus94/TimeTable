@@ -4,11 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
 import javafx.collections.ObservableList;
 import Enumerations.EDay;
 import Enumerations.EFilter;
@@ -98,7 +100,9 @@ public class MainViewModel implements Initializable
 		ObservableList<String> items =cbModuleName.getItems();
 		items.clear();
 		
-		for (String module : courseMap.keySet()) {
+		ArrayList<String> sortedList = new ArrayList<String>( courseMap.keySet() );
+		Collections.sort( sortedList );
+		for (String module : sortedList) {
 			items.add(module);		
 		}
 		cbModuleName.setItems(items);
@@ -113,7 +117,6 @@ public class MainViewModel implements Initializable
 	}
 
 	public void refreshlbCourses() {
-		
 		// set listbox-items
 		ObservableList<Course> items = listCourses.getItems();
 		items.clear();
@@ -153,7 +156,6 @@ public class MainViewModel implements Initializable
 	}
 
 	@FXML
-
 	private void btnAddFilterClick(ActionEvent event) throws IOException{
 		//TODO throw things in FilterViewModel
 		String filePath = ".." + File.separator + "Views" + File.separator + "FilterPage.fxml"; 
@@ -204,7 +206,6 @@ public class MainViewModel implements Initializable
 
 	@FXML
 	private void btnAddCourseClick(ActionEvent event) throws IOException {
-
 		//TODO sinnlose statements entfernen
 		String filePath = ".." + File.separator + "Views" + File.separator + "CoursePage.fxml"; 
 		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
@@ -309,15 +310,13 @@ public class MainViewModel implements Initializable
 	}
 		
 	public void initData(){
-
 		courseMap = new HashMap<String, List<Course>>();
 		filterList = new ArrayList<FilterObject>();
 		
-		//TODO entfernen
+		//TODO delete this!
 		setCourseList();		// fills courseList with hardcoded data
 								// later: import list or user input
 		refreshcbModuleName();
-
 	}
 	
 

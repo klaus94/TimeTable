@@ -3,7 +3,7 @@ package Model;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class Course
+public abstract class Course implements Cloneable
 {
 	private String moduleName;
 	private Time time;		
@@ -79,5 +79,15 @@ public abstract class Course
 				placeString + " " +
 				instructor;
 		return str;
+	}
+	
+	public Object clone() {
+		Object cloneCourse = null;
+	    try {
+	    	cloneCourse = super.clone();
+	    }
+	    catch (CloneNotSupportedException e) {
+	    }
+	    return cloneCourse;
 	}
 }

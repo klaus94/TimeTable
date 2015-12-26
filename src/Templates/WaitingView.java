@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.Stage;
 
 public class WaitingView extends FlowPane{
 	@FXML
@@ -34,7 +35,7 @@ public class WaitingView extends FlowPane{
             throw new RuntimeException(exception);
         }
         
-        AllTimeTablesView nextView = new AllTimeTablesView(allTimeTables);
+        final AllTimeTablesView nextView = new AllTimeTablesView(allTimeTables);
         Task<Object> viewBuilder = nextView.createViews();
         pbarWaiting.progressProperty().unbind();
         pbarWaiting.progressProperty().bind(viewBuilder.progressProperty());
@@ -49,6 +50,7 @@ public class WaitingView extends FlowPane{
 			@Override
 			public void handle(Event event) {
 				nextView.show();
+				((Stage) pbarWaiting.getScene().getWindow()).close();
 			}
         });
         

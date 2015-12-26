@@ -166,7 +166,9 @@ public class MainViewModel implements Initializable
 			stage.setScene(scene);
 			stage.showAndWait();
 			if (filterModel.getFilter() != null)
+			{
 				filterList.add(filterModel.getFilter());
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

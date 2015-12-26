@@ -2,7 +2,6 @@ package ViewModel;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,11 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.Set;
-
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 
 import javafx.collections.ObservableList;
 import Enumerations.EDay;
@@ -24,6 +19,7 @@ import Enumerations.EPeriod;
 import Logic.Controller;
 import Logic.Filter;
 import Model.Course;
+import Model.CourseList;
 import Model.ExerciseCourse;
 import Model.FilterObject;
 import Model.Lecture;
@@ -31,7 +27,7 @@ import Model.Place;
 import Model.Time;
 import Model.TimeTable;
 import Persistance.CourseJAXB;
-import Persistance.PlaceJAXB;
+import Persistance.CourseListJAXB;
 import Templates.WaitingView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -271,6 +267,7 @@ public class MainViewModel implements Initializable
 
 	@FXML
 	private void btnLoadCoursesClick(ActionEvent event) {
+		// TODO: Menu: load from local file <-> from internet
 		String filePath = ".." + File.separator + "Views" + File.separator + "LoadCoursePage.fxml"; 
 		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
 		try {
@@ -300,34 +297,21 @@ public class MainViewModel implements Initializable
 
 	@FXML
 	private void btnSaveCoursesClick(ActionEvent event) throws JAXBException {
-		//TODO überlegen wie überhaupt
-		Alert alert = new Alert(AlertType.WARNING);
-		alert.setTitle("Attention");
-		alert.setHeaderText("Method not implemented yet");
-		alert.showAndWait();
+		//TODO select file, where courses should be saved
+		
+		// persist the courselist in a xml-File
+		CourseListJAXB c = new CourseListJAXB();
+		List<Course> myList = getAllCourses();
+		CourseList cList = new CourseList(myList);
+		c.save(cList);
 		
 		//TEST
-		PlaceJAXB p = new PlaceJAXB();
-		p.persist();
-		
-//		File file = new File("test.xml");
-//		JAXBContext jaxbContext = JAXBContext.newInstance(Course.class);
-//		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-//
-//		// output pretty printed
-//		Set<String> courseSet = courseMap.keySet();
-//		Course c = null;
-//		for (String s: courseSet)
-//		{
-//			c = courseMap.get(s).get(0);
-//			break;
-//		}
-//		
-//		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//		StringWriter sw = new StringWriter();
-//		jaxbMarshaller.marshal(c, sw);
-//		String xmlString = sw.toString();
-//		System.out.println(xmlString);
+		CourseList c2 = (CourseList)c.load();
+		List<Course> myList2 = c2.getCourse();
+		for (Course course: myList2)
+		{
+			System.out.println(course.getInstructor());
+		}
 	}
 
 	@FXML
@@ -354,6 +338,17 @@ public class MainViewModel implements Initializable
 		
 		list.add(course);
 		courseMap.put(course.getModuleName(), list);
+	}
+	
+	private List<Course> getAllCourses()
+	{
+		List<Course> resultList = new ArrayList<Course>();
+		for (String s: courseMap.keySet())
+		{
+			resultList.addAll(courseMap.get(s));
+		}
+		
+		return resultList;
 	}
 		
 	public void initData(){

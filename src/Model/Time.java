@@ -1,12 +1,20 @@
 package Model;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import Enumerations.EDay;
 import Enumerations.EPeriod;
 
+@XmlRootElement(name="time")
 public class Time
 {
 	private EDay day;
 	private int time;
 	private EPeriod period;
+
+	public Time() {
+		super();
+	}
 
 	public Time(EDay day, int time, EPeriod period)
 	{
@@ -23,16 +31,19 @@ public class Time
 		this.period = period;
 	}
 
+	@XmlElement
 	public EDay getDay()
 	{
 		return day;
 	}
 
+	@XmlElement
 	public int getTime()
 	{
 		return time;
 	}
 
+	@XmlElement
 	public EPeriod getPeriod()
 	{
 		return period;

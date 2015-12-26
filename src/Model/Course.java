@@ -14,6 +14,10 @@ public abstract class Course implements Cloneable
 	private Set<Place> place;
 	private String instructor;
 
+	public Course() {
+		super();
+	}
+	
 	public Course(String moduleName, Time time, Place place, String instructor)
 	{
 		if (moduleName == null || time == null || place == null || instructor == null)
@@ -54,11 +58,13 @@ public abstract class Course implements Cloneable
 		return moduleName;
 	}
 
+	@XmlElement
 	public Time getTime()
 	{
 		return time;
 	}
-
+	
+	@XmlElement
 	public Place getPlace()
 	{
 		Place place1 = null;

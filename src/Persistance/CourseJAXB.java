@@ -13,7 +13,7 @@ import Model.Place;
 import Model.Time;
 
 public class CourseJAXB {
-	public void persist()
+	public void save()
 	{
 		try {
 			Course course = new Lecture("BuS", new Time(EDay.DIENSTAG, 2, EPeriod.EACHWEEK), new Place("HSZ", "0004"), "Härtig");
@@ -21,11 +21,12 @@ public class CourseJAXB {
 			Marshaller ms = jc.createMarshaller();
 			ms.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			ms.marshal(course, System.out);
-			ms.marshal(course, new File("test.xml"));
+			ms.marshal(course, new File("src" + File.separator + "data" + File.separator + "courses.xml"));
 		} catch (Exception e)
 		{
 			System.out.println("es ist ein fehler aufgetreten");
 			System.out.println(e.getMessage());
 		}
 	}
+	
 }

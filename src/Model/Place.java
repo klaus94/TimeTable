@@ -1,16 +1,17 @@
 package Model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "place")
-@XmlAccessorType(XmlAccessType.NONE)
 public class Place
 {
 	private String building;
 	private String room;
+
+	public Place() {
+		super();
+	}
 
 	public Place(String building, String room)
 	{

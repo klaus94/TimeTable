@@ -42,7 +42,6 @@ public class Filter
 			}
 			if (available) 
 			{
-			
 				result.add(timeTable);	
 			}
 		}

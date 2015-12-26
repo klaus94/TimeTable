@@ -62,9 +62,12 @@ public class CourseViewModel implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
+		
 	}
 	
 	public void initData(Set<String> set, Course oldCourse) {
+		//TODO sinnlose statements entfernen
+		
 		// fill in Combobox - Items for cbTyp:
 		ObservableList<String> typList = cbTyp.getItems();
 		typList.clear();
@@ -150,12 +153,16 @@ public class CourseViewModel implements Initializable {
 
 			EDay newDay = day;					
 			EPeriod newPeriod = period;		
-			int newLesson = ds;					
+			
+			int newLesson = ds;	
+			System.out.println("time: " + newDay + newLesson + newPeriod);
 			Time newTime = new Time(newDay, newLesson, newPeriod);
 
 			String newBuilding = txtBuilding.getText();
 			String newRoom = txtRoom.getText();
 			Place newPlace = new Place(newBuilding, newRoom);
+
+			
 
 			if (cbTyp.getValue().equals("Vorlesung"))
 			{

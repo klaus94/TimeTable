@@ -136,6 +136,7 @@ public class MainViewModel implements Initializable
 	}
 
 	public void refreshlbCourses() {
+		
 		// set listbox-items
 		ObservableList<Course> items = listCourses.getItems();
 		items.clear();
@@ -175,6 +176,7 @@ public class MainViewModel implements Initializable
 	}
 
 	@FXML
+
 	private void btnAddFilterClick(ActionEvent event) throws IOException{
 		//TODO throw things in FilterViewModel
 		String filePath = ".." + File.separator + "Views" + File.separator + "FilterPage.fxml"; 
@@ -189,7 +191,9 @@ public class MainViewModel implements Initializable
 			stage.setScene(scene);
 			stage.showAndWait();
 			if (filterModel.getFilter() != null)
+			{
 				filterList.add(filterModel.getFilter());
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -225,6 +229,7 @@ public class MainViewModel implements Initializable
 
 	@FXML
 	private void btnAddCourseClick(ActionEvent event) throws IOException {
+
 		//TODO sinnlose statements entfernen
 		String filePath = ".." + File.separator + "Views" + File.separator + "CoursePage.fxml"; 
 		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
@@ -286,6 +291,7 @@ public class MainViewModel implements Initializable
 			}
 			
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
 		
@@ -351,6 +357,7 @@ public class MainViewModel implements Initializable
 	}
 		
 	public void initData(){
+
 		courseMap = new HashMap<String, List<Course>>();
 		filterList = new ArrayList<FilterObject>();
 		
@@ -358,6 +365,7 @@ public class MainViewModel implements Initializable
 		setCourseList();		// fills courseList with hardcoded data
 								// later: import list or user input
 		refreshcbModuleName();
+
 	}
 	
 

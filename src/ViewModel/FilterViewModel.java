@@ -162,6 +162,7 @@ public class FilterViewModel implements Initializable {
 	}
 
 	public FilterObject getFilter() {
+		System.out.println("filter: " + newFilter + " added");
 		return newFilter;
 	}
 	

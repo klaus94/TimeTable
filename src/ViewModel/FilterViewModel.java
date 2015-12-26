@@ -3,10 +3,12 @@ package ViewModel;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import Enumerations.EFilter;
 import Enumerations.EDay;
+import Model.Course;
 import Model.FilterObject;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,10 +21,14 @@ import javafx.stage.Stage;
 public class FilterViewModel implements Initializable {
 	
 	private FilterObject newFilter;
+	private Map<String, List<Course>> courseMap;
 	
 	@FXML private javafx.scene.control.Button btnClose;
 	@FXML private javafx.scene.control.Button btnSave;
+	
 	@FXML private javafx.scene.control.TextField txtWert;
+	@FXML private javafx.scene.control.Label lblWert;
+	
 	@FXML private javafx.scene.control.ComboBox<EFilter> cbFilter;
 	
 	@FXML private javafx.scene.control.CheckBox chbMo;
@@ -36,6 +42,10 @@ public class FilterViewModel implements Initializable {
 	@FXML private javafx.scene.control.Label lblMi;
 	@FXML private javafx.scene.control.Label lblDo;
 	@FXML private javafx.scene.control.Label lblFr;
+	
+	@FXML private javafx.scene.control.ComboBox<String> cbModuleNames;
+	@FXML private javafx.scene.control.ComboBox<Course> cbCourses;
+	
 	
 	@FXML private void btnSaveClick(ActionEvent event){
 		List<EDay> days = new ArrayList<EDay>();
@@ -51,8 +61,10 @@ public class FilterViewModel implements Initializable {
 		if (chbFr.isSelected())
 			days.add(EDay.FREITAG);
 			
+		if(!txtWert.isVisible())
+			txtWert.setText("0");
 		
-		newFilter = new FilterObject(cbFilter.getValue(), Integer.parseInt(txtWert.getText()), days);
+		newFilter = new FilterObject(cbFilter.getValue(), Integer.parseInt(txtWert.getText()), days, cbCourses.getValue());
 		
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Information");
@@ -68,7 +80,6 @@ public class FilterViewModel implements Initializable {
 	}
 	
 	@FXML private void cbFilterChange(ActionEvent event) {
-		System.out.println("hallo");
 		if (cbFilter.getValue().needDays()) {
 			chbMo.setVisible(true);
 			chbDi.setVisible(true);
@@ -80,7 +91,6 @@ public class FilterViewModel implements Initializable {
 			lblMi.setVisible(true);
 			lblDo.setVisible(true);
 			lblFr.setVisible(true);
-			
 		} else {
 			chbMo.setSelected(false);
 			chbDi.setSelected(false);
@@ -97,11 +107,40 @@ public class FilterViewModel implements Initializable {
 			lblMi.setVisible(false);
 			lblDo.setVisible(false);
 			lblFr.setVisible(false);
+		}
+		
+		if(cbFilter.getValue().needParam()) {
+			txtWert.setVisible(true);
+			lblWert.setVisible(true);
+		} else {
+			txtWert.setVisible(false);
+			lblWert.setVisible(false);
+		}
+		
+		if(cbFilter.getValue().needCourse()) {
 			
 		}
+		
 	}
 	
-	public void initData(FilterObject filter){
+	@FXML
+	private void cbModuleNamesChange(ActionEvent event) {
+		List<Course> items = cbCourses.getItems();
+		items.clear();
+		items.addAll(courseMap.get(cbModuleNames.getValue()));
+	}
+	
+	public void initData(FilterObject filter, Map<String, List<Course>> courseMap){
+		if(courseMap == null) {
+			throw new NullPointerException();
+		}
+		
+		this.courseMap = courseMap;
+		
+		cbModuleNames.getItems().addAll(courseMap.keySet());
+		cbModuleNames.setValue("Wählen Sie ein Modul");
+		cbCourses.setPromptText("Wählen Sie einen Kurs");
+		
 		if (filter == null) {
 			return;
 		}
@@ -147,6 +186,9 @@ public class FilterViewModel implements Initializable {
 		items.add(EFilter.BYMINNUMBER);
 		items.add(EFilter.BYMAXNUMBER);
 		items.add(EFilter.BYMAXINROW);
+		items.add(EFilter.BYDOUBLECOURSES);
+		items.add(EFilter.BYFIXCOURSE);
+		cbFilter.setPromptText("Wählen Sie einen Filter aus");
 		
 	}
 }

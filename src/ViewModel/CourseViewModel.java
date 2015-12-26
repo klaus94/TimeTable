@@ -62,12 +62,9 @@ public class CourseViewModel implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		
 	}
 	
 	public void initData(Set<String> set, Course oldCourse) {
-		//TODO sinnlose statements entfernen
-		
 		// fill in Combobox - Items for cbTyp:
 		ObservableList<String> typList = cbTyp.getItems();
 		typList.clear();
@@ -87,6 +84,12 @@ public class CourseViewModel implements Initializable {
 		// fill in other fields with course, the user wants to edit
 		if (oldCourse != null)
 		{
+			// SET DATA
+			day = oldCourse.getTime().getDay();
+			period = oldCourse.getTime().getPeriod();
+			ds = oldCourse.getTime().getTime();
+			
+			// SET GUI
 			// comboboxes
 			cbModulename.setValue(oldCourse.getModuleName());
 			if (oldCourse instanceof Lecture)
@@ -153,8 +156,6 @@ public class CourseViewModel implements Initializable {
 			String newBuilding = txtBuilding.getText();
 			String newRoom = txtRoom.getText();
 			Place newPlace = new Place(newBuilding, newRoom);
-
-
 
 			if (cbTyp.getValue().equals("Vorlesung"))
 			{

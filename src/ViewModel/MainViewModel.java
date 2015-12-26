@@ -2,6 +2,7 @@ package ViewModel;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,6 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Set;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 import javafx.collections.ObservableList;
 import Enumerations.EDay;
@@ -24,6 +30,8 @@ import Model.Lecture;
 import Model.Place;
 import Model.Time;
 import Model.TimeTable;
+import Persistance.CourseJAXB;
+import Persistance.PlaceJAXB;
 import Templates.WaitingView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -67,7 +75,12 @@ public class MainViewModel implements Initializable
 	        public void handle(MouseEvent event) {
 	            // TODO: Test, if clicked mouse-button was PRIMARY (left mouse key)
             	if(event.getClickCount() == 2){
-            		System.out.println("Double clicked " + listCourses.getSelectionModel().getSelectedItem());
+            		Course oldCourse = listCourses.getSelectionModel().getSelectedItem();
+            		if (oldCourse == null)
+            		{
+            			throw new NullPointerException();
+            		}
+            		System.out.println("Double clicked " + oldCourse);
             		
             		String filePath = ".." + File.separator + "Views" + File.separator + "CoursePage.fxml";
             		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
@@ -75,14 +88,20 @@ public class MainViewModel implements Initializable
             			GridPane root = (GridPane) loader.load();
 	            		CourseViewModel courseModel = loader.getController();
 	        			System.out.println("hallo");
-	        			courseModel.initData(courseMap.keySet(), listCourses.getSelectionModel().getSelectedItem());
-	        			courseModel.setCourse(listCourses.getSelectionModel().getSelectedItem());
+	        			courseModel.initData(courseMap.keySet(), oldCourse);
+	        			courseModel.setCourse(oldCourse);
 	
 	        			Scene scene = new Scene(root);
 	        			Stage stage = new Stage();
 	        			stage.setScene(scene);
 	        			stage.showAndWait();
-	        			addCourse(courseModel.getNewCourse());		//add new course to map
+	        			Course newCourse = courseModel.getNewCourse();
+	        			if (newCourse != null){
+	        				addCourse(newCourse);		//add new course to map
+	        				courseMap.get(oldCourse.getModuleName()).remove(oldCourse);		// delete old Course
+		        			refreshlbCourses();
+	        			}
+	        			
             		}
             		catch(Exception e)
             		{
@@ -220,7 +239,7 @@ public class MainViewModel implements Initializable
 			Stage stage = new Stage();
 			stage.setScene(scene);
 			stage.showAndWait();
-			addCourse(courseModel.getNewCourse());		//add new course to map
+			addCourse(courseModel.getNewCourse());		
 		} catch (Exception e) {
 			System.out.println("addcourseexception " + e.getMessage());
 		}
@@ -228,7 +247,6 @@ public class MainViewModel implements Initializable
 		System.out.println("btnadd: " + cbModuleName.getValue());
 		
 		refreshlbCourses();
-
 	}
 
 	@FXML
@@ -275,12 +293,35 @@ public class MainViewModel implements Initializable
 	}
 
 	@FXML
-	private void btnSaveCoursesClick(ActionEvent event) {
+	private void btnSaveCoursesClick(ActionEvent event) throws JAXBException {
 		//TODO überlegen wie überhaupt
 		Alert alert = new Alert(AlertType.WARNING);
 		alert.setTitle("Attention");
 		alert.setHeaderText("Method not implemented yet");
 		alert.showAndWait();
+		
+		//TEST
+		PlaceJAXB p = new PlaceJAXB();
+		p.persist();
+		
+//		File file = new File("test.xml");
+//		JAXBContext jaxbContext = JAXBContext.newInstance(Course.class);
+//		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+//
+//		// output pretty printed
+//		Set<String> courseSet = courseMap.keySet();
+//		Course c = null;
+//		for (String s: courseSet)
+//		{
+//			c = courseMap.get(s).get(0);
+//			break;
+//		}
+//		
+//		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//		StringWriter sw = new StringWriter();
+//		jaxbMarshaller.marshal(c, sw);
+//		String xmlString = sw.toString();
+//		System.out.println(xmlString);
 	}
 
 	@FXML

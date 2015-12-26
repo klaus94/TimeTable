@@ -3,6 +3,10 @@ package Model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="course")
 public abstract class Course implements Cloneable
 {
 	private String moduleName;
@@ -44,6 +48,7 @@ public abstract class Course implements Cloneable
 		this.instructor = instructor;
 	}
 
+	@XmlElement
 	public String getModuleName()
 	{
 		return moduleName;
@@ -63,6 +68,7 @@ public abstract class Course implements Cloneable
 		return place1;
 	}
 
+	@XmlElement
 	public String getInstructor()
 	{
 		return instructor;

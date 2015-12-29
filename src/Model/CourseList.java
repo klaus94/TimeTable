@@ -20,7 +20,6 @@ public class CourseList {
 
 	public CourseList() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@XmlElement

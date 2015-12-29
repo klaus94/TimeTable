@@ -37,7 +37,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.DialogPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -267,51 +270,77 @@ public class MainViewModel implements Initializable
 
 	@FXML
 	private void btnLoadCoursesClick(ActionEvent event) {
-		// TODO: Menu: load from local file <-> from internet
-		String filePath = ".." + File.separator + "Views" + File.separator + "LoadCoursePage.fxml"; 
-		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
-		try {
-			GridPane root = (GridPane) loader.load();
-			
-			LoadCourseViewModel loadcourseModel = loader.getController();
-			loadcourseModel.initData(courseMap.keySet());
-
-			Scene scene = new Scene(root);
-			Stage stage = new Stage();
-			stage.setScene(scene);
-			stage.showAndWait();
-			
-			for ( String key : loadcourseModel.getNewCourseMap().keySet() ) {
-				for ( Course c : loadcourseModel.getNewCourseMap().get(key) ) {
-					addCourse(c);
-				}
-			}
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
-		}
+		ButtonType bt1 = new ButtonType("Datei");
+		ButtonType bt2 = new ButtonType("Website");
+		ButtonType bt3 = new ButtonType("Abbrechen", ButtonData.CANCEL_CLOSE);
 		
-		refreshcbModuleName();
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.getButtonTypes().setAll(bt1, bt2, bt3);
+		alert.setTitle("Kurse laden");
+		alert.setContentText("Kurse aus Datei oder von der Web-Site laden?");
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == bt1){
+			// load courses from file
+			// TODO load from file with dialog and unmarshal from xml
+		  
+		} 
+		else if (result.get() == bt2)
+		{
+			// load courses from web
+			String filePath = ".." + File.separator + "Views" + File.separator + "LoadCoursePage.fxml"; 
+			FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+			try {
+				GridPane root = (GridPane) loader.load();
+				
+				LoadCourseViewModel loadcourseModel = loader.getController();
+				loadcourseModel.initData(courseMap.keySet());
+
+				Scene scene = new Scene(root);
+				Stage stage = new Stage();
+				stage.setScene(scene);
+				stage.showAndWait();
+				
+				for ( String key : loadcourseModel.getNewCourseMap().keySet() ) {
+					for ( Course c : loadcourseModel.getNewCourseMap().get(key) ) {
+						addCourse(c);
+					}
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			refreshcbModuleName();
+		}
+		else
+		{
+			//canceled
+		}
 	}
 
 	@FXML
 	private void btnSaveCoursesClick(ActionEvent event) throws JAXBException {
-		//TODO select file, where courses should be saved
-		
 		// persist the courselist in a xml-File
 		CourseListJAXB c = new CourseListJAXB();
 		List<Course> myList = getAllCourses();
 		CourseList cList = new CourseList(myList);
 		c.save(cList);
 		
-		//TEST
-		CourseList c2 = (CourseList)c.load();
-		List<Course> myList2 = c2.getCourse();
-		for (Course course: myList2)
-		{
-			System.out.println(course.getInstructor());
-		}
+		//TEST - load list of courses
+//		CourseList c2 = (CourseList)c.load();
+//		List<Course> myList2 = c2.getCourse();
+//		for (Course course: myList2)
+//		{
+//			System.out.println(course.getInstructor());
+//		}
+		
+		// TEST 2 - marshal and unmarshal single course
+//		Course courseMath1 = new Lecture("BuS", new Time(EDay.DIENSTAG, 2, EPeriod.EACHWEEK), new Place("HSZ", "0004"), "Härtig");
+//		CourseJAXB c = new CourseJAXB();
+//		c.save(courseMath1);
+		
+		// load
+//		Course courseLoad;
+//		courseLoad = c.load();
+//		System.out.println(courseLoad);
 	}
 
 	@FXML

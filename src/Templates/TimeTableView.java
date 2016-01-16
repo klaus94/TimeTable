@@ -3,8 +3,8 @@ package Templates;
 import java.io.File;
 import java.io.IOException;
 
+import Enumerations.ECourseType;
 import Model.Course;
-import Model.ExerciseCourse;
 import Model.TimeTable;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,7 +45,7 @@ public class TimeTableView extends GridPane
         	newCourseDay = course.getTime().getDay().toInt();			// get column-index
         	
         	
-        	if (course instanceof ExerciseCourse)
+        	if (course.getCourseType() == ECourseType.EXERCISE)
         	{
         		newCourseView.getStyleClass().add("exercise");
         	}

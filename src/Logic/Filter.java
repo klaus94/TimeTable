@@ -1,9 +1,9 @@
 package Logic;
 import java.util.*;
 
+import Enumerations.ECourseType;
 import Enumerations.EDay;
 import Model.Course;
-import Model.ExerciseCourse;
 import Model.TimeTable;
 
 // Filters available:
@@ -226,10 +226,10 @@ public class Filter
 				if (compare(newone, savedone)) {
 					todelete = savedone;
 					for(Course oneCourse: newone.getCourseList()) {
-						if(oneCourse instanceof ExerciseCourse) {
+						if(oneCourse.getCourseType() == ECourseType.EXERCISE) {
 							if(!savedone.getCourseList().contains(oneCourse)) {
 								for (Course twoCourse : savedone.getCourseList()) {
-									if ((twoCourse instanceof ExerciseCourse) &&
+									if ((twoCourse.getCourseType() == ECourseType.EXERCISE) &&
 											(oneCourse.getModuleName().equals(twoCourse.getModuleName()))) {
 										oneCourse.setInstructor(oneCourse.getInstructor() + "/" + twoCourse.getInstructor());
 										oneCourse.addPlace(twoCourse.getPlace());
@@ -250,10 +250,10 @@ public class Filter
 	private static boolean compare(TimeTable one, TimeTable two) {
 		boolean result = true;
 		for (Course oneCourse : one.getCourseList()) {
-			if (oneCourse instanceof ExerciseCourse) {
+			if (oneCourse.getCourseType() == ECourseType.EXERCISE) {
 				Course twoCourse = null;
 				for (Course course : two.getCourseList()) {
-					if ((course instanceof ExerciseCourse) && (oneCourse.getModuleName().equals(course.getModuleName()))) {
+					if ((course.getCourseType() == ECourseType.EXERCISE) && (oneCourse.getModuleName().equals(course.getModuleName()))) {
 						twoCourse = course;
 					}
 				}

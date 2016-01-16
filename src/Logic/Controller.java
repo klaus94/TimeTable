@@ -1,8 +1,8 @@
 package Logic;
 import java.util.*;
 
+import Enumerations.ECourseType;
 import Model.Course;
-import Model.Lecture;
 import Model.TimeTable;
 
 public class Controller
@@ -54,7 +54,7 @@ public class Controller
 		for (String module : exercisesModulMap.keySet()) {
 			coursesToRemove.clear();
 			for (Course course : exercisesModulMap.get(module)) {
-				if (course instanceof Lecture) {
+				if (course.getCourseType() == ECourseType.LECTURE) {
 					coursesToRemove.add(course);
 					basicTimeTable.addCourse(course);
 				}

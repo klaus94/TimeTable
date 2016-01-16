@@ -1,11 +1,13 @@
 package Model;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import Enumerations.EDay;
 import Enumerations.EPeriod;
 
 @XmlRootElement(name="time")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Time
 {
 	private EDay day;
@@ -31,19 +33,19 @@ public class Time
 		this.period = period;
 	}
 
-	@XmlElement
+	
 	public EDay getDay()
 	{
 		return day;
 	}
 
-	@XmlElement
+	
 	public int getTime()
 	{
 		return time;
 	}
 
-	@XmlElement
+	
 	public EPeriod getPeriod()
 	{
 		return period;

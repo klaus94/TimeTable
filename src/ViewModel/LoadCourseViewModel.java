@@ -15,8 +15,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import Model.Course;
-import Model.ExerciseCourse;
-import Model.Lecture;
 import Model.Place;
 import Model.Time;
 import javafx.collections.ObservableList;
@@ -30,6 +28,7 @@ import javafx.stage.Stage;
 
 import org.jsoup.Jsoup;
 
+import Enumerations.ECourseType;
 import Enumerations.EDay;
 import Enumerations.EPeriod;
 
@@ -248,17 +247,17 @@ public class LoadCourseViewModel implements Initializable {
 						Course newCourse;
 						switch ( String.valueOf(kindofcoursestr.charAt(2*(i-1))) ) {
 						case "V":
-							newCourse = new Lecture(modulenamestr, new Time(EDay.getDay(getDayEntry(daystr, i)), Integer.parseInt(getTimeEntry(timestr, i).substring(0, 1)), EPeriod.getPeriod(getPeriodEntry(periodstr, i))), new Place(getPlaceEntry(placestr, i), ""), instructorstr);
+							newCourse = new Course(ECourseType.LECTURE, modulenamestr, new Time(EDay.getDay(getDayEntry(daystr, i)), Integer.parseInt(getTimeEntry(timestr, i).substring(0, 1)), EPeriod.getPeriod(getPeriodEntry(periodstr, i))), new Place(getPlaceEntry(placestr, i), ""), instructorstr);
 							newCourseList.add(newCourse);
 							System.out.println("added: " + newCourse);
 							break;
 						case "U":
-							newCourse = new ExerciseCourse(modulenamestr, new Time(EDay.getDay(getDayEntry(daystr, i)), Integer.parseInt(getTimeEntry(timestr, i).substring(0, 1)), EPeriod.getPeriod(getPeriodEntry(periodstr, i))), new Place(getPlaceEntry(placestr, i), ""), "Tutor");
+							newCourse = new Course(ECourseType.EXERCISE, modulenamestr, new Time(EDay.getDay(getDayEntry(daystr, i)), Integer.parseInt(getTimeEntry(timestr, i).substring(0, 1)), EPeriod.getPeriod(getPeriodEntry(periodstr, i))), new Place(getPlaceEntry(placestr, i), ""), "Tutor");
 							newCourseList.add(newCourse);
 							System.out.println("added: " + newCourse);
 							break;
 						default:
-							newCourse = new ExerciseCourse(modulenamestr, new Time(EDay.getDay(getDayEntry(daystr, i)), Integer.parseInt(getTimeEntry(timestr, i).substring(0, 1)), EPeriod.getPeriod(getPeriodEntry(periodstr, i))), new Place(getPlaceEntry(placestr, i), ""), "Tutor");
+							newCourse = new Course(ECourseType.EXERCISE, modulenamestr, new Time(EDay.getDay(getDayEntry(daystr, i)), Integer.parseInt(getTimeEntry(timestr, i).substring(0, 1)), EPeriod.getPeriod(getPeriodEntry(periodstr, i))), new Place(getPlaceEntry(placestr, i), ""), "Tutor");
 							newCourseList.add(newCourse);
 							System.out.println("added: " + newCourse);
 							break;

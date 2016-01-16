@@ -3,32 +3,38 @@ package Model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import Enumerations.ECourseType;
+
 @XmlRootElement(name="course")
-public abstract class Course implements Cloneable
+@XmlAccessorType (XmlAccessType.FIELD)
+public class Course implements Cloneable
 {
 	private String moduleName;
 	private Time time;		
 	private Set<Place> place;
 	private String instructor;
+	private ECourseType courseType;
 
 	public Course() {
 		super();
 	}
 	
-	public Course(String moduleName, Time time, Place place, String instructor)
+	public Course(ECourseType courseType, String moduleName, Time time, Place place, String instructor)
 	{
-		if (moduleName == null || time == null || place == null || instructor == null)
+		if (moduleName == null || time == null || place == null || instructor == null || courseType == null)
 		{
-			throw new NullPointerException("any argument is null in Course");
+			throw new NullPointerException("an argument is null in Course");
 		}
 		if (moduleName.equals(""))
 		{
 			throw new IllegalArgumentException();
 		}
 
+		this.courseType = courseType;
 		this.moduleName = moduleName;
 		this.time = time;
 		this.place = new HashSet<Place>();
@@ -36,45 +42,75 @@ public abstract class Course implements Cloneable
 		this.instructor = instructor;
 	}
 	
+	public void setCourseType(ECourseType courseType)
+	{
+		if (courseType == null)
+			throw new NullPointerException("CourseType is null");
+	
+		this.courseType = courseType;
+	}
+	
 	public void setModuleName(String moduleName){
+		if (moduleName == null)
+			throw new NullPointerException("Modul-name is null");
+		
 		this.moduleName = moduleName;
 	}
 	
 	public void setTime(Time time) {
+		if (time == null)
+			throw new NullPointerException("time is null");
+		
 		this.time = time;
 	}
 	
 	public void addPlace(Place place){
+		if (place == null)
+			throw new NullPointerException("place is null");
+		
 		this.place.add(place);
 	}
 	
 	public void setInstructor(String instructor){
+		if (instructor == null)
+			throw new NullPointerException("instructor is null");
+		
 		this.instructor = instructor;
 	}
 
-	@XmlElement
+	
+	public ECourseType getCourseType()
+	{
+		return courseType;
+	}
+	
+	
 	public String getModuleName()
 	{
 		return moduleName;
 	}
 
-	@XmlElement
+	
 	public Time getTime()
 	{
 		return time;
 	}
 	
-	@XmlElement
+	
 	public Place getPlace()
 	{
 		Place place1 = null;
-		for (Place place2 : place) {
-			place1 = place2;
+		if (place != null)
+		{
+			for (Place place2 : place) {
+				place1 = place2;
+			}
 		}
+		
 		return place1;
 	}
 
-	@XmlElement
+	
 	public String getInstructor()
 	{
 		return instructor;
@@ -82,8 +118,11 @@ public abstract class Course implements Cloneable
 	
 	public String toString() {
 		String placeString = "";
-		for (Place place2 : place) {
-			placeString = placeString + place2.toString();
+		if (place != null)
+		{
+			for (Place place2 : place) {
+				placeString = placeString + place2.toString();
+			}
 		}
 		
 		String str = moduleName + " " +

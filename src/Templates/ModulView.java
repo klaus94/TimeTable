@@ -18,6 +18,7 @@ public class ModulView extends FlowPane
 	
 	public ModulView(String modulName, String room) throws Exception
 	{
+		String shortModulName = "";
 		String filePath = ".." + File.separator + "Templates" + File.separator + "ModulView.fxml";		// "/" in Unix and "\" in Windows
 		
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(filePath));
@@ -38,7 +39,16 @@ public class ModulView extends FlowPane
         catch (Exception e)
         {}
         
-		lblModul.setText(modulName);
+        
+        // generate shortname from modul-name. e.g.: "Algorithmen und Datenstrukturen" -> "AuD"
+        String modulNameArray[] = modulName.split(" ");
+        for (String part: modulNameArray)
+        {
+        	shortModulName += part.substring(0, 1);
+        	System.out.println(part);
+        }
+		lblModul.setText(shortModulName);
 		lblRoom.setText(room);
 	}
 }
+

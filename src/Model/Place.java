@@ -1,9 +1,11 @@
 package Model;
 
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "place")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Place
 {
 	private String building;
@@ -32,13 +34,13 @@ public class Place
 		this.room = room;
 	}
 	
-	@XmlElement
+	
 	public String getBuilding()
 	{
 		return building;
 	}
 
-	@XmlElement
+	
 	public String getRoom()
 	{
 		return room;

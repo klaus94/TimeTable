@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import Enumerations.ECourseType;
 import Enumerations.EDay;
 import Enumerations.EPeriod;
 
@@ -16,8 +17,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 import Model.Course;
-import Model.ExerciseCourse;
-import Model.Lecture;
 import Model.Place;
 import Model.Time;
 
@@ -95,7 +94,7 @@ public class CourseViewModel implements Initializable {
 			// SET GUI
 			// comboboxes
 			cbModulename.setValue(oldCourse.getModuleName());
-			if (oldCourse instanceof Lecture)
+			if (oldCourse.getCourseType() == ECourseType.LECTURE)
 				cbTyp.setValue("Vorlesung");
 			else
 				cbTyp.setValue("Übung");
@@ -166,11 +165,11 @@ public class CourseViewModel implements Initializable {
 
 			if (cbTyp.getValue().equals("Vorlesung"))
 			{
-				newCourse = new Lecture(newModulName, newTime, newPlace, newInstructor);
+				newCourse = new Course(ECourseType.LECTURE, newModulName, newTime, newPlace, newInstructor);
 			}
 			else if (cbTyp.getValue().equals("Übung"))
 			{
-				newCourse = new ExerciseCourse(newModulName, newTime, newPlace, newInstructor);
+				newCourse = new Course(ECourseType.EXERCISE, newModulName, newTime, newPlace, newInstructor);
 			}
 		} catch (Exception e) {
 			System.out.println("btnSave " + e.getMessage());

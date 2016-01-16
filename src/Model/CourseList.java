@@ -2,10 +2,12 @@ package Model;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="CourseList")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class CourseList {
 	private List<Course> courseList;
 
@@ -22,7 +24,7 @@ public class CourseList {
 		super();
 	}
 
-	@XmlElement
+	
 	public List<Course> getCourse() {			// need to name the method getCourse for xml-tag-name
 		return courseList;
 	}

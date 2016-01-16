@@ -266,9 +266,9 @@ public class MainViewModel implements Initializable
 		CourseList cList = new CourseList(myList);
 		c.save(cList);
 		
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setHeaderText("Info");
-		alert.setContentText("Deine Kurse wurden erfolgreich gespeicher!");
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setHeaderText("Deine Kurse wurden erfolgreich gespeichert!");
+		alert.showAndWait();
 	}
 	
 	@FXML
@@ -287,6 +287,16 @@ public class MainViewModel implements Initializable
 			CourseListJAXB c = new CourseListJAXB();
 			CourseList courseList = (CourseList)c.load();
 			List<Course> courses = courseList.getCourse();
+			if (courses == null)
+			{
+				Alert alert2 = new Alert(AlertType.INFORMATION);
+				alert2.setHeaderText("Deine Kurse konnten nicht geladen werden!");
+				alert2.setContentText("Wahrscheinlich ist die Datei leer");
+				alert2.showAndWait();
+				
+				return;
+			}
+				
 			for (Course course: courses)
 			{
 				addCourse(course);
@@ -471,20 +481,20 @@ public class MainViewModel implements Initializable
 		myController.generateTimeTables();
 		List<TimeTable> allTimeTables = myController.getAllTimeTables();
 		
-		List<EDay> days = new ArrayList<EDay>();
-		days.add(EDay.MONTAG);
-		days.add(EDay.DIENSTAG);
-		days.add(EDay.MITTWOCH);
-		days.add(EDay.DONNERSTAG);
-		days.add(EDay.FREITAG);
-		FilterObject filter1 = new FilterObject(EFilter.BYMORNINGTIME, 2, days, null);
-		FilterObject filter2 = new FilterObject(EFilter.BYAFTERNOONTIME, 5, days, null);
-		FilterObject filter3 = new FilterObject(EFilter.BYMINNUMBER, 2, null, null);
-		FilterObject filter4 = new FilterObject(EFilter.BYDOUBLECOURSES, 0, null, null);
-		filterList.add(filter1);
-		filterList.add(filter2);
-		filterList.add(filter3);
-		filterList.add(filter4);
+//		List<EDay> days = new ArrayList<EDay>();
+//		days.add(EDay.MONTAG);
+//		days.add(EDay.DIENSTAG);
+//		days.add(EDay.MITTWOCH);
+//		days.add(EDay.DONNERSTAG);
+//		days.add(EDay.FREITAG);
+//		FilterObject filter1 = new FilterObject(EFilter.BYMORNINGTIME, 2, days, null);
+//		FilterObject filter2 = new FilterObject(EFilter.BYAFTERNOONTIME, 5, days, null);
+//		FilterObject filter3 = new FilterObject(EFilter.BYMINNUMBER, 2, null, null);
+//		FilterObject filter4 = new FilterObject(EFilter.BYDOUBLECOURSES, 0, null, null);
+//		filterList.add(filter1);
+//		filterList.add(filter2);
+//		filterList.add(filter3);
+//		filterList.add(filter4);
 		
 		//iterate over FilterList and filter allTimeTables
 		for (FilterObject filter : filterList) {

@@ -40,7 +40,7 @@ public class TimeTableView extends GridPane
         
         for (Course course: timeTable.getCourseList())
         {
-        	FlowPane newCourseView = new ModulView(course.getModuleName(), course.getPlace().getRoom());
+        	FlowPane newCourseView = new ModulView(course.getModuleName(), course.getPlace().getBuilding());
         	newCourseTime = course.getTime().getTime();					// get row-index
         	newCourseDay = course.getTime().getDay().toInt();			// get column-index
         	

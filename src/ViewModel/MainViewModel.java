@@ -12,8 +12,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.collections.ObservableList;
-import Enumerations.EDay;
-import Enumerations.EFilter;
 import Logic.Controller;
 import Logic.Filter;
 import Model.Course;

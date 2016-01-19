@@ -30,7 +30,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Semestertyp:" GridPane.rowIndex="2">
+            <Label text="Summer/Winter Semester:" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
@@ -40,12 +40,12 @@
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
             </ComboBox>
-            <Label text="Studiengang:">
+            <Label text="Major:">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Jahr:" GridPane.rowIndex="4">
+            <Label text="Year:" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
@@ -64,9 +64,9 @@
       </GridPane>
       <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
          <children>
-            <Label text="Wählen Sie die Module aus, die Sie importieren möchten...">
+            <Label text="Please choose the modules, you want to import into the program...">
                <FlowPane.margin>
-                  <Insets left="20.0" top="10.0" />
+                  <Insets left="10.0" top="10.0" />
                </FlowPane.margin>
             </Label>
             <ListView fx:id="lvModules" maxWidth="-Infinity" prefHeight="257.0" prefWidth="461.0">
@@ -76,17 +76,17 @@
             </ListView>
          </children>
       </FlowPane>
-      <Button fx:id="btnClose" mnemonicParsing="false" onAction="#btnCloseClick" text="Abbrechen" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+      <Button fx:id="btnClose" mnemonicParsing="false" onAction="#btnCloseClick" prefHeight="31.0" prefWidth="93.0" text="Quit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets bottom="20.0" right="10.0" top="10.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="btnLoad" mnemonicParsing="false" onAction="#btnLoadClick" prefHeight="31.0" prefWidth="263.0" text="Lade Kurse..." GridPane.halignment="LEFT" GridPane.rowIndex="1">
+      <Button fx:id="btnLoad" mnemonicParsing="false" onAction="#btnLoadClick" prefHeight="31.0" prefWidth="263.0" text="Load Courses..." GridPane.halignment="LEFT" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveClick" prefHeight="31.0" prefWidth="347.0" text="Speichern" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveClick" prefHeight="31.0" prefWidth="347.0" text="Save Courses" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets bottom="20.0" top="10.0" />
          </GridPane.margin>

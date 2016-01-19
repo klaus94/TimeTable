@@ -10,7 +10,7 @@
    <children>
       <TabPane prefHeight="368.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Kurse">
+          <Tab text="Courses">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="319.0" prefWidth="800.0">
                      <children>
@@ -20,27 +20,27 @@
                                  <children>
                                     <FlowPane alignment="CENTER" orientation="VERTICAL" prefHeight="333.0" prefWidth="167.0">
                                        <children>
-                                          <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Modul löschen">
+                                          <Button fx:id="btnRemoveModule" mnemonicParsing="false" onAction="#btnRemoveModuleClick" prefHeight="25.0" prefWidth="125.0" text="Delete Module">
                                              <FlowPane.margin>
                                                 <Insets bottom="40.0" left="20.0" right="20.0" />
                                              </FlowPane.margin>
                                           </Button>
-                                          <Button fx:id="btnAddCourse" mnemonicParsing="false" onAction="#btnAddCourseClick" prefHeight="25.0" prefWidth="125.0" text="Kurs hinzufügen">
+                                          <Button fx:id="btnAddCourse" mnemonicParsing="false" onAction="#btnAddCourseClick" prefHeight="25.0" prefWidth="125.0" text="Add Course">
                                              <FlowPane.margin>
                                                 <Insets bottom="10.0" left="20.0" right="20.0" />
                                              </FlowPane.margin>
                                           </Button>
-                                          <Button fx:id="btnRemoveCourse" mnemonicParsing="false" onAction="#btnRemoveCourseClick" prefHeight="25.0" prefWidth="125.0" text="Kurs löschen">
+                                          <Button fx:id="btnRemoveCourse" mnemonicParsing="false" onAction="#btnRemoveCourseClick" prefHeight="25.0" prefWidth="125.0" text="Delete Course">
                                              <FlowPane.margin>
                                                 <Insets bottom="50.0" left="20.0" right="20.0" />
                                              </FlowPane.margin>
                                           </Button>
-                                          <Button fx:id="btnLoadCourses" mnemonicParsing="false" onAction="#btnLoadCoursesClick" prefHeight="25.0" prefWidth="125.0" text="Module laden">
+                                          <Button fx:id="btnLoadCourses" mnemonicParsing="false" onAction="#btnLoadCoursesClick" prefHeight="25.0" prefWidth="125.0" text="Load">
                                              <FlowPane.margin>
                                                 <Insets bottom="10.0" left="20.0" right="20.0" />
                                              </FlowPane.margin>
                                           </Button>
-                                          <Button fx:id="btnSaveCourses" mnemonicParsing="false" onAction="#btnSaveCoursesClick" prefHeight="25.0" prefWidth="125.0" text="Module speichern">
+                                          <Button fx:id="btnSaveCourses" mnemonicParsing="false" onAction="#btnSaveCoursesClick" prefHeight="25.0" prefWidth="125.0" text="Save">
                                              <FlowPane.margin>
                                                 <Insets left="20.0" />
                                              </FlowPane.margin></Button>
@@ -52,7 +52,7 @@
                                  <children>
                                     <FlowPane orientation="VERTICAL" prefHeight="332.0" prefWidth="626.0" AnchorPane.leftAnchor="0.0">
                                        <children>
-                                          <ComboBox fx:id="cbModuleName" onAction="#cbModuleNameChange" prefHeight="31.0" prefWidth="606.0" promptText="...">
+                                          <ComboBox fx:id="cbModuleName" onAction="#cbModuleNameChange" prefHeight="31.0" prefWidth="606.0">
                                              <opaqueInsets>
                                                 <Insets />
                                              </opaqueInsets>
@@ -85,11 +85,11 @@
                                  <children>
                                     <FlowPane alignment="CENTER" orientation="VERTICAL" prefHeight="337.0" prefWidth="167.0">
                                        <children>
-                                          <Button fx:id="btnAddFilter" mnemonicParsing="false" onAction="#btnAddFilterClick" prefHeight="25.0" prefWidth="125.0" text="Filter anlegen">
+                                          <Button fx:id="btnAddFilter" mnemonicParsing="false" onAction="#btnAddFilterClick" prefHeight="25.0" prefWidth="125.0" text="Add Filter">
                                              <FlowPane.margin>
                                                 <Insets bottom="10.0" left="20.0" right="20.0" />
                                              </FlowPane.margin></Button>
-                                          <Button fx:id="btnRemoveFilter" alignment="CENTER" mnemonicParsing="false" onAction="#btnRemoveFilterClick" prefHeight="25.0" prefWidth="125.0" text="Filter entfernen">
+                                          <Button fx:id="btnRemoveFilter" alignment="CENTER" mnemonicParsing="false" onAction="#btnRemoveFilterClick" prefHeight="25.0" prefWidth="125.0" text="Remove Filter">
                                              <FlowPane.margin>
                                                 <Insets bottom="180.0" left="20.0" right="20.0" />
                                              </FlowPane.margin>
@@ -127,12 +127,12 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="btnGenerate" mnemonicParsing="false" onAction="#btnGenerateClick" prefHeight="25.0" prefWidth="171.0" text="Generiere...">
+            <Button fx:id="btnGenerate" mnemonicParsing="false" onAction="#btnGenerateClick" prefHeight="25.0" prefWidth="171.0" text="Generate...">
                <GridPane.margin>
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="btnClose" mnemonicParsing="false" onAction="#btnCloseClick" prefHeight="25.0" prefWidth="135.0" text="Schließen" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
+            <Button fx:id="btnClose" mnemonicParsing="false" onAction="#btnCloseClick" prefHeight="25.0" prefWidth="135.0" text="Close" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
                <GridPane.margin>
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>

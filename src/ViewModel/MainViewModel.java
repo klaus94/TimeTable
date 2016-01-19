@@ -47,6 +47,7 @@ public class MainViewModel implements Initializable
 	@FXML private javafx.scene.control.Button btnRemoveFilter;
 	@FXML private javafx.scene.control.Button btnAddCourse;
 	@FXML private javafx.scene.control.Button btnRemoveCourse;
+	@FXML private javafx.scene.control.Button btnRemoveModule;
 	@FXML private javafx.scene.control.Button btnLoadCourses;
 	@FXML private javafx.scene.control.Button btnSaveCourses;
 	@FXML private javafx.scene.control.ComboBox<String> cbModuleName;
@@ -93,7 +94,7 @@ public class MainViewModel implements Initializable
             		}
             		catch(Exception e)
             		{
-            			System.out.println("Kurs konnte nicht geladen werden");
+            			System.out.println("Course could not be loaded");
             		}
             	}
 	        }
@@ -205,7 +206,7 @@ public class MainViewModel implements Initializable
 		FilterObject remove = listFilter.getSelectionModel().getSelectedItem();
 		if (remove != null) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setHeaderText("Remove course: '" + remove + "'");
+			alert.setHeaderText("Remove filter: '" + remove + "'");
 			alert.setContentText("Are you sure?");
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK){
@@ -256,6 +257,21 @@ public class MainViewModel implements Initializable
 			} 
 		}
 	}
+	
+	@FXML
+	private void btnRemoveModuleClick(ActionEvent event) {
+		String remove = cbModuleName.getSelectionModel().getSelectedItem(); //listCourses.getSelectionModel().getSelectedItem();
+		if (remove != null) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setHeaderText("Remove all courses of the module: '" + remove + "'");
+			alert.setContentText("Are you sure?");
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){
+				courseMap.remove(remove);
+				refreshcbModuleName();
+			} 
+		}
+	}
 
 	@FXML
 	private void btnSaveCoursesClick(ActionEvent event){
@@ -265,7 +281,7 @@ public class MainViewModel implements Initializable
 		c.save(cList);
 		
 		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setHeaderText("Deine Kurse wurden erfolgreich gespeichert!");
+		alert.setHeaderText("Your courses were saved succesfully!");
 		alert.showAndWait();
 	}
 	
@@ -277,8 +293,8 @@ public class MainViewModel implements Initializable
 		
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.getButtonTypes().setAll(bt1, bt2, bt3);
-		alert.setTitle("Kurse laden");
-		alert.setContentText("Kurse aus Datei oder von der Web-Site laden?");
+		alert.setTitle("Load courses");
+		alert.setContentText("Do you want to load courses from a file or from the internet?");
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == bt1){
 			// LOAD courses from file
@@ -288,8 +304,8 @@ public class MainViewModel implements Initializable
 			if (courses == null)
 			{
 				Alert alert2 = new Alert(AlertType.INFORMATION);
-				alert2.setHeaderText("Deine Kurse konnten nicht geladen werden!");
-				alert2.setContentText("Wahrscheinlich ist die Datei leer");
+				alert2.setHeaderText("Your courses could not be loaded!");
+				alert2.setContentText("Maybe the file is empty.");
 				alert2.showAndWait();
 				
 				return;

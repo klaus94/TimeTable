@@ -4,5 +4,4 @@
 *.project
 bin/
 **/*.class
-*.xml
-src/data/courses.xml
+courses.xml

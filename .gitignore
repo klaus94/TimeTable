@@ -5,3 +5,4 @@
 bin/
 **/*.class
 *.xml
+src/data/courses.xml

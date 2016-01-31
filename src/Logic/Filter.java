@@ -275,8 +275,8 @@ public class Filter
 		return result;
 	}
 	
-	//TODO add this function MainViewModel (generateTestData), FilterViewModel, FilterViewPage, FilterObject, testing
-	//TODO fix a course
+	//TODO testing
+	// fix a course
 	//TODO this function need to be called before the filterbydouble function
 	public static List<TimeTable> filterByFixCourse(List<TimeTable> timeTables, Course course){
 		List<TimeTable> result = new ArrayList<TimeTable>();

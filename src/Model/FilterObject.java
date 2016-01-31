@@ -29,7 +29,7 @@ public class FilterObject {
 			}
 		}
 		
-		
+		this.fixedCourse = fixedCourse;
 		this.type = type;
 		this.parameter = parameter;
 		this.days = days;

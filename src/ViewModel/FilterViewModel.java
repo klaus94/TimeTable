@@ -118,7 +118,11 @@ public class FilterViewModel implements Initializable {
 		}
 		
 		if(cbFilter.getValue().needCourse()) {
-			
+			cbModuleNames.setVisible(true);
+			cbCourses.setVisible(true);
+		} else {
+			cbModuleNames.setVisible(false);
+			cbCourses.setVisible(false);
 		}
 		
 	}
@@ -177,6 +181,11 @@ public class FilterViewModel implements Initializable {
 		lblMi.setVisible(false);
 		lblDo.setVisible(false);
 		lblFr.setVisible(false);
+		txtWert.setVisible(false);
+		lblWert.setVisible(false);
+		cbModuleNames.setVisible(false);
+		cbCourses.setVisible(false);
+		
 		
 		ObservableList<EFilter> items = cbFilter.getItems();
 		items.clear();

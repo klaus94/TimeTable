@@ -44,6 +44,7 @@ public class MainViewModel implements Initializable
 {
 	private Map<String, List<Course>> courseMap; //maps modulnames to available courses
 	private List<FilterObject> filterList;
+	private Course testCourse;
 	
 	@FXML private javafx.scene.control.Button btnClose;
 	@FXML private javafx.scene.control.Button btnGenerate;
@@ -365,6 +366,8 @@ public class MainViewModel implements Initializable
 		Course courseMath43 = new ExerciseCourse("Mathe", new Time(EDay.DONNERSTAG, 6, EPeriod.EACHWEEK), new Place("WIL", "B234"), "4");
 		Course courseMath44 = new ExerciseCourse("Mathe", new Time(EDay.FREITAG, 5, EPeriod.EACHWEEK), new Place("WIL", "B234"), "5");
 		
+		this.testCourse = courseMath10;
+		
 		courseList.add(courseMath1);
 		courseList.add(courseMath2);
 		courseList.add(courseMath3);
@@ -429,12 +432,13 @@ public class MainViewModel implements Initializable
 		FilterObject filter2 = new FilterObject(EFilter.BYAFTERNOONTIME, 5, days, null);
 		FilterObject filter3 = new FilterObject(EFilter.BYMINNUMBER, 2, null, null);
 		FilterObject filter4 = new FilterObject(EFilter.BYDOUBLECOURSES, 0, null, null);
-		filterList.add(filter1);
-		filterList.add(filter2);
-		filterList.add(filter3);
-		filterList.add(filter4);
+		//filterList.add(filter1);
+		//filterList.add(filter2);
+		//filterList.add(filter3);
+		//filterList.add(filter4);
 		
 		//iterate over FilterList and filter allTimeTables
+		//TODO: important: filterByDouble could destroy results that would have been reached with filterByFixedCourse, if called too early
 		for (FilterObject filter : filterList) {
 			switch (filter.getType()) {
 			case BYAFTERNOONTIME:
@@ -469,7 +473,7 @@ public class MainViewModel implements Initializable
 				break;
 			}
 		}
-
+		
 		myController.showTimeTables(allTimeTables);
 		
 		return allTimeTables;

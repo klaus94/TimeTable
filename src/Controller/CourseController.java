@@ -1,4 +1,4 @@
-package ViewModel;
+package Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,7 +20,7 @@ import Model.Course;
 import Model.Place;
 import Model.Time;
 
-public class CourseViewModel implements Initializable {
+public class CourseController implements Initializable {
 
 	private EDay day;
 	private int ds;
@@ -54,7 +54,7 @@ public class CourseViewModel implements Initializable {
 	@FXML private javafx.scene.control.RadioButton rbEV;
 	@FXML private javafx.scene.control.RadioButton rbOD;
 	
-	public CourseViewModel() {
+	public CourseController() {
 		System.out.println("old constructor");
 	}
 	

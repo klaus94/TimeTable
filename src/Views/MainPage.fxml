@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<FlowPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="410.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewModel.MainViewModel">
+<FlowPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="410.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainController">
    <children>
       <TabPane prefHeight="368.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -24,26 +24,41 @@
                                              <FlowPane.margin>
                                                 <Insets bottom="40.0" left="20.0" right="20.0" />
                                              </FlowPane.margin>
+                                             <tooltip>
+                                                <Tooltip text="delete the current module, which is selected by the dropdown-menu" />
+                                             </tooltip>
                                           </Button>
                                           <Button fx:id="btnAddCourse" mnemonicParsing="false" onAction="#btnAddCourseClick" prefHeight="25.0" prefWidth="125.0" text="Add Course">
                                              <FlowPane.margin>
                                                 <Insets bottom="10.0" left="20.0" right="20.0" />
                                              </FlowPane.margin>
+                                             <tooltip>
+                                                <Tooltip text="add a new course to the current modul" />
+                                             </tooltip>
                                           </Button>
                                           <Button fx:id="btnRemoveCourse" mnemonicParsing="false" onAction="#btnRemoveCourseClick" prefHeight="25.0" prefWidth="125.0" text="Delete Course">
                                              <FlowPane.margin>
                                                 <Insets bottom="50.0" left="20.0" right="20.0" />
                                              </FlowPane.margin>
+                                             <tooltip>
+                                                <Tooltip text="delete the selected course" />
+                                             </tooltip>
                                           </Button>
                                           <Button fx:id="btnLoadCourses" mnemonicParsing="false" onAction="#btnLoadCoursesClick" prefHeight="25.0" prefWidth="125.0" text="Load">
                                              <FlowPane.margin>
                                                 <Insets bottom="10.0" left="20.0" right="20.0" />
                                              </FlowPane.margin>
+                                             <tooltip>
+                                                <Tooltip text="load modules from file of from internet" />
+                                             </tooltip>
                                           </Button>
                                           <Button fx:id="btnSaveCourses" mnemonicParsing="false" onAction="#btnSaveCoursesClick" prefHeight="25.0" prefWidth="125.0" text="Save">
                                              <FlowPane.margin>
                                                 <Insets left="20.0" />
-                                             </FlowPane.margin></Button>
+                                             </FlowPane.margin>
+                                             <tooltip>
+                                                <Tooltip text="save the current courselist to a local file" />
+                                             </tooltip></Button>
                                        </children>
                                     </FlowPane>
                                  </children>
@@ -59,11 +74,17 @@
                                              <FlowPane.margin>
                                                 <Insets left="10.0" right="10.0" top="5.0" />
                                              </FlowPane.margin>
+                                             <tooltip>
+                                                <Tooltip text="select a modul to edit courses within the modul" />
+                                             </tooltip>
                                           </ComboBox>
                                           <ListView fx:id="listCourses" prefHeight="276.0" prefWidth="604.0">
                                              <FlowPane.margin>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </FlowPane.margin>
+                                             <tooltip>
+                                                <Tooltip text="this list shows all courses from the modul you selected" />
+                                             </tooltip>
                                           </ListView>
                                        </children>
                                     </FlowPane>
@@ -131,11 +152,17 @@
                <GridPane.margin>
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
+               <tooltip>
+                  <Tooltip text="create a view with all possible timetables" />
+               </tooltip>
             </Button>
             <Button fx:id="btnClose" mnemonicParsing="false" onAction="#btnCloseClick" prefHeight="25.0" prefWidth="135.0" text="Close" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
                <GridPane.margin>
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
+               <tooltip>
+                  <Tooltip text="close the whole application. Keep attention. data could get lost." />
+               </tooltip>
             </Button>
          </children>
       </GridPane>

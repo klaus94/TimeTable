@@ -1,4 +1,4 @@
-package ViewModel;
+package Controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +36,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 
-public class MainViewModel implements Initializable
+public class MainController implements Initializable
 {
 	private Map<String, List<Course>> courseMap; //maps modulnames to available courses
 	private List<FilterObject> filterList;
@@ -72,10 +72,10 @@ public class MainViewModel implements Initializable
             		System.out.println("Double clicked " + oldCourse);
             		
             		String filePath = ".." + File.separator + "Views" + File.separator + "CoursePage.fxml";
-            		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+            		FXMLLoader loader = new FXMLLoader(FilterController.class.getResource(filePath));
             		try {
             			GridPane root = (GridPane) loader.load();
-	            		CourseViewModel courseModel = loader.getController();
+	            		CourseController courseModel = loader.getController();
 	        			System.out.println("hallo");
 	        			courseModel.initData(courseMap.keySet(), oldCourse);
 	        			courseModel.setCourse(oldCourse);
@@ -169,10 +169,10 @@ public class MainViewModel implements Initializable
 	private void btnAddFilterClick(ActionEvent event) throws IOException{
 		//TODO throw things in FilterViewModel
 		String filePath = ".." + File.separator + "Views" + File.separator + "FilterPage.fxml"; 
-		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+		FXMLLoader loader = new FXMLLoader(FilterController.class.getResource(filePath));
 		try {
 			FlowPane root = (FlowPane) loader.load();
-			FilterViewModel filterModel = loader.getController();
+			FilterController filterModel = loader.getController();
 			filterModel.initData(null, courseMap);
 
 			Scene scene = new Scene(root);
@@ -221,11 +221,11 @@ public class MainViewModel implements Initializable
 
 		//TODO sinnlose statements entfernen
 		String filePath = ".." + File.separator + "Views" + File.separator + "CoursePage.fxml"; 
-		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+		FXMLLoader loader = new FXMLLoader(FilterController.class.getResource(filePath));
 		try {
 			GridPane root = (GridPane) loader.load();
 			
-			CourseViewModel courseModel = loader.getController();
+			CourseController courseModel = loader.getController();
 			System.out.println("hallo");
 			courseModel.initData(courseMap.keySet(), null);
 
@@ -287,9 +287,9 @@ public class MainViewModel implements Initializable
 	
 	@FXML
 	private void btnLoadCoursesClick(ActionEvent event) {
-		ButtonType bt1 = new ButtonType("Datei");
+		ButtonType bt1 = new ButtonType("File");
 		ButtonType bt2 = new ButtonType("Website");
-		ButtonType bt3 = new ButtonType("Abbrechen", ButtonData.CANCEL_CLOSE);
+		ButtonType bt3 = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 		
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.getButtonTypes().setAll(bt1, bt2, bt3);
@@ -321,10 +321,10 @@ public class MainViewModel implements Initializable
 		{
 			// LOAD courses from web
 			String filePath = ".." + File.separator + "Views" + File.separator + "LoadCoursePage.fxml"; 
-			FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+			FXMLLoader loader = new FXMLLoader(FilterController.class.getResource(filePath));
 			try {
 				GridPane root = (GridPane) loader.load();
-				LoadCourseViewModel loadcourseModel = loader.getController();
+				LoadCourseController loadcourseModel = loader.getController();
 				loadcourseModel.initData(courseMap.keySet());
 				Scene scene = new Scene(root);
 				Stage stage = new Stage();

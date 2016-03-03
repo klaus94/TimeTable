@@ -1,4 +1,4 @@
-package ViewModel;
+package Controller;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,10 +18,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
-public class FilterViewModel implements Initializable {
+public class FilterController implements Initializable {
 	
 	private FilterObject newFilter;
 	private Map<String, List<Course>> courseMap;
+	
+	@FXML private javafx.scene.layout.FlowPane FlowPane;
 	
 	@FXML private javafx.scene.control.Button btnClose;
 	@FXML private javafx.scene.control.Button btnSave;
@@ -189,6 +191,5 @@ public class FilterViewModel implements Initializable {
 		items.add(EFilter.BYDOUBLECOURSES);
 		items.add(EFilter.BYFIXCOURSE);
 		cbFilter.setPromptText("Wählen Sie einen Filter aus");
-		
 	}
 }

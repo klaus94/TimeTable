@@ -55,7 +55,7 @@ public class AllTimeTablesView extends ScrollPane{
         	    for (TimeTable timetable: allTimeTables)
         	    {
         	    	i = i+1;
-        	    	System.out.println("show TimeTable " + Integer.toString(i) + " von " + Integer.toString(allTimeTables.size()));
+        	    	//System.out.println("show TimeTable " + Integer.toString(i) + " von " + Integer.toString(allTimeTables.size()));
         	    	flowPane.getChildren().add(new TimeTableView(timetable));
         	    	updateProgress(i, size);
         	    }

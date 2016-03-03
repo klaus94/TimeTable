@@ -6,8 +6,8 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
-import ViewModel.FilterViewModel;
-import ViewModel.MainViewModel;
+import Controller.FilterController;
+import Controller.MainController;
 
 //import Logic.ViewMain;
 
@@ -28,10 +28,10 @@ public class Main extends Application
 	public void start(Stage primaryStage) throws Exception			
 	{
 		String filePath = ".." + File.separator + "Views" + File.separator + "MainPage.fxml"; 
-		FXMLLoader loader = new FXMLLoader(FilterViewModel.class.getResource(filePath));
+		FXMLLoader loader = new FXMLLoader(FilterController.class.getResource(filePath));
 		try {
-			 FlowPane root = (FlowPane) loader.load();
-			MainViewModel mainModel = loader.getController();
+			FlowPane root = (FlowPane) loader.load();
+			MainController mainModel = loader.getController();
 			mainModel.initData();
 
 			Scene scene = new Scene(root);

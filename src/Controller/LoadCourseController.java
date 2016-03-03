@@ -1,4 +1,4 @@
-package ViewModel;
+package Controller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,7 +32,7 @@ import Enumerations.ECourseType;
 import Enumerations.EDay;
 import Enumerations.EPeriod;
 
-public class LoadCourseViewModel implements Initializable {
+public class LoadCourseController implements Initializable {
 	
 	private Map<String, List<Course>> fullCourseMap = new HashMap<String, List<Course>>();
 	private Map<String, List<Course>> newCourseMap = new HashMap<String, List<Course>>();
